@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Network | Basic usage</title>
+    <style type="text/css">
+      /* Add your CSS styles here */
+    </style>
+    <script type="text/javascript" src="node_modules/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script>
+      // Add this script tag to access the 'fs' module from Node.js
+      window.fs = require("fs");
+    </script>
+  </head>
+  <body onload="loadJsonDataAndDraw()">
+    <div id="mynetwork"></div>
+    <script type="text/javascript" src="./data/WorldCup2014.js"></script>
+    <div id="config"></div>
+
+    <p id="selection"></p>
+    <div id="context-menu" style="display:none; position:absolute; z-index:1000; background-color:white; border:1px solid black; padding:5px;">
+        Toggle Cluster
+      </div>
+      
+
+  </body>
+</html>
