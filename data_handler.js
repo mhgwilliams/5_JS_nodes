@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 function findJsonFiles(rootDir) {
     let jsonFiles = [];
