@@ -54,7 +54,7 @@ function redrawAll() {
   };
 
   var data = { nodes: nodes, edges: edges };
-  // Note: data is coming from ./data/WorldCup2014.js
+  // Note: data is coming from ./data/NodeNet.js
   network = new Network(container, data, options);
   
   network.once('afterDrawing', () => {

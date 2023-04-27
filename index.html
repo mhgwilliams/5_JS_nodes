@@ -13,8 +13,13 @@
   </head>
   <body onload="loadJsonDataAndDraw()">
     <div id="mynetwork"></div>
-    <script type="text/javascript" src="./data/WorldCup2014.js"></script>
+    <script type="text/javascript" src="./data/NodeNet.js"></script>
+    
     <div id="config"></div>
+    <script type="text/javascript" src="./ui-handler.js"></script>
+    <button id="load-nuke-file">Load Nuke File</button>
+    <button id="update-data">Update Data</button>
+    <textarea id="text-output" rows="10" cols="50" readonly></textarea>
 
     <p id="selection"></p>
     <div id="context-menu" style="display:none; position:absolute; z-index:1000; background-color:white; border:1px solid black; padding:5px;">

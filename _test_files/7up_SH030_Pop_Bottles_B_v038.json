@@ -1,0 +1,286 @@
+{
+    "c4d_file_name": "7up_SH030_Pop_Bottles_B_v038.c4d",
+    "date": "2023-04-11",
+    "assets": [
+        {
+            "type": "Texture",
+            "path": "//bunker/Resources/Assets/Images/HDRI/GreyScaleGorilla/StudioGlow.hdr"
+        },
+        {
+            "type": "Texture",
+            "path": "gradient2.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Zero_Matte_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "GSG_TechProducts_Brushed_Aluminum_Coat_roughness_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Brushed_Aluminum_Coat_roughness_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//CADDY/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SLIM/2023_01_31/0131_7up_Slim_Zero_Matte_01_A_v003.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/0126_7up_PET_Zero_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "Softbox_Square.hdr"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/0126_7up_PET_Reg_Matte_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Work/work.hogan/_assets/935555_F6DAD9_D39393_593333.png"
+        },
+        {
+            "type": "Texture",
+            "path": "Bryant_Park_2k.hdr"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Free_Matte_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Reg_Matte_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Brushed_Aluminum_Coat_basecolor_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/1202_7up_Squat_Reg_A_v005.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Work/work.hogan/_assets/E6BF3C_5A4719_977726_FCFC82.png"
+        },
+        {
+            "type": "Texture",
+            "path": "gradient5.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/3d/PROP_7UP_Slim_Can/slim_can/slim_can_A_v001/tex/7up_Slim_Label_Reg_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/0126_7up_PET_Zero_Matte_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "GSG_TechProducts_Brushed_Aluminum_Coat_basecolor_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Brushed_Aluminum_Coat_anisotropy_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "0131_7up_Slim_Reg_Matte_02_A_v003.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SLIM/7up_Slim_Label_Reg_Matte_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/1213_7up_PET_Reg_A_v001.png"
+        },
+        {
+            "type": "Texture",
+            "path": "31_D_CLEAN_GLOSSY_SWIPES_Roughness.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Zero_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//CADDY/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SLIM/2023_02_02/0202_7up_Slim_Zero_Silver_Matte_02_A_v001.png"
+        },
+        {
+            "type": "Texture",
+            "path": "GSG_TechProducts_Anodized_Generic_metallic_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Work/work.marc/SMC_PentaxA_50mm_f2.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SLIM/7up_Slim_Label_ZeroG_Matte_C_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Anodized_Generic_metallic_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "GSG_TechProducts_Brushed_Aluminum_Coat_bump_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Brushed_Aluminum_Coat_bump_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Anodized_Generic_normal_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "05-20_Park_C.hdr"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Work/work.hogan/_assets/474643_696F7D_A9ABB8_8B8C93.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Free_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//CADDY/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SLIM/2023_02_02/0202_7up_Slim_Zero_Silver_A_v001.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Zero_Matte_02_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/0126_7up_PET_Reg_Matte_02_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Work/work.auron/7UP/tex/bottle_ridges_DM_8k.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Free_Matte_02_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "SEVEN_f4v2.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Can_Metal/GSG_TechProducts_Anodized_Generic_roughness_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/GlobalPrefs/CURRENT/vendor/RS_STD/redshift_v3.5.04/Redshift/Data/LUT/AdanmqLUTS/Fuji_Provia_100.cube"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/KV020_Repeat/Work/C4D/tex/31_D_CLEAN_GLOSSY_SWIPES_Roughness.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/0126_7up_PET_Zero_Matte_02_A_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "GSG_TechProducts_Brushed_Aluminum_Coat_anisotropy_1.jpg"
+        },
+        {
+            "type": "Texture",
+            "path": "Bryant_Park_2k_Blurred.exr"
+        },
+        {
+            "type": "Texture",
+            "path": "sunflowers_4k.exr"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/GREEN_PET/1212_7up_GrPet_Label_A_v001.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/3d/PROP_7UP_Slim_Can/slim_can/slim_can_A_v001/tex/7up_Slim_Label_ZeroG_C_v002.png"
+        },
+        {
+            "type": "Texture",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Labels/WorkingFile/_out/SQUAT/0125_7up_Squat_Reg_Matte_02_A_v007.png"
+        },
+        {
+            "type": "Texture",
+            "path": "SEVEN_f4v4.png"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/KV020_Repeat/Work/C4D/_abc/greenBottle_houDroplets_003.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_AXL_interior_fizz_med_002.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Alembic/SH030_Pop_A_bubbles_v010_kw/carolina_interior_bubble_export_mediumsmall1_010.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Work/work.hogan/2_HOU/_abc/1214/1214_PETBottle_Hero50pct_001.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_AXL_interior_fizz_med_001.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidAnim_003.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//CADDY/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Alembic/fx_particle_burst/v005/fx_particle_burst.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Alembic/SH030_Pop_A_bubbles_v010_kw/carolina_interior_bubble_export_large_010.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_lg_001.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_polys_002.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_AXL_int_liquidAnim_004.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Alembic/SH030_Pop_A_bubbles_v011_kw/carolina_exterior_bubble_export_mediumsmall_011.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_med_sm_001.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_med_003.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/CURRENT/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_med_sm_001.abc"
+        },
+        {
+            "type": "Geometry",
+            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Alembic/SH030_Pop_A_bubbles_v011_kw/carolina_exterior_bubble_export_large_011.abc"
+        }
+    ]
+}
