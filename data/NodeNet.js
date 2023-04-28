@@ -1,7 +1,6 @@
 // Replace 'data.json' with the path to your JSON file
 const jsonDataPath = './data/database.json';
-const path = require('path');
-
+const pathBasename = window.path.basename;
 
 function loadJsonDataAndDraw() {
   fs.readFile(jsonDataPath, 'utf8', (err, jsonString) => {
@@ -20,7 +19,7 @@ function loadJsonDataAndDraw() {
   });
 }
 function formatNode(asset, id) {
-  const assetFileName = path.basename(asset.path);
+  const assetFileName = pathBasename(asset.path);
 
   const node = {
     id,
@@ -66,7 +65,7 @@ function createNodesAndEdges(jsonData) {
     }
 
     item.assets.forEach((asset) => {
-      const assetFileName = path.basename(asset.path);
+      const assetFileName = pathBasename(asset.path);
 
       if (!uniqueAssets[assetFileName]) {
         uniqueAssets[assetFileName] = formatNode(asset, nodeId++);

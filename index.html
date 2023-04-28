@@ -5,11 +5,8 @@
     <style type="text/css">
       /* Add your CSS styles here */
     </style>
+    <script src="./renderer.js" defer></script>
     <script type="text/javascript" src="node_modules/vis-network/standalone/umd/vis-network.min.js"></script>
-    <script>
-      // Add this script tag to access the 'fs' module from Node.js
-      window.fs = require("fs");
-    </script>
   </head>
   <body onload="loadJsonDataAndDraw()">
     <div id="mynetwork"></div>
@@ -21,11 +18,9 @@
         Toggle Cluster
       </div>
 
-    <button id="loadNukeFileBtn">Load Nuke File</button>
+      <input type="file" id="loadNukeFileInput" accept=".nk" style="display:none;">
+      <button id="loadNukeFileBtn">Load Nuke File</button>
 
-    <script type="text/javascript" src="./data_handler.js"></script>
-    <script type="text/javascript" src="./ui-handler.js"></script>
-    
     <textarea id="text-output" rows="10" cols="50" readonly></textarea>
 
       

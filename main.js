@@ -1,4 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const { testPrint } = require('./data_handler');
+
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -7,7 +10,7 @@ function createWindow() {
     height: 900,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -18,6 +21,11 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow);
+
+ipcMain.on('loadNukeFile', (event, file) => {
+  console.log('msg received in main');
+  testPrint();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

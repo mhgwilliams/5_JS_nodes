@@ -1,67 +1,14 @@
-const vis = require("vis-network");
-const { DataSet, Network } = vis;
+const loadNukeFileBtn = document.getElementById('loadNukeFileBtn');
+const loadNukeFileInput = document.getElementById('loadNukeFileInput');
 
-var network;
+loadNukeFileBtn.addEventListener('click', () => {
+  // Send a message to the main process to execute the testPrint function
+  window.ipcRenderer.send('loadNukeFile', +1);
+  loadNukeFileInput.click();
+});
 
-function redrawAll() {
-  var container = document.getElementById("network");
-  var options = {
-    nodes: {
-      shape: "dot",
-      scaling: {
-        min: 10,
-        max: 30,
-      },
-      font: {
-        size: 12,
-        face: "Tahoma",
-      },
-    },
-    edges: {
-      color: { inherit: true },
-      width: 0.15,
-      smooth: {
-        type: "continuous",
-      },
-    },
-    interaction: {
-      hideEdgesOnDrag: true,
-      tooltipDelay: 200,
-    },
-    configure: {
-      filter: function (option, path) {
-        if (option === "inherit") {
-          return true;
-        }
-        if (option === "type" && path.indexOf("smooth") !== -1) {
-          return true;
-        }
-        if (option === "roundness") {
-          return true;
-        }
-        if (option === "hideEdgesOnDrag") {
-          return true;
-        }
-        if (option === "hideNodesOnDrag") {
-          return true;
-        }
-        return false;
-      },
-      container: document.getElementById("optionsContainer"),
-      showButton: false,
-    },
-    physics: false,
-  };
-
-  var data = { nodes: nodes, edges: edges };
-  // Note: data is coming from ./data/NodeNet.js
-  network = new Network(container, data, options);
-  
-  network.once('afterDrawing', () => {
-    container.style.height = '100vh'
-  })
-}
-
-redrawAll();
-
-
+loadNukeFileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  console.log(file);
+  console.log('success');
+});

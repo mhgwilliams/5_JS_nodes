@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 function findJsonFiles(rootDir) {
     let jsonFiles = [];
 
@@ -41,6 +39,7 @@ function saveDataList(dataList, outputFile) {
 }
 
 function extractReadNodes(filePath) {
+    console.log('extract read nodes function trying to execute')
     let content = fs.readFileSync(filePath, 'utf8');
     let readNodePattern = /Read\s*\{[^}]*\}/g;
     let readNodesRaw = content.match(readNodePattern) || [];
@@ -73,11 +72,11 @@ function updateDatabase(newData) {
     fs.writeFileSync('database.json', JSON.stringify(data_list, null, 4), 'utf8');
 }
 
-// Exports functions to use them in other parts of your application
+function testPrint(){
+    console.log('doing stuff in data handler file');
+}
+
 module.exports = {
-    findJsonFiles,
-    readJsonData,
-    saveDataList,
     extractReadNodes,
-    updateDatabase
+    testPrint
 };
