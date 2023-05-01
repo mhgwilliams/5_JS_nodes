@@ -6,6 +6,7 @@
       body {
         display: flex;
         height: 100vh;
+        margin: 0;
       }
       #mynetwork {
         flex-grow: 1;
@@ -15,6 +16,10 @@
         display: flex;
         flex-direction: column;
         padding: 10px;
+        width: 400px;
+      }
+      #loadNukeFileBtn {
+        width: 100px; /* Set the width of the Nuke button */
       }
     </style>
     <script src="./renderer.js" defer></script>
@@ -50,7 +55,6 @@
         style="display: none"
       />
       <button id="loadNukeFileBtn">Load Nuke File</button>
-      <textarea id="text-output" rows="10" cols="50" readonly></textarea>
     </div>
   </body>
 </html>

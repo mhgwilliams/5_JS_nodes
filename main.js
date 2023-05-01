@@ -5,7 +5,7 @@ const { loadNukeFile } = require("./data_handler");
 function createWindow() {
   const mainWindow = new BrowserWindow({
     backgroundColor: "#2e2c29",
-    width: 900,
+    width: 1200,
     height: 900,
     webPreferences: {
       nodeIntegration: true,

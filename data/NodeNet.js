@@ -33,6 +33,9 @@ function formatNode(asset, id) {
     node.color = "#ffb703";
   } else if (asset.type === "read") {
     node.color = "#219ebc";
+  } else if (asset.type === "write") {
+    node.color = "#83f3c4";
+    node.shape = "diamond";
   } else {
     node.color = "#fb8500";
     node.shape = "triangle";
@@ -76,13 +79,34 @@ function createNodesAndEdges(jsonData) {
         id: edgeId++,
         to: uniqueScenes[fileName].id,
         from: uniqueAssets[assetFileName].id,
+        arrows: "to", // Add an arrow to the edge
       });
     });
+
+    // Process the outputs if they exist
+    if (item.outputs) {
+      item.outputs.forEach((output) => {
+        const outputFileName = pathBasename(output.path);
+
+        if (!uniqueAssets[outputFileName]) {
+          uniqueAssets[outputFileName] = formatNode(output, nodeId++);
+          nodesData.push(uniqueAssets[outputFileName]);
+        }
+
+        edgesData.push({
+          id: edgeId++,
+          from: uniqueScenes[fileName].id,
+          to: uniqueAssets[outputFileName].id,
+          arrows: "to", // Add an arrow to the edge
+        });
+      });
+    }
   });
 
   nodes = new vis.DataSet(nodesData);
   edges = new vis.DataSet(edgesData);
 }
+
 
 function redrawAll() {
   var container = document.getElementById("mynetwork");
@@ -181,6 +205,6 @@ function redrawAll() {
   });
 
   network.once("afterDrawing", () => {
-    container.style.height = "80vh";
+    container.style.height = "99vh";
   });
 }
