@@ -1,0 +1,2205 @@
+#! C:/Program Files/Nuke13.2v4/nuke-13.2.4.dll -nx
+version 13.2 v4
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="2557" h="1363" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1894" stretch="1"/>
+            <splitter orientation="2">
+                <split size="775"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="546"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Nuke/SH030_Pop_Bottles_Comp_v013.nk
+ frame 5
+ first_frame 0
+ last_frame 36
+ lock_range true
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ proxy true
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement OCIO
+ defaultViewerLUT "OCIO LUTs"
+ workingSpaceLUT scene_linear
+ monitorLut "sRGB/ACES 1.0 SDR-video"
+ monitorOutLUT "ACES 1.0 SDR-video (sRGB)"
+ int8Lut default
+ int16Lut default
+ logLut compositing_log
+ floatLut scene_linear
+ views "CAROLINA #ffffff
+AXL #ffffff"
+ addUserKnob {20 Deadline}
+ addUserKnob {1 FrameListMode l frameListMode}
+ FrameListMode Global
+ addUserKnob {1 CustomFrameList l customFrameList}
+ CustomFrameList 0-36
+ addUserKnob {1 Department l department}
+ addUserKnob {1 Pool l pool}
+ Pool onprem
+ addUserKnob {1 SecondaryPool l secondaryPool}
+ SecondaryPool " "
+ addUserKnob {1 Group l group}
+ Group nuke
+ addUserKnob {1 Priority l priority}
+ Priority 70
+ addUserKnob {1 MachineLimit l machineLimit}
+ MachineLimit 0
+ addUserKnob {1 IsBlacklist l isBlacklist}
+ IsBlacklist False
+ addUserKnob {1 MachineList l machineList}
+ addUserKnob {1 LimitGroups l limitGroups}
+ addUserKnob {1 SubmitSuspended l submitSuspended}
+ SubmitSuspended False
+ addUserKnob {1 ChunkSize l chunkSize}
+ ChunkSize 10
+ addUserKnob {1 ConcurrentTasks l concurrentTasks}
+ ConcurrentTasks 1
+ addUserKnob {1 LimitConcurrentTasks l limitConcurrentTasks}
+ LimitConcurrentTasks True
+ addUserKnob {1 Threads l threads}
+ Threads 0
+ addUserKnob {1 SubmitScene l submitScene}
+ SubmitScene False
+ addUserKnob {1 BatchMode l batchMode}
+ BatchMode True
+ addUserKnob {1 ContinueOnError l continueOnError}
+ ContinueOnError False
+ addUserKnob {1 SeparateJobs l separateJobs}
+ SeparateJobs False
+ addUserKnob {1 UseNodeRange l useNodeRange}
+ UseNodeRange True
+ addUserKnob {1 UseGpu l useGpu}
+ UseGpu False
+ addUserKnob {1 UseSpecificGpu l useSpecificGpu}
+ UseSpecificGpu False
+ addUserKnob {1 ChooseGpu l chooseGpu}
+ ChooseGpu 0
+ addUserKnob {1 EnforceRenderOrder l enforceRenderOrder}
+ EnforceRenderOrder False
+ addUserKnob {1 DeadlineRenderMode l deadlineRenderMode}
+ DeadlineRenderMode "Render Full Resolution"
+ addUserKnob {1 PerformanceProfiler l performanceProfiler}
+ PerformanceProfiler False
+ addUserKnob {1 ReloadPlugin l reloadPlugin}
+ ReloadPlugin False
+ addUserKnob {1 PerformanceProfilerPath l performanceProfilerPath}
+ addUserKnob {1 IsInterruptible l isInterruptible}
+ IsInterruptible False
+ addUserKnob {1 TaskTimeout l taskTimeout}
+ TaskTimeout 0
+ addUserKnob {1 HostName l hostName}
+ HostName WSA-NY-09.buck.local
+ addUserKnob {1 Port}
+ Port 5560
+ addUserKnob {1 MachineCount l machines}
+ MachineCount 10
+ addUserKnob {1 WorkerCount l workerCount}
+ WorkerCount 2
+ addUserKnob {1 WorkerThreads l workerThreads}
+ WorkerThreads 1
+ addUserKnob {1 WorkerMem l workerMem}
+ WorkerMem 1024
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ tile_color 0xaaff55ff
+ label Crypto
+ note_font_size 52
+ xpos 275
+ ypos -2841
+ bdwidth 237
+ bdheight 5549
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode6
+ label "Beauty\n"
+ note_font_size 42
+ xpos -6052
+ ypos -5260
+ bdwidth 412
+ bdheight 461
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode7
+ xpos -2239
+ ypos -2169
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode8
+ tile_color 0x8e8e3800
+ label "Original Alpha\n"
+ note_font_size 42
+ xpos -5911
+ ypos -6026
+ bdwidth 281
+ bdheight 185
+}
+BackdropNode {
+ inputs 0
+ name FCC_BD1
+ tile_color 0x7f6262ff
+ label "FINAL CC"
+ note_font_size 100
+ xpos -1297
+ ypos -2503
+ bdwidth 1394
+ bdheight 1832
+}
+BackdropNode {
+ inputs 0
+ name LENSING_BD2
+ tile_color 0x446363ff
+ label LENSING
+ note_font_size 100
+ xpos -1172
+ ypos 1855
+ bdwidth 1261
+ bdheight 823
+}
+BackdropNode {
+ inputs 0
+ name LENSING_BD3
+ tile_color 0x446363ff
+ label "Glows "
+ note_font_size 100
+ xpos -1194
+ ypos 247
+ bdwidth 1261
+ bdheight 823
+}
+BackdropNode {
+ inputs 0
+ name OUTPUT_BD1
+ tile_color 0x388e8e00
+ label OUTPUTS
+ note_font_size 200
+ xpos -1207
+ ypos 3024
+ bdwidth 1281
+ bdheight 1028
+}
+BackdropNode {
+ inputs 0
+ name READ_BD1
+ tile_color 0x171723ff
+ label READS
+ note_font_size 100
+ xpos -5391
+ ypos -2521
+ bdwidth 1740
+ bdheight 1043
+}
+BackdropNode {
+ inputs 0
+ name REBUILD_BD1
+ tile_color 0x5f5551ff
+ label "Redshift ACES Rebuild"
+ note_font "Verdana Bold"
+ note_font_size 200
+ xpos -4908
+ ypos -6064
+ bdwidth 4192
+ bdheight 164
+}
+BackdropNode {
+ inputs 0
+ name REF_BD1
+ tile_color 0xff
+ label "REFERENCE FILES"
+ note_font_size 100
+ xpos -3594
+ ypos -2506
+ bdwidth 1740
+ bdheight 1043
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode9
+ tile_color 0xacc6acff
+ label "Zero\n"
+ note_font_size 42
+ xpos -919
+ ypos -2427
+ bdwidth 443
+ bdheight 1640
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name EMITTERS_BD1
+ tile_color 0x8e5138ff
+ label EMITTERS
+ note_font_size 42
+ xpos -2197
+ ypos -5568
+ bdwidth 295
+ bdheight 2342
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name LIGHTING_BD1
+ tile_color 0x8e5138ff
+ label LIGHTING
+ note_font_size 42
+ xpos -5441
+ ypos -5574
+ bdwidth 585
+ bdheight 2386
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name LYR_O_BD1
+ tile_color 0x388e8e00
+ label "Premultiply \nOriginal Alpha\n"
+ note_font_size 42
+ xpos -746
+ ypos -414
+ bdwidth 356
+ bdheight 328
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name READS_BD2
+ tile_color 0x8e388e00
+ label "READS RGB"
+ note_font_size 42
+ xpos -5582
+ ypos -6163
+ bdwidth 426
+ bdheight 362
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name READS_BD3
+ tile_color 0x8ed38eff
+ label "READS Crypto"
+ note_font_size 42
+ xpos -6038
+ ypos -6159
+ bdwidth 426
+ bdheight 362
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name REFLECTANCE_BD1
+ tile_color 0x8e5138ff
+ label REFLECTANCE
+ note_font_size 42
+ xpos -3715
+ ypos -5581
+ bdwidth 630
+ bdheight 2387
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name SEQ_BD1
+ tile_color 0xb2a0a0ff
+ label "IMG SEQUENCES"
+ note_font_size 42
+ xpos -1054
+ ypos 3320
+ bdwidth 940
+ bdheight 454
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode10
+ tile_color 0xa9c6a9ff
+ label "Lime Green"
+ xpos -716
+ ypos -2198
+ bdheight 108
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode11
+ tile_color 0x7171c600
+ label "DARK GREEN\n"
+ xpos -716
+ ypos -2008
+ bdheight 108
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode12
+ tile_color 0x7171c600
+ label "Red Dot\n"
+ xpos -716
+ ypos -1824
+ bdheight 108
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name CRYPTO_02_BD1
+ tile_color 0x88b266ff
+ label "Reflectance \nCryptomattes"
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -3039
+ ypos -5577
+ bdwidth 290
+ bdheight 2381
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name CRYPTO_03_BD1
+ tile_color 0x88b266ff
+ label "Emitter \nCryptomattes"
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -1872
+ ypos -5268
+ bdwidth 322
+ bdheight 2336
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name CRYPTO_1
+ tile_color 0x88b266ff
+ label "Diffuse\nCryptomattes"
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -4846
+ ypos -5283
+ bdwidth 329
+ bdheight 2386
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name UTILITY_01_BD1
+ tile_color 0x99736dff
+ label Utility
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -4258
+ ypos -5281
+ bdwidth 322
+ bdheight 2381
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name UTILITY_02_BD1
+ tile_color 0x99736dff
+ label Utility
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -2581
+ ypos -5278
+ bdwidth 343
+ bdheight 2334
+ z_order 2
+}
+Shuffle2 {
+ inputs 0
+ fromInput1 {{0} B}
+ fromInput2 {{0} B}
+ name Shuffle7
+ xpos -5108
+ ypos -332
+}
+StickyNote {
+ inputs 0
+ name StickyNote8
+ label "merge layers down using\n\"disjoint over\""
+ xpos -541
+ ypos -147
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/3d/7up_SH030_Pop_Bottles_B_v037/AXL/7up_SH030_Pop_Bottles_B_v037_Main_AXL_AOV_Cryptomatte.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 36
+ origfirst 0
+ origlast 11
+ origset true
+ version 2
+ colorspace scene_linear
+ name Read2
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5755
+ ypos -6352
+}
+OneView {
+ view AXL
+ name OneView2
+ label AXL
+ xpos -5755
+ ypos -6191
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/3d/7up_SH030_Pop_Bottles_B_v033/Carolina_Bottle/7up_SH030_Pop_Bottles_B_v033_Main_Carolina_Bottle_AOV_Cryptomatte.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 36
+ origfirst 0
+ origlast 36
+ origset true
+ name Read5
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5975
+ ypos -6307
+}
+OneView {
+ name OneView1
+ label CAROLINA
+ xpos -5975
+ ypos -6191
+}
+JoinViews {
+ inputs 2
+ name JoinViews1
+ xpos -5865
+ ypos -6184
+ viewassoc "CAROLINA\nAXL"
+}
+Dot {
+ name Dot44
+ label INPUT
+ note_font "Verdana Bold"
+ note_font_size 20
+ xpos -5831
+ ypos -6158
+}
+Cryptomatte {
+ pickerAdd {0.06958221644 0.1133155748 0.2032623142 0 790 1511 791 1512}
+ matteList "___________________ SCENE ___________________.============ SET =============.BGK.Cache.BGK.Cache.BGK\n<4.35045591099e+24>\n<1.31088592392e-16>\n_____________________ LIB _____________________.=========== MODELS ===========.Fruit.Lime_Half.Lime Half.Cloner.1\n_____________________ LIB _____________________.=========== MODELS ===========.Fruit.Lemon_half_1_new.Cloner \\\\-Condensation\n_____________________ LIB _____________________.=========== MODELS ===========.Slim_Can.slimcan.slim_can_generic.Cloner.1\n<1.30379864043e-16>\n_____________________ LIB _____________________.=========== MODELS ===========.Slim_Can.slimcan.slim_can_generic.slim_can_generic.slim_can_generic\n<1.18706577901e-09>\n____________________ GEO _____________________.SCENE.BUBBLES.Cloner_Bubbles.Cache.Null.Sphere 109.Cache.Sphere 109\n<-7.08729744703e-19>\n<-9.67907576354e+17>\n<1.79236940000e+07>\n<-9.80945737788e+24>\n<-3.98343969727e+03>\n_____________________ LIB _____________________.=========== MODELS ===========.Ice.3.Null_1_2ice_01Cube_fracturepart1\n_____________________ LIB _____________________.=========== MODELS ===========.Fruit.Lemon_half_1_new.Subdivision Surface.Cache.lemon_half_a\n<5.84910694155e+23>\n_____________________ LIB _____________________.=========== MODELS ===========.Fruit.Lime_Half.Lime Half.lime_half_01\n<5.84909721377e+23>\n_____________________ LIB _____________________.=========== MODELS ===========.Slim_Can.slimcan\n____________________ GEO _____________________.SCENE.BUBBLES.Cloner_Bubbles.Cache.Null.Sphere 108.Cache.Sphere 108\n<-1.72312100000e+06>\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.cap_top\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle.Cap_ridges\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle_cond.merge5_998\n____________________ GEO _____________________.Exterior Sim.carolina_bubble_mesh \\\\-Exterior LG Sim.Cache.carolina_bubble_mesh \\\\-Exterior LG Sim\n____________________ GEO _____________________.Exterior Sim.carolina_bubble_mesh \\\\-exterior Small Sim.Cache.carolina_bubble_mesh \\\\-exterior Small Sim\n____________________ GEO _____________________.Cap Sim.carolina_bubble_mesh \\\\-Cap Sim.Cache.carolina_bubble_mesh \\\\-Cap Sim\n___________________ SCENE ___________________.============ SET =============.SYC.Cyc green_bounce.Cache.Cyc green_bounce\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.label.Cache.label\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Subdivision Surface.Cache.new_body\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.AXL_bottle_hero \\\\-Condensation\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cylinder 01.Cache.Cylinder 01.Cache.Cylinder 01\n____________________ GEO _____________________.liquid_solve \\\\- Internal Liquid.Cache.liquid_solve \\\\- Internal Liquid\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.cap_top"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte14
+ label "Original Alpha\n"
+ xpos -5865
+ ypos -5912
+}
+Dot {
+ name Dot45
+ xpos -5831
+ ypos -5699
+}
+Dot {
+ name Dot46
+ xpos -4662
+ ypos -5699
+}
+set N9cb85400 [stack 0]
+Dot {
+ name Dot47
+ xpos -2908
+ ypos -5699
+}
+set N9cb85800 [stack 0]
+Dot {
+ name Dot48
+ xpos -1690
+ ypos -5699
+}
+set N9cb85c00 [stack 0]
+Dot {
+ name Dot49
+ xpos -1690
+ ypos -5188
+}
+Dot {
+ name Dot50
+ xpos -1690
+ ypos -4969
+}
+Dot {
+ name Dot51
+ xpos -1690
+ ypos -4564
+}
+Cryptomatte {
+ pickerAdd {0 0 0 0 0 0 0 0}
+ unpremultiply true
+ lastSelectedCryptoLayerName CryptoMaterial
+ name Cryptomatte15
+ xpos -1842
+ ypos -4567
+}
+StickyNote {
+ inputs 0
+ name StickyNote10
+ label "Multichannel EXR reads go here"
+ xpos -5321
+ ypos -5902
+}
+StickyNote {
+ inputs 0
+ name StickyNote13
+ label "Cryptomatte goes here"
+ xpos -5781
+ ypos -5914
+}
+StickyNote {
+ inputs 0
+ name StickyNote14
+ label "PNG for Mid-Range"
+ xpos -941
+ ypos 3702
+}
+StickyNote {
+ inputs 0
+ name StickyNote15
+ label "EXR for dynamic range"
+ xpos -723
+ ypos 3707
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/3d/7up_SH030_Pop_Bottles_B_v037/AXL/7up_SH030_Pop_Bottles_B_v037_Main_AXL__1.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 36
+ origfirst 0
+ origlast 36
+ origset true
+ version 3
+ name Read1
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5299
+ ypos -6330
+}
+OneView {
+ view AXL
+ name OneView4
+ label AXL
+ xpos -5299
+ ypos -6214
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/3d/7up_SH030_Pop_Bottles_B_v033/Carolina_Bottle/7up_SH030_Pop_Bottles_B_v033_Main_Carolina_Bottle__1.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 36
+ origfirst 0
+ origlast 36
+ origset true
+ colorspace scene_linear
+ name Read4
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5519
+ ypos -6330
+}
+OneView {
+ name OneView3
+ label CAROLINA
+ xpos -5519
+ ypos -6214
+}
+JoinViews {
+ inputs 2
+ name JoinViews2
+ xpos -5409
+ ypos -6207
+ viewassoc "CAROLINA\nAXL"
+}
+Dot {
+ name Dot52
+ label INPUT
+ note_font "Verdana Bold"
+ note_font_size 20
+ xpos -5375
+ ypos -6181
+}
+Unpremult {
+ channels all
+ name Unpremult1
+ xpos -5409
+ ypos -5773
+ disable true
+}
+Dot {
+ name Dot53
+ xpos -5375
+ ypos -5610
+}
+set N9bb94800 [stack 0]
+Dot {
+ name Dot54
+ xpos -5155
+ ypos -5610
+}
+set N9bb94c00 [stack 0]
+Dot {
+ name Dot56
+ xpos -4935
+ ypos -5610
+}
+set N9bb95000 [stack 0]
+Dot {
+ name Dot57
+ xpos -4752
+ ypos -5610
+}
+Dot {
+ name Dot58
+ xpos -4135
+ ypos -5610
+}
+set N9bb95800 [stack 0]
+Dot {
+ name Dot59
+ xpos -3634
+ ypos -5610
+}
+set N9bb95c00 [stack 0]
+Dot {
+ name Dot60
+ xpos -3414
+ ypos -5610
+}
+set N9bbac000 [stack 0]
+Dot {
+ name Dot61
+ xpos -3304
+ ypos -5610
+}
+set N9bbac400 [stack 0]
+Dot {
+ name Dot62
+ xpos -3089
+ ypos -5610
+}
+set N9bbac800 [stack 0]
+add_layer {Lime_Matte Lime_Matte.red Lime_Matte.green Lime_Matte.blue}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Lime_Matte
+ fromInput2 {{0} B}
+ mappings "4 Lime_Matte.red 0 0 rgba.red 0 0 Lime_Matte.green 0 1 rgba.green 0 1 Lime_Matte.blue 0 2 rgba.blue 0 2 Lime_Matte.blue 0 2 rgba.alpha 0 3"
+ name Shuffle9
+ xpos -3123
+ ypos -5486
+}
+push $N9cb85800
+Dot {
+ name Dot70
+ xpos -2908
+ ypos -5453
+}
+Cryptomatte {
+ pickerAdd {0.08144465089 0.05311487243 0.2124594897 0 617 180 618 181}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle_cond.merge5_998\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.AXL_bottle_hero \\\\-Condensation"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte17
+ label "Condensation\n"
+ xpos -2942
+ ypos -5337
+}
+set N9bbad400 [stack 0]
+Dot {
+ name Dot2
+ xpos -2908
+ ypos -5285
+}
+set N9bbadc00 [stack 0]
+Cryptomatte {
+ pickerAdd {0.2463910878 0.1922587603 0.0190353319 0 470 1129 471 1130}
+ matteList "\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cylinder 01.Cache.Cylinder 01.Cache.Cylinder 01\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Subdivision Surface.Cache.new_body\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.AXL_bottle_hero \\\\-Condensation\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.cap_top.1"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte4
+ label "WHOLE BOTTLE\n"
+ xpos -2942
+ ypos -5267
+}
+Cryptomatte {
+ pickerAdd {0.1064735502 0.2035770118 0.06430815905 0 472 529 473 530}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle.Cap_ridges\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Subdivision Surface.Cache.new_body"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte1
+ label "Bottle\n"
+ xpos -2942
+ ypos -5162
+}
+set N9bbc8800 [stack 0]
+Cryptomatte {
+ pickerAdd {0.1594863534 0.08241460472 0.1238778085 0 1522 1212 1523 1213}
+ matteList "____________________ GEO _____________________.Exterior Sim.carolina_bubble_mesh \\\\-Exterior LG Sim.Cache.carolina_bubble_mesh \\\\-Exterior LG Sim\n____________________ GEO _____________________.Exterior Sim.carolina_bubble_mesh \\\\-exterior Small Sim.Cache.carolina_bubble_mesh \\\\-exterior Small Sim"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte22
+ label "Fizz "
+ xpos -2942
+ ypos -5071
+}
+set N9bbc9000 [stack 0]
+Dot {
+ name Dot71
+ xpos -2908
+ ypos -5018
+}
+set N9bbc9800 [stack 0]
+Cryptomatte {
+ pickerAdd {0.1966090649 0.1457461864 0.08298489451 0 632 254 633 255}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Ice.3.Null_1_2ice_01Cube_fracturepart1\n___________________ SCENE ___________________.============ SET =============.BGK.Cache.BGK.Cache.BGK\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Ice Cube Spline Path.Ice Cube Pos.Ice Cube Rot.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 16.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 7.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 9.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 2.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 12.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 6.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 1.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 8.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Ice.3 Instance Instance 4.Cache.Ice.3 Instance Instance.Cache.Ice.3.Null_1_2ice_01Cube_fracturepart1"
+ unpremultiply true
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte23
+ label "ICE AND BUBBLES"
+ xpos -2942
+ ypos -4953
+}
+Cryptomatte {
+ pickerAdd {0.1716955751 0.2471302748 0.2385214567 0 539 653 540 654}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.cap_top\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.cap_top.1\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cap_ring"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte5
+ label "Cap\n"
+ xpos -2942
+ ypos -4876
+}
+set Ndc338000 [stack 0]
+Dot {
+ name Dot72
+ xpos -2908
+ ypos -4787
+}
+Dot {
+ name Dot75
+ xpos -2908
+ ypos -4761
+}
+StickyNote {
+ inputs 0
+ name StickyNote16
+ label "split cryptomates out of the main \nchain to keep a consistent alpha\nfor unpremultiply."
+ xpos -4805
+ ypos -4224
+}
+push $N9cb85400
+Dot {
+ name Dot78
+ xpos -4662
+ ypos -5471
+}
+Cryptomatte {
+ pickerAdd {0.07601322234 0.08352031559 0.04492644593 0.00870108977 951 895 952 896}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Slim_Can.slimcan\n_____________________ LIB _____________________.=========== MODELS ===========.Slim_Can.slimcan.slim_can_generic.slim_can_generic.slim_can_generic\n_____________________ LIB _____________________.=========== MODELS ===========.Slim_Can.slimcan.slim_can_generic.Cloner.1"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte24
+ xpos -4696
+ ypos -5407
+}
+Cryptomatte {
+ pickerAdd {0.2349642515 0.009428024292 0.03771209717 0 399 838 400 839}
+ matteList "____________________ GEO _____________________.SCENE.BGK.Cache.BGK.Cache.BGK"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte25
+ label "BG\n"
+ xpos -4696
+ ypos -5342
+}
+Cryptomatte {
+ pickerAdd {0.2463008463 0.1908158064 0.01326369494 0 294 147 295 148}
+ matteList "____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Lemon Half 10.lemon_half_a\n____________________ GEO _____________________.SCENE.FRUIT SPIRAL.1.Can_H.1.Rot \\\\- H.Fruits.Cloner_Fruits.Cache.Null.Lemon Half 5.lemon_half_a"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte28
+ xpos -4696
+ ypos -4808
+}
+Dot {
+ name Dot102
+ xpos -4662
+ ypos -4111
+}
+Cryptomatte {
+ pickerAdd {0 0 0 0 0 0 0 0}
+ lastSelectedCryptoLayerName CryptoMaterial
+ name Cryptomatte29
+ xpos -4696
+ ypos -4071
+}
+push $N9bbac800
+Dot {
+ name Dot63
+ xpos -2449
+ ypos -5610
+}
+set Na69e9800 [stack 0]
+add_layer {BumpNormals BumpNormals.red BumpNormals.green BumpNormals.blue}
+Shuffle {
+ in BumpNormals
+ name Shuffle19
+ label "\[value in]"
+ xpos -2483
+ ypos -5206
+}
+StickyNote {
+ inputs 0
+ name StickyNote17
+ label "Utility passes get pulled AFTER you\nunpremultiply the main pipe.\nNOTE: Sometimes, passes like AO can\nrun into edging issues with this method"
+ xpos -4226
+ ypos -5219
+}
+push $N9bb95800
+add_layer {AO AO.red AO.green AO.blue}
+Shuffle {
+ in AO
+ name Shuffle20
+ label "\[value in]"
+ xpos -4169
+ ypos -5125
+}
+add_layer {Falloff Falloff.red Falloff.green Falloff.blue}
+Shuffle {
+ in Falloff
+ name Shuffle21
+ label "Fall Off\n"
+ xpos -4169
+ ypos -5006
+}
+add_layer {Shadows Shadows.red Shadows.green Shadows.blue}
+Shuffle {
+ in Shadows
+ name Shuffle22
+ label "Shadows\n"
+ xpos -4169
+ ypos -4891
+}
+StickyNote {
+ inputs 0
+ name StickyNote18
+ label "Copy original alpha back in\nand premultiply"
+ xpos -547
+ ypos -188
+}
+push $Na69e9800
+Dot {
+ name Dot64
+ xpos -2056
+ ypos -5610
+}
+set Na6a13400 [stack 0]
+add_layer {Emission Emission.red Emission.green Emission.blue}
+Shuffle {
+ in Emission
+ name Shuffle8
+ label "\[value in]"
+ xpos -2090
+ ypos -5469
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove1
+ xpos -2090
+ ypos -5431
+ disable true
+}
+push $N9bbc9000
+push $N9bbc8800
+push $N9bbadc00
+push $N9bbac400
+add_layer {Refractions Refractions.red Refractions.green Refractions.blue}
+Shuffle {
+ in Refractions
+ name Shuffle10
+ label "\[value in]"
+ xpos -3338
+ ypos -5451
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove2
+ xpos -3338
+ ypos -5411
+ disable true
+}
+ColorCorrect {
+ contrast 0.96
+ shadows.saturation 0.88
+ shadows.gamma 1.1
+ shadows.gain 0.86
+ midtones.saturation 0.98
+ midtones.gamma 1.04
+ midtones.gain 1.14
+ highlights.saturation 1.08
+ highlights.gamma 0.94
+ highlights.gain 1.08
+ name ColorCorrect27
+ xpos -3338
+ ypos -5385
+}
+set Na6a36800 [stack 0]
+OneView {
+ view AXL
+ name OneView8
+ label AXL
+ xpos -3288
+ ypos -5329
+}
+ColorCorrect {
+ inputs 1+1
+ contrast 1.02
+ shadows.gamma 0.97
+ shadows.gain 1.02
+ shadows.offset -0.0005
+ midtones.saturation 1.02
+ midtones.gamma 1.16
+ midtones.gain 1.14
+ highlights.gamma 1.1
+ highlights.gain 1.44
+ name ColorCorrect28
+ xpos -3288
+ ypos -5289
+}
+ColorCorrect {
+ inputs 1+1
+ shadows.saturation 0.98
+ shadows.gamma 0.47
+ shadows.gain 0.92
+ midtones.saturation 1.12
+ midtones.contrast 0.98
+ midtones.gamma 0.96
+ midtones.gain 1.14
+ highlights.gain 1.04
+ lookup {shadow {}
+   midtone {}
+   highlight {curve x0.5 0 s0 x2.244079113 1 s0}}
+ name ColorCorrect5
+ xpos -3273
+ ypos -5212
+}
+push $N9bbc8800
+push $N9bbadc00
+push $Na6a36800
+OneView {
+ name OneView5
+ label CAROLINA
+ xpos -3388
+ ypos -5307
+}
+ColorCorrect {
+ inputs 1+1
+ contrast 1.02
+ shadows.gamma 0.97
+ shadows.gain 1.02
+ shadows.offset -0.0005
+ midtones.saturation 1.02
+ midtones.gamma 1.04
+ midtones.gain 1.12
+ highlights.gamma 1.04
+ highlights.gain 1.44
+ name ColorCorrect10
+ xpos -3388
+ ypos -5267
+}
+ColorCorrect {
+ inputs 1+1
+ shadows.gain 0.92
+ midtones.saturation 1.08
+ midtones.contrast 0.98
+ midtones.gamma 0.9
+ midtones.gain 0.92
+ highlights.gain 0.88
+ lookup {shadow {}
+   midtone {}
+   highlight {curve x0.5 0 s0 x2.244079113 1 s0}}
+ name ColorCorrect9
+ xpos -3388
+ ypos -5196
+}
+JoinViews {
+ inputs 2
+ name JoinViews3
+ xpos -3338
+ ypos -5116
+ viewassoc "CAROLINA\nAXL"
+}
+ColorCorrect {
+ inputs 1+1
+ shadows.gain 0.54
+ midtones.saturation 1.02
+ midtones.gamma 0.355
+ midtones.gain 0.32
+ highlights.saturation 1.16
+ highlights.gamma 0.48
+ highlights.gain 2.1
+ name ColorCorrect4
+ xpos -3338
+ ypos -5064
+}
+push $Ndc338000
+push $N9bbc9800
+push $N9bbad400
+push $N9bbac000
+add_layer {SpecularLighting SpecularLighting.red SpecularLighting.green SpecularLighting.blue}
+Shuffle {
+ in SpecularLighting
+ name Shuffle11
+ label "\[value in]"
+ xpos -3448
+ ypos -5454
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove3
+ xpos -3448
+ ypos -5414
+ disable true
+}
+ColorCorrect {
+ contrast 0.98
+ gain 1.06
+ shadows.gain 0.47
+ midtones.gamma 1.08
+ midtones.gain 1.1
+ highlights.gain 1.14
+ name ColorCorrect39
+ xpos -3448
+ ypos -5388
+}
+ColorCorrect {
+ inputs 1+1
+ master 0
+ shadows 0
+ shadows.gain 0.37
+ midtones 0
+ midtones.saturation 1.04
+ midtones.gamma 0.68
+ midtones.gain 3.55
+ highlights 0
+ highlights.gamma 1.04
+ highlights.gain 1.06
+ name ColorCorrect40
+ xpos -3448
+ ypos -5330
+}
+ColorCorrect {
+ inputs 1+1
+ shadows.gain 0.64
+ midtones.saturation 1.5
+ midtones.gamma 0.74
+ midtones.gain 0.86
+ highlights.gain 1.02
+ name ColorCorrect8
+ xpos -3448
+ ypos -5022
+}
+ColorCorrect {
+ inputs 1+1
+ shadows.gamma 0.84
+ midtones.gamma 0.91
+ midtones.gain 0.92
+ name ColorCorrect6
+ label "CAP\n"
+ xpos -3448
+ ypos -4869
+}
+push $N9bb95c00
+add_layer {Reflections Reflections.red Reflections.green Reflections.blue}
+Shuffle {
+ in Reflections
+ name Shuffle13
+ label "\[value in]"
+ xpos -3668
+ ypos -5454
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove4
+ xpos -3668
+ ypos -5414
+ disable true
+}
+ColorCorrect {
+ shadows.gain 0.74
+ midtones.gamma 1.04
+ midtones.gain 0.37
+ highlights.gamma 1.02
+ highlights.gain 1.54
+ name ColorCorrect3
+ xpos -3668
+ ypos -5388
+}
+Dot {
+ name Dot76
+ xpos -3634
+ ypos -4585
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge6
+ xpos -3448
+ ypos -4588
+}
+Dot {
+ name Dot77
+ xpos -3414
+ ypos -4345
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge7
+ xpos -3338
+ ypos -4348
+}
+push $N9bb95000
+add_layer {SSS SSS.red SSS.green SSS.blue}
+Shuffle {
+ in SSS
+ name Shuffle16
+ label "\[value in]"
+ xpos -4969
+ ypos -5478
+}
+Remove {
+ channels rgb
+ name Remove5
+ xpos -4969
+ ypos -5438
+ disable true
+}
+push $N9bb94c00
+add_layer {GI GI.red GI.green GI.blue}
+Shuffle {
+ in GI
+ name Shuffle17
+ label "\[value in]"
+ xpos -5189
+ ypos -5476
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove6
+ xpos -5189
+ ypos -5438
+ disable true
+}
+Grade {
+ white 1.12
+ multiply 0.9
+ name Grade1
+ xpos -5189
+ ypos -5362
+}
+push $N9bb94800
+add_layer {DiffuseLighting DiffuseLighting.red DiffuseLighting.green DiffuseLighting.blue}
+Shuffle {
+ in DiffuseLighting
+ name Shuffle18
+ label "\[value in]"
+ xpos -5409
+ ypos -5478
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove7
+ xpos -5409
+ ypos -5438
+ disable true
+}
+ColorCorrect {
+ gain 1.24
+ shadows.gamma 1.02
+ shadows.gain 1.96
+ midtones.gamma 1.02
+ midtones.gain 1.04
+ highlights.gain 1.1
+ name ColorCorrect2
+ xpos -5409
+ ypos -5356
+}
+Dot {
+ name Dot79
+ xpos -5375
+ ypos -5059
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge8
+ xpos -5189
+ ypos -5063
+}
+Dot {
+ name Dot80
+ xpos -5155
+ ypos -4939
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge9
+ xpos -4969
+ ypos -4943
+}
+Dot {
+ name Dot81
+ xpos -4935
+ ypos -3162
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge10
+ xpos -3338
+ ypos -3166
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge11
+ xpos -2090
+ ypos -3166
+}
+Dot {
+ name Dot82
+ xpos -672
+ ypos -3162
+}
+Dot {
+ name Dot83
+ xpos -672
+ ypos -2597
+}
+set N9ca55c00 [stack 0]
+add_layer {Logo_Matte_02 Logo_Matte_02.red Logo_Matte_02.green Logo_Matte_02.blue}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.red 0 0 rgba.alpha 0 3"
+ name Shuffle25
+ xpos -496
+ ypos -2601
+}
+set N9ca7e000 [stack 0]
+Dot {
+ name Dot104
+ xpos -462
+ ypos -2575
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH350_Shoes/Render/2d/SH350_Shoes_sky_v003.png
+ format "4096 2304 0 0 4096 2304 1 "
+ origset true
+ raw true
+ name Read21
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2554
+ ypos -2157
+}
+Transform {
+ center {960 960}
+ name Transform2
+ xpos -2399
+ ypos -2051
+}
+StickyNote {
+ inputs 0
+ name StickyNote20
+ label "Cryptomattes get pulled BEFORE\nyou unpremultiply the main pipe"
+ xpos -4588
+ ypos -5130
+}
+Read {
+ inputs 0
+ file_type jpeg
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Ref/images/Approved_color_all_pack types/SRGB/20221216_7up_bar sky_pack shoot_pet_regular_0834_R2_SRGB.jpg"
+ format "2600 1733 0 0 2600 1733 1 "
+ origset true
+ colorspace sRGB
+ name Read25
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2092
+ ypos -2313
+}
+Reformat {
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ name Reformat6
+ xpos -2092
+ ypos -2197
+}
+Transform {
+ translate {-1204 -1858}
+ scale 3
+ center {320 240}
+ name Transform1
+ xpos -2092
+ ypos -2157
+}
+Read {
+ inputs 0
+ file_type mov
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH200_Endtag/Render/Comp/7up_SH200_Endtag_Squat_Comp_reg_A_v006/7up_SH200_Endtag_Squat_Comp_reg_A_v006.mov
+ format "3840 1920 0 0 3840 1920 1 "
+ last 110
+ origlast 110
+ origset true
+ colorspace aces_interchange
+ raw true
+ mov64_ycbcr_matrix "Rec 709"
+ name Read6
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2346
+ ypos -1899
+}
+Read {
+ inputs 0
+ file_type mov
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH340_CanTap/Render/Comp/SH340_CanTap_comp_v007.mov
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ last 66
+ origlast 66
+ origset true
+ colorspace "scene-linear Rec.709-sRGB"
+ raw true
+ name Read22
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -3165
+ ypos -2060
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH320_Liftoff/Render/Comp/SH320_Liftoff_Comp_A_v018/SH320_Liftoff_Comp_A_slimZeroG_v018.##.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 15
+ last 43
+ origfirst 15
+ origlast 43
+ origset true
+ raw true
+ name Read23
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2951
+ ypos -2084
+}
+Read {
+ inputs 0
+ file_type mov
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Edit/Render/Edit_Out/2023_02_16/ZeroSugar/Pespi_7Up_ZeroSugar_RegionC_20_Edit_v55.mp4
+ format "1920 1080 0 0 1920 1080 1 HD_1080"
+ last 500
+ origlast 500
+ origset true
+ colorspace rec709
+ raw true
+ name Read24
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2820
+ ypos -2111
+}
+StickyNote {
+ inputs 0
+ name StickyNote19
+ label "JPG for PDPlayer"
+ xpos -473
+ ypos 3717
+}
+Ramp {
+ inputs 0
+ p0 {-306 -334}
+ p1 {4260 4395}
+ name Ramp1
+ xpos -486
+ ypos -872
+}
+push $N9bb94800
+Dot {
+ name Dot103
+ xpos -5833
+ ypos -5316
+}
+add_layer {Beauty Beauty.red Beauty.green Beauty.blue}
+Shuffle {
+ in Beauty
+ name Shuffle24
+ xpos -5867
+ ypos -5298
+}
+FrameHold {
+ firstFrame 14
+ name FrameHold2
+ xpos -5960
+ ypos -5136
+}
+push $N9cb85c00
+Dot {
+ name Dot67
+ xpos 122
+ ypos -5699
+}
+Dot {
+ name Dot68
+ xpos 122
+ ypos -3031
+}
+Dot {
+ name Dot69
+ xpos 437
+ ypos -3031
+}
+Cryptomatte {
+ pickerAdd {0 0 0 0 295 624 296 625}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Ice.3.Null_1_2ice_01Cube_fracturepart1\n____________________ GEO _____________________.SCENE.BUBBLES.Cloner_Bubbles.Cache.Null.Sphere 155.Cache.Sphere 155\n____________________ GEO _____________________.SCENE.BUBBLES.Cloner_Bubbles.Cache.Null.Sphere 107.Cache.Sphere 107\n___________________ SCENE ___________________.============ SET =============.BGK.Cache.BGK.Cache.BGK"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte16
+ xpos 403
+ ypos -1300
+}
+Cryptomatte {
+ pickerAdd {0.0903704986 0.1959284842 0.03371427953 0 526 444 527 445}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Ice.3.Null_1_2ice_01Cube_fracturepart1\n<1.31088592392e-16>"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte30
+ xpos 403
+ ypos -938
+}
+Dot {
+ name Dot105
+ xpos 437
+ ypos -808
+}
+Cryptomatte {
+ pickerAdd {0.1708674431 0.07972098887 0.03054772876 0 1113 991 1114 992}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.label.Cache.label\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle_cond.merge5_998\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cylinder 01.Cache.Cylinder 01.Cache.Cylinder 01\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.AXL_bottle_hero \\\\-Condensation"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte3
+ xpos 403
+ ypos -273
+}
+set N9cfe3400 [stack 0]
+Dot {
+ name Dot106
+ xpos 437
+ ypos -47
+}
+set N9cfe3c00 [stack 0]
+Cryptomatte {
+ pickerAdd {0 0 0 0 580 798 581 799}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.cap_top\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle.Cap_ridges\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle_cond.merge5_998\n<-7.13004997516e+15>\n<5.02577471034e+23>\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.label.Cache.label\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.cap_top\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cap_ring\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Cylinder 01.Cache.Cylinder 01.Cache.Cylinder 01\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Subdivision Surface.Cache.new_body\n____________________ GEO _____________________.liquid_solve \\\\- Internal Liquid.Cache.liquid_solve \\\\- Internal Liquid\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.AXL_bottle_hero \\\\-Condensation\n<-2.79675867456e-25>"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte2
+ xpos -490
+ ypos 1000
+}
+push $N9cfe3400
+push $N9cfe3c00
+Cryptomatte {
+ pickerAdd {0.1716956049 0.2471303344 0.2385215163 0 520 663 521 664}
+ pickerRemove {0.2463911474 0.192258805 0.01903533749 0 528 697 529 698}
+ matteList "_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle.Cache.Bottle\n_____________________ LIB _____________________.=========== MODELS ===========.Carolina_V03_0130.bottle_cond.merge5_998\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.Subdivision Surface.Cache.new_body\n_____________________ LIB _____________________.=========== MODELS ===========.AXL_0130.AXL_bottle_hero \\\\-Condensation"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte6
+ xpos 403
+ ypos 86
+}
+push $Na6a13400
+Dot {
+ name Dot65
+ xpos -142
+ ypos -5610
+}
+Dot {
+ name Dot66
+ xpos -142
+ ypos -1140
+}
+push $N9ca7e000
+add_layer {Logo_Matte_01 Logo_Matte_01.red Logo_Matte_01.green Logo_Matte_01.blue}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_01
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_01.red 0 0 rgba.red 0 0 Logo_Matte_01.green 0 1 rgba.green 0 1 Logo_Matte_01.blue 0 2 rgba.blue 0 2 Logo_Matte_01.green 0 1 rgba.alpha 0 3"
+ name Shuffle1
+ label "Logo Matte 01 Green\n"
+ xpos -496
+ ypos -2379
+}
+set N9d00d000 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.red 0 0 rgba.alpha 0 3"
+ name Shuffle2
+ label "Logo Matte 02 Red\n"
+ xpos -496
+ ypos -2182
+}
+set N9d00d400 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.blue 0 2 rgba.alpha 0 3"
+ name Shuffle3
+ label "Logo Matte 02 Blue"
+ xpos -496
+ ypos -1993
+}
+set N9d00d800 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_01
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_01.red 0 0 rgba.red 0 0 Logo_Matte_01.green 0 1 rgba.green 0 1 Logo_Matte_01.blue 0 2 rgba.blue 0 2 Logo_Matte_01.red 0 0 rgba.alpha 0 3"
+ name Shuffle4
+ label "LOGO 01 RED"
+ xpos -496
+ ypos -1772
+}
+set N9d00dc00 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.green 0 1 rgba.alpha 0 3"
+ name Shuffle5
+ label "Logo Matte 02\n"
+ xpos -496
+ ypos -1594
+}
+set N9d02c000 [stack 0]
+push $N9d02c000
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Yellow_V003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace sRGB
+ name Read10
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -817
+ ypos -1708
+}
+Reformat {
+ name Reformat1
+ xpos -817
+ ypos -1592
+}
+push $N9d00dc00
+push $N9d00dc00
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Red.png
+ format "2400 2400 0 0 2400 2400 1 "
+ origset true
+ colorspace sRGB
+ name Read11
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -816
+ ypos -1894
+}
+Reformat {
+ name Reformat2
+ xpos -816
+ ypos -1778
+}
+push $N9d00d800
+push $N9d00d800
+Read {
+ inputs 0
+ file_type png
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Dark Green_v003.png"
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace sRGB
+ name Read12
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -957
+ ypos -2102
+}
+Reformat {
+ name Reformat3
+ xpos -957
+ ypos -1979
+}
+push $N9d00d400
+push $N9d00d400
+push $N9d00d400
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Reg_Green_v003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace default
+ name Read13
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -859
+ ypos -2296
+}
+Reformat {
+ name Reformat4
+ xpos -859
+ ypos -2180
+}
+push $N9d00d000
+push $N9d00d000
+push $N9d00d000
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Lime_Green_v003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace default
+ name Read14
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -864
+ ypos -2525
+}
+Reformat {
+ name Reformat5
+ xpos -864
+ ypos -2409
+}
+push $N9ca55c00
+ColorCorrect {
+ shadows.gain 1.02
+ midtones.gain 1.4
+ highlights.gain 2.3
+ maskChannelInput Logo_Matte_01.blue
+ name ColorCorrect52
+ label "7UP\n"
+ xpos -706
+ ypos -2579
+}
+Merge2 {
+ inputs 2+1
+ operation geometric
+ mix 0.07
+ name Merge14
+ xpos -706
+ ypos -2416
+}
+ColorCorrect {
+ inputs 1+1
+ gamma 1.02
+ shadows.saturation 1.04
+ shadows.contrast 1.06
+ shadows.gamma 1.18
+ shadows.gain 1.4
+ midtones.saturation 1.18
+ midtones.contrast 1.1
+ midtones.gamma 1.02
+ midtones.gain 1.12
+ highlights.saturation 1.04
+ highlights.gamma 0.96
+ highlights.gain 1.08
+ lookup {shadow {curve 1 s0 x0.5225701332 0 s0}
+   midtone {1-shadow-highlight}
+   highlight {}}
+ name ColorCorrect53
+ xpos -706
+ ypos -2390
+}
+HueShift {
+ inputs 1+1
+ color_saturation 1.02
+ name HueShift3
+ xpos -706
+ ypos -2350
+}
+Merge2 {
+ inputs 2+1
+ operation geometric
+ mix 0.545
+ name Merge15
+ xpos -706
+ ypos -2180
+}
+ColorCorrect {
+ inputs 1+1
+ gamma 1.02
+ gain 0.92
+ shadows.gain 0.84
+ midtones.saturation 1.1
+ midtones.gamma 0.85
+ midtones.gain 1.44
+ highlights.saturation 1.04
+ highlights.gamma 1.34
+ highlights.gain 1.08
+ name ColorCorrect54
+ xpos -706
+ ypos -2151
+}
+HueShift {
+ inputs 1+1
+ hue_rotation 1
+ name HueShift4
+ xpos -706
+ ypos -2115
+}
+Merge2 {
+ inputs 2+1
+ operation geometric
+ mix 0.745
+ name Merge16
+ xpos -706
+ ypos -1986
+}
+ColorCorrect {
+ inputs 1+1
+ offset 0.001
+ shadows.gain 1.22
+ midtones.contrast 0.92
+ midtones.gain 1.06
+ highlights.gain 0.56
+ lookup {shadow {curve 1 s0 x0.1448163986 0 s0}
+   midtone {1-shadow-highlight}
+   highlight {}}
+ name ColorCorrect55
+ xpos -706
+ ypos -1946
+}
+Merge2 {
+ inputs 2+1
+ operation geometric
+ mix 0.765
+ name Merge17
+ xpos -706
+ ypos -1785
+}
+ColorCorrect {
+ inputs 1+1
+ midtones.saturation 1.14
+ midtones.gamma 0.94
+ midtones.gain 1.42
+ name ColorCorrect56
+ xpos -706
+ ypos -1745
+}
+Merge2 {
+ inputs 2+1
+ operation geometric
+ mix 0.605
+ name Merge18
+ xpos -706
+ ypos -1605
+}
+ColorCorrect {
+ inputs 1+1
+ midtones.saturation 1.9
+ midtones.gain 1.14
+ highlights.gamma 0.74
+ highlights.gain 1.28
+ name ColorCorrect57
+ xpos -704
+ ypos -1579
+}
+Dot {
+ name Dot3
+ xpos -670
+ ypos -1264
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy1
+ xpos -706
+ ypos -1151
+}
+Premult {
+ channels {rgba.red rgba.green rgba.blue none}
+ name Premult1
+ xpos -706
+ ypos -1053
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/3d/7up_SH030_Pop_Bottles_B_v025/BG/7up_SH030_Pop_Bottles_B_v025_BG__1.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 36
+ origfirst 0
+ origlast 36
+ origset true
+ colorspace scene_linear
+ name Read3
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5255
+ ypos -6113
+}
+Dot {
+ name Dot1
+ xpos -5221
+ ypos -5997
+}
+Dot {
+ name Dot84
+ xpos -5221
+ ypos -5826
+}
+Dot {
+ name Dot85
+ xpos -266
+ ypos -5826
+}
+Dot {
+ name Dot86
+ xpos -266
+ ypos -992
+}
+ColorCorrect {
+ gain 2.22
+ midtones.gamma 1.02
+ midtones.gain 1.02
+ highlights.gamma 1.02
+ highlights.gain 3.5
+ name ColorCorrect1
+ xpos -433
+ ypos -996
+}
+Reformat {
+ format "2300 2300 0 0 2300 2300 1 "
+ name Reformat7
+ xpos -596
+ ypos -1003
+}
+Merge2 {
+ inputs 2
+ name Merge22
+ xpos -706
+ ypos -996
+}
+Dot {
+ name Dot87
+ xpos -672
+ ypos 382
+}
+set N9d3fbc00 [stack 0]
+Dot {
+ name Dot88
+ xpos -816
+ ypos 382
+}
+Glow2 {
+ tolerance 1.7
+ brightness 0.28
+ saturation 0.855
+ effect_only true
+ size 200
+ name Glow4
+ xpos -850
+ ypos 400
+}
+Dot {
+ name Dot89
+ xpos -816
+ ypos 466
+}
+push $N9d3fbc00
+Merge2 {
+ inputs 2
+ operation screen
+ mix 0.21
+ name Merge23
+ xpos -706
+ ypos 462
+}
+Dot {
+ name Dot90
+ xpos -672
+ ypos 488
+}
+set N9d427000 [stack 0]
+Dot {
+ name Dot91
+ xpos -816
+ ypos 488
+}
+Glow2 {
+ tolerance 0.495
+ brightness 0.96
+ saturation 0.715
+ effect_only true
+ size 9
+ name Glow5
+ xpos -850
+ ypos 547
+}
+Dot {
+ name Dot92
+ xpos -816
+ ypos 607
+}
+push $N9d427000
+Merge2 {
+ inputs 2+1
+ operation screen
+ mix 0.91
+ name Merge24
+ xpos -706
+ ypos 603
+}
+Dot {
+ name Dot93
+ xpos -672
+ ypos 629
+}
+set N9d452400 [stack 0]
+Dot {
+ name Dot94
+ xpos -816
+ ypos 629
+}
+Glow2 {
+ tolerance 4
+ brightness 0.96
+ saturation 0.185
+ effect_only true
+ size 17.5
+ name Glow6
+ xpos -850
+ ypos 647
+}
+Dot {
+ name Dot95
+ xpos -816
+ ypos 789
+}
+push $N9d452400
+Merge2 {
+ inputs 2+1
+ operation screen
+ invert_mask true
+ name Merge25
+ xpos -708
+ ypos 785
+}
+Dot {
+ name Dot96
+ xpos -674
+ ypos 811
+}
+set N9d453800 [stack 0]
+Dot {
+ name Dot97
+ xpos -828
+ ypos 811
+}
+Glint {
+ repeat 7
+ length 70
+ oddlen 1.4
+ rotation 28
+ from_color 0.085
+ steps 50
+ max false
+ effect_only true
+ tolerance 17.99
+ gamma 1.8
+ name Glint2
+ xpos -862
+ ypos 829
+}
+Defocus {
+ defocus 0.3
+ name Defocus1
+ xpos -862
+ ypos 866
+}
+Blur {
+ size 17
+ name Blur2
+ xpos -862
+ ypos 906
+}
+Dot {
+ name Dot98
+ xpos -828
+ ypos 1004
+}
+push $N9d453800
+Merge2 {
+ inputs 2+1
+ invert_mask true
+ mix 0.145
+ name Merge26
+ xpos -706
+ ypos 1000
+}
+set N9d479000 [stack 0]
+FrameHold {
+ firstFrame 13
+ name FrameHold1
+ xpos -1108
+ ypos 1162
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH020_Twirl/Render/Comp/7up_SH020_Twirl_D_Bottles_v015_PET/7up_SH020_Twirl_D_Bottles_v015_PET_#####.png
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 36
+ origfirst 0
+ origlast 36
+ origset true
+ raw true
+ name Read7
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2078
+ ypos -1832
+}
+push $N9d479000
+Crop {
+ box {0 0 {format.width} {format.height}}
+ name Crop_to_Format1
+ xpos -706
+ ypos 3263
+ disable true
+}
+OCIODisplay {
+ colorspace scene_linear
+ display sRGB
+ view "ACES 1.0 SDR-video"
+ name OCIODisplay2
+ xpos -706
+ ypos 3289
+}
+Dot {
+ name Dot99
+ xpos -672
+ ypos 3343
+}
+set N9d4b4c00 [stack 0]
+Dot {
+ name Dot100
+ xpos -426
+ ypos 3343
+}
+OneView {
+ view AXL
+ name OneView6
+ label AXL
+ xpos -460
+ ypos 3419
+}
+Write {
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Comp/SH030_Bottles_Comp_v013/AXL/Sh030_Bottles_AXL_Comp_v013_%03d.png
+ colorspace sRGB
+ raw true
+ views {AXL}
+ file_type png
+ datatype "16 bit"
+ create_directories true
+ checkHashOnRead false
+ version 48
+ name SH0370_CanSpin2
+ label "\[basename \[file rootname \[value root.name]]]"
+ xpos -460
+ ypos 3459
+ cached true
+ addUserKnob {20 User}
+ addUserKnob {1 scriptname l script_name}
+ scriptname "\[basename \[file rootname \[value root.name]]]"
+}
+set N9d4b5800 [stack 0]
+push $N9d4b5800
+Viewer {
+ inputs 3
+ frame 5
+ frame_range 0-36
+ colour_sample_bbox {-0.06260869652 0.1356521696 -0.06086956337 0.137391299}
+ samplepoints {{-0.06260869652 0.1356521696}
+   }
+ viewerProcess "Raw (sRGB)"
+ translate {-0.2399999946 -1.480000019}
+ name Viewer1
+ xpos -460
+ ypos 3527
+}
+push $N9d4b4c00
+Dot {
+ name Dot101
+ xpos -885
+ ypos 3343
+}
+OneView {
+ name OneView7
+ label CAROLINA
+ xpos -919
+ ypos 3431
+}
+Write {
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Render/Comp/SH030_Bottles_Comp_v013/Carolina/Sh030_Bottles_Carolina_Comp_v013_%04d.png
+ colorspace sRGB
+ raw true
+ views {CAROLINA}
+ file_type png
+ datatype "16 bit"
+ create_directories true
+ checkHashOnRead false
+ version 49
+ name SH0370_CanSpin1
+ label "\[basename \[file rootname \[value root.name]]]"
+ selected true
+ xpos -919
+ ypos 3471
+ cached true
+ addUserKnob {20 User}
+ addUserKnob {1 scriptname l script_name}
+ scriptname "\[basename \[file rootname \[value root.name]]]"
+}

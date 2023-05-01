@@ -3,27 +3,54 @@
   <head>
     <title>Network | Basic usage</title>
     <style type="text/css">
-      /* Add your CSS styles here */
+      body {
+        display: flex;
+        height: 100vh;
+      }
+      #mynetwork {
+        flex-grow: 1;
+        width: 100%;
+      }
+      #config-container {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+      }
     </style>
     <script src="./renderer.js" defer></script>
-    <script type="text/javascript" src="node_modules/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script
+      type="text/javascript"
+      src="node_modules/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
   </head>
   <body onload="loadJsonDataAndDraw()">
     <div id="mynetwork"></div>
-    <script type="text/javascript" src="./data/NodeNet.js"></script>
-    
-    <div id="config"></div>
-    <p id="selection"></p>
-    <div id="context-menu" style="display:none; position:absolute; z-index:1000; background-color:white; border:1px solid black; padding:5px;">
+
+    <div id="config-container">
+      <script type="text/javascript" src="./data/NodeNet.js"></script>
+      <div id="config"></div>
+      <p id="selection"></p>
+      <div
+        id="context-menu"
+        style="
+          display: none;
+          position: absolute;
+          z-index: 1000;
+          background-color: white;
+          border: 1px solid black;
+          padding: 5px;
+        "
+      >
         Toggle Cluster
       </div>
-
-      <input type="file" id="loadNukeFileInput" accept=".nk" style="display:none;">
+      <input
+        type="file"
+        id="loadNukeFileInput"
+        accept=".nk"
+        style="display: none"
+      />
       <button id="loadNukeFileBtn">Load Nuke File</button>
-
-    <textarea id="text-output" rows="10" cols="50" readonly></textarea>
-
-      
-
+      <textarea id="text-output" rows="10" cols="50" readonly></textarea>
+    </div>
   </body>
 </html>

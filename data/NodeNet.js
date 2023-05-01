@@ -1,11 +1,11 @@
 // Replace 'data.json' with the path to your JSON file
-const jsonDataPath = './data/database.json';
+const jsonDataPath = "./data/database.json";
 const pathBasename = window.path.basename;
 
 function loadJsonDataAndDraw() {
-  fs.readFile(jsonDataPath, 'utf8', (err, jsonString) => {
+  fs.readFile(jsonDataPath, "utf8", (err, jsonString) => {
     if (err) {
-      console.log('Error reading file:', err);
+      console.log("Error reading file:", err);
       return;
     }
 
@@ -14,7 +14,7 @@ function loadJsonDataAndDraw() {
       createNodesAndEdges(jsonData);
       redrawAll();
     } catch (err) {
-      console.log('Error parsing JSON:', err);
+      console.log("Error parsing JSON:", err);
     }
   });
 }
@@ -27,15 +27,15 @@ function formatNode(asset, id) {
     title: assetFileName,
   };
 
-  if (asset.type === 'Texture') {
-    node.color = '#8ecae6';
-  } else if (asset.type === 'Geometry') {
-    node.color = '#ffb703';
-  } else if (asset.type === 'read') {
-    node.color = '#219ebc';
+  if (asset.type === "Texture") {
+    node.color = "#8ecae6";
+  } else if (asset.type === "Geometry") {
+    node.color = "#ffb703";
+  } else if (asset.type === "read") {
+    node.color = "#219ebc";
   } else {
-    node.color = '#fb8500';
-    node.shape = 'triangle';
+    node.color = "#fb8500";
+    node.shape = "triangle";
   }
 
   return node;
@@ -58,8 +58,8 @@ function createNodesAndEdges(jsonData) {
         id: nodeId++,
         label: fileName,
         title: fileName,
-        color: 'yellow',
-        shape: 'triangle',
+        color: "yellow",
+        shape: "triangle",
       };
       nodesData.push(uniqueScenes[fileName]);
     }
@@ -74,8 +74,8 @@ function createNodesAndEdges(jsonData) {
 
       edgesData.push({
         id: edgeId++,
-        from: uniqueScenes[fileName].id,
-        to: uniqueAssets[assetFileName].id,
+        to: uniqueScenes[fileName].id,
+        from: uniqueAssets[assetFileName].id,
       });
     });
   });
@@ -85,7 +85,7 @@ function createNodesAndEdges(jsonData) {
 }
 
 function redrawAll() {
-  var container = document.getElementById('mynetwork');
+  var container = document.getElementById("mynetwork");
 
   var options = {
     nodes: {
@@ -95,11 +95,11 @@ function redrawAll() {
         max: 10,
       },
       font: {
-      size: 0,
-      face: "Tahoma",
-      strokeWidth: 2,
-      strokeColor: "#ffffff",
-    },
+        size: 0,
+        face: "Tahoma",
+        strokeWidth: 2,
+        strokeColor: "#ffffff",
+      },
     },
     edges: {
       color: { inherit: true },
@@ -107,7 +107,10 @@ function redrawAll() {
       smooth: {
         type: "cubicBezier",
         forceDirection: "none",
-        roundness: 0.9
+        roundness: 0.9,
+      },
+      arrows: {
+        to: { enabled: true, scaleFactor: 0.5 },
       },
     },
     interaction: {
@@ -119,10 +122,10 @@ function redrawAll() {
         gravitationalConstant: -150,
         springLength: 225,
         damping: 0.76,
-        avoidOverlap: 0.33
+        avoidOverlap: 0.33,
       },
       maxVelocity: 28,
-      minVelocity: 0.49
+      minVelocity: 0.49,
     },
     configure: {
       filter: function (option, path) {
@@ -137,7 +140,6 @@ function redrawAll() {
       container: document.getElementById("config"),
     },
   };
-  
 
   var data = {
     nodes: nodes,
@@ -157,28 +159,28 @@ function redrawAll() {
   network.on("doubleClick", function (params) {
     if (params.nodes.length == 1) {
       const clickedNodeId = params.nodes[0];
-  
+
       // Check if the clicked node is a cluster
-        // Cluster the nodes directly connected to the clicked node
-        const connectedNodes = network.getConnectedNodes(clickedNodeId);
-        const clusterOptions = {
-          joinCondition: function (nodeOptions) {
-            const isConnected = connectedNodes.indexOf(nodeOptions.id) !== -1;
-            const hasSingleConnection = network.getConnectedNodes(nodeOptions.id).length === 1;
-            return isConnected && hasSingleConnection;
-          },
-          clusterNodeProperties: {
-            label: `Cluster of ${clickedNodeId}`,
-            borderWidth: 3,
-            shape: "database",
-          },
-        };
-        network.cluster(clusterOptions);
+      // Cluster the nodes directly connected to the clicked node
+      const connectedNodes = network.getConnectedNodes(clickedNodeId);
+      const clusterOptions = {
+        joinCondition: function (nodeOptions) {
+          const isConnected = connectedNodes.indexOf(nodeOptions.id) !== -1;
+          const hasSingleConnection =
+            network.getConnectedNodes(nodeOptions.id).length === 1;
+          return isConnected && hasSingleConnection;
+        },
+        clusterNodeProperties: {
+          label: `Cluster of ${clickedNodeId}`,
+          borderWidth: 3,
+          shape: "database",
+        },
+      };
+      network.cluster(clusterOptions);
     }
   });
 
-
-  network.once('afterDrawing', () => {
-    container.style.height = '80vh'
-  })
+  network.once("afterDrawing", () => {
+    container.style.height = "80vh";
+  });
 }
