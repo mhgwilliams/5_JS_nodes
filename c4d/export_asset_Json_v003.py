@@ -25,28 +25,30 @@ def extract_sequence_number(file_name):
 
 def find_image_sequences(parent_dir):
     print("looking for image sequences")
-    image_sequences = defaultdict(lambda: defaultdict(list))
+    image_sequences = defaultdict(lambda: (None, 0))
 
     for root, _, files in os.walk(parent_dir):
         for file in files:
             if file.endswith(('.exr', '.png', '.jpg', '.tif')):
-                sequence_number, format_str = extract_sequence_number(file)
-                if sequence_number is not None and format_str is not None:
-                    file_basename = os.path.splitext(file)[0]
-                    key = os.path.join(root, file_basename)
-                    image_sequences[key][format_str].append(sequence_number)
+                file_basename = os.path.splitext(file)[0]
+                base_name_no_digits = re.sub(r'\d+$', '', file_basename)
+                key = (root, base_name_no_digits, os.path.splitext(file)[1])
+                first_file, count = image_sequences[key]
+                if not first_file:
+                    first_file = os.path.join(root, file)
+                    print(f"first file: {first_file}")
+                image_sequences[key] = (first_file, count + 1)
 
     unique_sequences = []
-    for key, formats in image_sequences.items():
-        for format_str, sequence in formats.items():
-            sequence_length = len(sequence)
-            head, tail = os.path.split(key)
-            sequence_path = os.path.join(head, re.sub(r'\d+', '####', tail))
-            unique_sequences.append((sequence_path, sequence_length))
+    for (_, _, _), (first_file, count) in image_sequences.items():
+        sequence_info = {
+            "type": "Render",
+            "path": first_file,
+            "frames": count
+        }
+        unique_sequences.append(sequence_info)
 
     return unique_sequences
-
-
 
 def process_tokens(render_path, doc):
     tokens = {
@@ -58,6 +60,7 @@ def process_tokens(render_path, doc):
         render_path = render_path.replace(token, value)
 
     return render_path
+
 
 
 def export_assets_to_json(assets, c4d_file_path, c4d_file_name, unique_image_sequences):
@@ -72,6 +75,30 @@ def export_assets_to_json(assets, c4d_file_path, c4d_file_name, unique_image_seq
 
     with open(json_file_path, "w") as json_file:
         json.dump(data, json_file, indent=4)
+
+def combine_image_sequences(assets):
+    textures = assets['textures']
+
+    # Group images by their base name
+    grouped_images = defaultdict(list)
+    for tex in textures:
+        base_name = re.sub(r'\d+(?=\.\w+$)', '', tex)
+        grouped_images[base_name].append(tex)
+
+    # Combine image sequences into single entries
+    combined_textures = {}
+    for base_name, entries in grouped_images.items():
+        if len(entries) > 1:
+            # Sort entries by their sequence number
+            sorted_entries = sorted(entries, key=lambda x: int(re.search(r'\d+(?=\.\w+$)', x).group(0)))
+            # Keep the first image of the sequence
+            first_entry = sorted_entries[0]
+            combined_textures[first_entry] = len(sorted_entries)
+        else:
+            combined_textures[entries[0]] = 1
+
+    assets['textures'] = combined_textures
+    return assets
 
 
 
@@ -91,11 +118,9 @@ def main():
 
     # Get the scene file location
     scene_file_location = os.path.dirname(c4d_file_path)
-    print(scene_file_location)
 
     # Join the scene file's directory with the processed extracted file path
     joined_path = os.path.join(scene_file_location, processed_render_path)
-    print(joined_path)
 
     # Normalize the joined path to resolve the ".." components
     normalized_path = os.path.normpath(joined_path)
@@ -121,14 +146,7 @@ def main():
     # Find all unique image sequences in the parent directory and its subdirectories
     unique_image_sequences = find_image_sequences(desired_dir)
 
-    # Print the unique image sequences and their lengths
-    for sequence in unique_image_sequences:
-        print(f"First Image: {sequence[0]}, Sequence Length: {sequence[1]}")
-
-
-
-
-    all_textures = [tex[1] for tex in doc.GetAllTextures()]  # Extract only the path (the second element in the tuple)
+    all_textures = [tex[1] for tex in doc.GetAllTextures()]
 
     assets = {
         'textures': set(all_textures),
@@ -136,9 +154,10 @@ def main():
     }
 
     collect_geometry(doc.GetFirstObject(), assets)
+    combined_assets = combine_image_sequences(assets)
 
-    formatted_assets = [{"type": "Texture", "path": tex.replace('\\', '/')} for tex in assets['textures']] + \
-                       [{"type": "Geometry", "path": geo.replace('\\', '/')} for geo in assets['geometry']]
+    formatted_assets = [{"type": "Texture", "path": tex, "frames": frames} for tex, frames in assets['textures'].items()] + \
+                   [{"type": "Geometry", "path": geo} for geo in assets['geometry']]
 
     export_assets_to_json(formatted_assets, c4d_file_path, c4d_file_name, unique_image_sequences)
 
