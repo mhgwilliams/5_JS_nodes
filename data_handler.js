@@ -47,20 +47,26 @@ function saveDataList(dataList, outputFile) {
 // Nuke functions
 
 function extractReadNodes(filePath) {
-  let content = fs.readFileSync(filePath, "utf8");
-  let readNodePattern = /Read\s*\{[^}]*\}/g;
-  let readNodesRaw = content.match(readNodePattern) || [];
-  let readNodes = [];
-
-  for (let readNodeRaw of readNodesRaw) {
-    let filePattern = /\bfile\s+([\S\s]*?)\n/;
-    let fileMatch = filePattern.exec(readNodeRaw);
-    if (fileMatch) {
-      readNodes.push(fileMatch[1].trim());
+    let content = fs.readFileSync(filePath, "utf8");
+    let readNodePattern = /Read\s*\{[^}]*\}/g;
+    let readNodesRaw = content.match(readNodePattern) || [];
+    let readNodes = [];
+  
+    for (let readNodeRaw of readNodesRaw) {
+      let filePattern = /\bfile\s+([\S\s]*?)\n/;
+      let fileMatch = filePattern.exec(readNodeRaw);
+  
+      if (fileMatch) {
+        let filePath = fileMatch[1].trim();
+        filePath = filePath.replace(/%04d/, "0000");
+        filePath = filePath.replace(/####/, "0000");
+        readNodes.push(filePath);
+      }
     }
+    return readNodes;
   }
-  return readNodes;
-}
+  
+  
 
 function extractWriteNodes(filePath) {
     let content = fs.readFileSync(filePath, "utf8");
@@ -126,6 +132,9 @@ function testPrint() {
 }
 
 module.exports = {
-  loadNukeFile,
-  testPrint,
-};
+    loadNukeFile,
+    findJsonFiles,
+    readJsonData,
+    updateDatabase,
+  };
+  

@@ -1,0 +1,4641 @@
+#! C:/Program Files/Nuke13.2v4/nuke-13.2.4.dll -nx
+version 13.2 v4
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="1917" h="1008" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1254" stretch="1"/>
+            <splitter orientation="2">
+                <split size="567"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="399"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Work/Nuke/SH010_Bounce_Slim_Comp_v025.nk
+ project_directory "\[python \{nuke.script_directory()\}]"
+ frame 26
+ first_frame 0
+ last_frame 38
+ lock_range true
+ fps 25
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement OCIO
+ OCIO_config custom
+ customOCIOConfigPath //caddy/GlobalPrefs/SHARED/OCIO/ocio2-aces1.2-BUCK/config.ocio
+ defaultViewerLUT "OCIO LUTs"
+ workingSpaceLUT scene_linear
+ monitorLut "sRGB Display/BUCK SoftRolloff (Default)"
+ monitorOutLUT "BUCK SoftRolloff (Default) (sRGB Display)"
+ int8Lut default
+ int16Lut default
+ logLut compositing_log
+ floatLut scene_linear
+ views "green #157f39
+greenZero #aaff55
+viet #ff7f23
+Chi #ffffff"
+ views_colours true
+ addUserKnob {20 Deadline}
+ addUserKnob {1 FrameListMode l frameListMode}
+ FrameListMode Global
+ addUserKnob {1 CustomFrameList l customFrameList}
+ CustomFrameList 0-38
+ addUserKnob {1 Department l department}
+ addUserKnob {1 Pool l pool}
+ Pool onprem
+ addUserKnob {1 SecondaryPool l secondaryPool}
+ SecondaryPool " "
+ addUserKnob {1 Group l group}
+ Group nuke
+ addUserKnob {1 Priority l priority}
+ Priority 50
+ addUserKnob {1 MachineLimit l machineLimit}
+ MachineLimit 0
+ addUserKnob {1 IsBlacklist l isBlacklist}
+ IsBlacklist False
+ addUserKnob {1 MachineList l machineList}
+ addUserKnob {1 LimitGroups l limitGroups}
+ LimitGroups nuke_throttle
+ addUserKnob {1 SubmitSuspended l submitSuspended}
+ SubmitSuspended False
+ addUserKnob {1 ChunkSize l chunkSize}
+ ChunkSize 5
+ addUserKnob {1 ConcurrentTasks l concurrentTasks}
+ ConcurrentTasks 1
+ addUserKnob {1 LimitConcurrentTasks l limitConcurrentTasks}
+ LimitConcurrentTasks True
+ addUserKnob {1 Threads l threads}
+ Threads 0
+ addUserKnob {1 SubmitScene l submitScene}
+ SubmitScene False
+ addUserKnob {1 BatchMode l batchMode}
+ BatchMode True
+ addUserKnob {1 ContinueOnError l continueOnError}
+ ContinueOnError False
+ addUserKnob {1 SeparateJobs l separateJobs}
+ SeparateJobs True
+ addUserKnob {1 UseNodeRange l useNodeRange}
+ UseNodeRange False
+ addUserKnob {1 UseGpu l useGpu}
+ UseGpu False
+ addUserKnob {1 UseSpecificGpu l useSpecificGpu}
+ UseSpecificGpu False
+ addUserKnob {1 ChooseGpu l chooseGpu}
+ ChooseGpu 0
+ addUserKnob {1 EnforceRenderOrder l enforceRenderOrder}
+ EnforceRenderOrder False
+ addUserKnob {1 DeadlineRenderMode l deadlineRenderMode}
+ DeadlineRenderMode "Render Full Resolution"
+ addUserKnob {1 PerformanceProfiler l performanceProfiler}
+ PerformanceProfiler False
+ addUserKnob {1 ReloadPlugin l reloadPlugin}
+ ReloadPlugin False
+ addUserKnob {1 PerformanceProfilerPath l performanceProfilerPath}
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0xaaff55ff
+ label Crypto
+ note_font_size 52
+ xpos 694
+ ypos -1406
+ bdwidth 237
+ bdheight 5549
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode2
+ label "Beauty\n"
+ note_font_size 42
+ xpos -5633
+ ypos -3825
+ bdwidth 412
+ bdheight 461
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode3
+ xpos -1820
+ ypos -734
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode4
+ tile_color 0x8e8e3800
+ label "Original Alpha\n"
+ note_font_size 42
+ xpos -5492
+ ypos -4297
+ bdwidth 281
+ bdheight 185
+}
+BackdropNode {
+ inputs 0
+ name FCC_BD
+ tile_color 0x7f6262ff
+ label "FINAL CC"
+ note_font_size 100
+ xpos -827
+ ypos -1592
+ bdwidth 1540
+ bdheight 2002
+}
+BackdropNode {
+ inputs 0
+ name LENSING_BD
+ tile_color 0x446363ff
+ label LENSING
+ note_font_size 100
+ xpos -753
+ ypos 3290
+ bdwidth 1261
+ bdheight 823
+}
+BackdropNode {
+ inputs 0
+ name LENSING_BD1
+ tile_color 0x446363ff
+ label "Glows "
+ note_font_size 100
+ xpos -753
+ ypos 2251
+ bdwidth 1261
+ bdheight 823
+}
+BackdropNode {
+ inputs 0
+ name OUTPUT_BD
+ tile_color 0x388e8e00
+ label OUTPUTS
+ note_font_size 200
+ xpos -788
+ ypos 4459
+ bdwidth 1281
+ bdheight 1028
+}
+BackdropNode {
+ inputs 0
+ name READ_BD
+ tile_color 0x171723ff
+ label READS
+ note_font_size 100
+ xpos -4972
+ ypos -1086
+ bdwidth 1740
+ bdheight 1043
+}
+BackdropNode {
+ inputs 0
+ name REBUILD_BD
+ tile_color 0x5f5551ff
+ label "Redshift ACES Rebuild"
+ note_font "Verdana Bold"
+ note_font_size 200
+ xpos -4489
+ ypos -4629
+ bdwidth 4192
+ bdheight 164
+}
+BackdropNode {
+ inputs 0
+ name REF_BD
+ tile_color 0xff
+ label "REFERENCE FILES"
+ note_font_size 100
+ xpos -3175
+ ypos -1071
+ bdwidth 1740
+ bdheight 1043
+}
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ tile_color 0x71c67100
+ note_font_size 42
+ xpos -1887
+ ypos -908
+ bdwidth 112
+ bdheight 274
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name EMITTERS_BD
+ tile_color 0x8e5138ff
+ label EMITTERS
+ note_font_size 42
+ xpos -1778
+ ypos -3839
+ bdwidth 295
+ bdheight 2342
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name LIGHTING_BD
+ tile_color 0x8e5138ff
+ label LIGHTING
+ note_font_size 42
+ xpos -5022
+ ypos -3845
+ bdwidth 585
+ bdheight 2386
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name MOV_BD
+ tile_color 0x89a3a0ff
+ label MOV
+ note_font_size 42
+ xpos -648
+ ypos 5016
+ bdwidth 947
+ bdheight 409
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name READS_BD
+ tile_color 0x8e388e00
+ label "READS RGB"
+ note_font_size 42
+ xpos -5163
+ ypos -4728
+ bdwidth 426
+ bdheight 362
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name READS_BD1
+ tile_color 0x8ed38eff
+ label "READS Crypto"
+ note_font_size 42
+ xpos -5619
+ ypos -4724
+ bdwidth 426
+ bdheight 362
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name REFLECTANCE_BD
+ tile_color 0x8e5138ff
+ label REFLECTANCE
+ note_font_size 42
+ xpos -3296
+ ypos -3852
+ bdwidth 630
+ bdheight 2387
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name SEQ_BD
+ tile_color 0xb2a0a0ff
+ label "IMG SEQUENCES"
+ note_font_size 42
+ xpos -639
+ ypos 4562
+ bdwidth 1010
+ bdheight 374
+ z_order 1
+}
+BackdropNode {
+ inputs 0
+ name CRYPTO_01
+ tile_color 0x88b266ff
+ label "Diffuse\nCryptomattes"
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -4427
+ ypos -3848
+ bdwidth 329
+ bdheight 2386
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name CRYPTO_02_BD
+ tile_color 0x88b266ff
+ label "Reflectance \nCryptomattes"
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -2620
+ ypos -3848
+ bdwidth 290
+ bdheight 2381
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name CRYPTO_03_BD
+ tile_color 0x88b266ff
+ label "Emitter \nCryptomattes"
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -1453
+ ypos -3833
+ bdwidth 322
+ bdheight 2336
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name UTILITY_01_BD
+ tile_color 0x99736dff
+ label Utility
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -3839
+ ypos -3846
+ bdwidth 322
+ bdheight 2381
+ z_order 2
+}
+BackdropNode {
+ inputs 0
+ name UTILITY_02_BD
+ tile_color 0x99736dff
+ label Utility
+ note_font "Verdana Bold"
+ note_font_size 30
+ xpos -2162
+ ypos -3843
+ bdwidth 343
+ bdheight 2334
+ z_order 2
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_A_v017/Slim_Can/7up_SH010_Bounce_A_v017_Slim_Can_AOV_Cryptomatte.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 2
+ name Read1
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5639
+ ypos -4667
+}
+set N275ce400 [stack 0]
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/Slim_viet/7up_SH010_Bounce_C_v010_Slim_viet_AOV_Cryptomatte.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 14
+ origlast 38
+ origset true
+ version 3
+ name Read37
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5476
+ ypos -4743
+}
+Switch {
+ inputs 2
+ which {{curve x13 1 0}}
+ name Switch1
+ xpos -5463
+ ypos -4555
+}
+set Ce8345800 [stack 0]
+Dot {
+ name Dot35
+ xpos -5351
+ ypos -4526
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_A_v020/Slim_Can_ZS/7up_SH010_Bounce_A_v020_Slim_Can_ZS__1.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ name Read36
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -4618
+ ypos -4562
+}
+set Ne839c000 [stack 0]
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/logmatteChi/7up_SH010_Bounce_C_v010_logmatteChi_.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 8
+ auto_alpha true
+ name Read41
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -4682
+ ypos -4791
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/Slim_Chi/7up_SH010_Bounce_C_v010_Slim_Chi_.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 9
+ auto_alpha true
+ name Read2
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -4478
+ ypos -4800
+}
+add_layer {Logo_Matte_02 Logo_Matte_02.red Logo_Matte_02.green Logo_Matte_02.blue}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{0} B A}
+ fromInput2 {{1} B A}
+ in2 Logo_Matte_02
+ out2 Logo_Matte_02
+ mappings "7 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3 Logo_Matte_02.red 1 0 Logo_Matte_02.red 1 0 Logo_Matte_02.green 1 1 Logo_Matte_02.green 1 1 Logo_Matte_02.blue 1 2 Logo_Matte_02.blue 1 2"
+ name Shuffle16
+ xpos -4671
+ ypos -4621
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_A_v017/Slim_Can/7up_SH010_Bounce_A_v017_Slim_Can__1.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 6
+ auto_alpha true
+ name Read3
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5248
+ ypos -4895
+}
+set N57f84c00 [stack 0]
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/logmatte_viet/7up_SH010_Bounce_C_v010_logmatte_viet_.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 9
+ auto_alpha true
+ name Read33
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -4934
+ ypos -4927
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/Slim_viet/7up_SH010_Bounce_C_v010_Slim_viet_.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 10
+ auto_alpha true
+ name Read32
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -4623
+ ypos -4955
+}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{0} B A}
+ fromInput2 {{1} B A}
+ in2 Logo_Matte_02
+ out2 Logo_Matte_02
+ mappings "7 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3 Logo_Matte_02.red 1 0 Logo_Matte_02.red 1 0 Logo_Matte_02.green 1 1 Logo_Matte_02.green 1 1 Logo_Matte_02.blue 1 2 Logo_Matte_02.blue 1 2"
+ name Shuffle12
+ xpos -4978
+ ypos -4643
+}
+clone $Ce8345800 {
+ inputs 2
+ xpos -4978
+ ypos -4571
+ selected false
+}
+push $Ne839c000
+push $N57f84c00
+JoinViews {
+ inputs 4
+ name JoinViews1
+ xpos -4990
+ ypos -4480
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+set N5d781000 [stack 0]
+Dot {
+ name Dot205
+ label INPUT
+ note_font "Verdana Bold"
+ note_font_size 20
+ xpos -4956
+ ypos -4422
+}
+set N5d780800 [stack 0]
+Unpremult {
+ channels all
+ name Unpremult6
+ xpos -4990
+ ypos -4092
+ disable true
+}
+set N5d780400 [stack 0]
+push $N5d780400
+push $N5d780400
+push $N5d780400
+push $N5d780400
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/Slim_Chi/7up_SH010_Bounce_C_v010_Slim_Chi_AOV_Cryptomatte.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 8
+ name Read40
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5782
+ ypos -4638
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v010/Slim_viet/7up_SH010_Bounce_C_v010_Slim_viet_AOV_Cryptomatte.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 7
+ name Read39
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5814
+ ypos -4514
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_A_v019/Slim_Can_ZS/7up_SH010_Bounce_A_v019_Slim_Can_ZS_AOV_Cryptomatte.%04d.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 4
+ name Read35
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -5316
+ ypos -4679
+}
+push $N275ce400
+JoinViews {
+ inputs 4
+ name JoinViews2
+ xpos -5498
+ ypos -4469
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+set N5c35f000 [stack 0]
+Dot {
+ name Dot6
+ label INPUT
+ note_font "Verdana Bold"
+ note_font_size 20
+ xpos -5412
+ ypos -4429
+}
+Cryptomatte {
+ pickerAdd {0.1316031516 0.1056508794 0.1726035625 0 1014 1305 1015 1306}
+ matteList "____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Slim_Can.Cache.Slim_Can.tab.Cache.tab\n____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Slim_Can.Cache.Slim_Can.slim_can_generic.slim_can_generic.slim_can_generic.Cache.slim_can_generic\n____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Slim_Can.Cache.Slim_Can.slimcan body sd.Cache.slimcan body extra cuts.Cache.slimcan body extra cuts\n____________________ GEO _____________________.Ball Drop 01.Ball rotate.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte2
+ label "Original Alpha\n"
+ xpos -5446
+ ypos -4200
+}
+Dot {
+ name Dot19
+ xpos -5412
+ ypos -4121
+}
+set N5c35e800 [stack 0]
+add_layer {Logo_Matte Logo_Matte.red Logo_Matte.green Logo_Matte.blue}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{1} B A}
+ in1 Logo_Matte
+ out1 Logo_Matte
+ fromInput2 {{0} B A}
+ mappings "3 Logo_Matte.red 0 0 Logo_Matte.red 0 0 Logo_Matte.green 0 1 Logo_Matte.green 0 1 Logo_Matte.blue 0 2 Logo_Matte.blue 0 2"
+ name copy_Logo_Matte
+ xpos -5446
+ ypos -4085
+}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{1} B A}
+ in1 Logo_Matte_02
+ out1 Logo_Matte_02
+ fromInput2 {{0} B A}
+ mappings "3 Logo_Matte_02.red 0 0 Logo_Matte_02.red 0 0 Logo_Matte_02.green 0 1 Logo_Matte_02.green 0 1 Logo_Matte_02.blue 0 2 Logo_Matte_02.blue 0 2"
+ name copy_Logo_Matte1
+ xpos -5446
+ ypos -4043
+}
+add_layer {PuzzleMatte PuzzleMatte.red PuzzleMatte.green PuzzleMatte.blue}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{1} B A}
+ in1 PuzzleMatte
+ out1 PuzzleMatte
+ fromInput2 {{0} B A}
+ mappings "3 PuzzleMatte.red 0 0 PuzzleMatte.red 0 0 PuzzleMatte.green 0 1 PuzzleMatte.green 0 1 PuzzleMatte.blue 0 2 PuzzleMatte.blue 0 2"
+ name copy_Logo_Matte2
+ xpos -5446
+ ypos -4001
+}
+Dot {
+ name Dot26
+ xpos -5412
+ ypos -3966
+}
+add_layer {_Extrude_Matte _Extrude_Matte.red _Extrude_Matte.green _Extrude_Matte.blue}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{1} B A}
+ in1 _Extrude_Matte
+ out1 _Extrude_Matte
+ fromInput2 {{0} B A}
+ mappings "3 _Extrude_Matte.red 0 0 _Extrude_Matte.red 0 0 _Extrude_Matte.green 0 1 _Extrude_Matte.green 0 1 _Extrude_Matte.blue 0 2 _Extrude_Matte.blue 0 2"
+ name copy_Logo_Matte3
+ xpos -5302
+ ypos -3970
+}
+add_layer {Logo_Matte_03 Logo_Matte_03.red Logo_Matte_03.green Logo_Matte_03.blue}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{1} B A}
+ in1 Logo_Matte_03
+ out1 Logo_Matte_03
+ fromInput2 {{0} B A}
+ mappings "3 Logo_Matte_03.red 0 0 Logo_Matte_03.red 0 0 Logo_Matte_03.green 0 1 Logo_Matte_03.green 0 1 Logo_Matte_03.blue 0 2 Logo_Matte_03.blue 0 2"
+ name copy_Logo_Matte5
+ xpos -5138
+ ypos -3974
+}
+Dot {
+ name Dot15
+ xpos -4911
+ ypos -3970
+}
+set N5c2fac00 [stack 0]
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy1
+ xpos -4717
+ ypos -4248
+}
+Unpremult {
+ name Unpremult1
+ xpos -4704
+ ypos -4129
+}
+set N5c2bdc00 [stack 0]
+Dot {
+ name Dot1
+ xpos -4532
+ ypos -4042
+}
+push $N5c2bdc00
+Dot {
+ name Dot37
+ xpos -4763
+ ypos -4064
+}
+push $N5c2bdc00
+push $N5c2fac00
+Dot {
+ name Dot33
+ xpos -4813
+ ypos -3922
+}
+JoinViews {
+ inputs 4
+ name JoinViews4
+ xpos -4732
+ ypos -3974
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+Dot {
+ name Dot20
+ xpos -4243
+ ypos -3970
+}
+set N5c2bcc00 [stack 0]
+Dot {
+ name Dot21
+ xpos -2489
+ ypos -3970
+}
+set N5c2bc800 [stack 0]
+Dot {
+ name Dot22
+ xpos -1271
+ ypos -3970
+}
+set N5c2bc400 [stack 0]
+Dot {
+ name Dot208
+ xpos -1271
+ ypos -3753
+}
+Dot {
+ name Dot14
+ xpos -1271
+ ypos -3534
+}
+Cryptomatte {
+ pickerAdd {0.1539452672 0.2131251544 0.1025008783 0 1436 493 1437 494}
+ matteList "____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Plane for extrusion map slim can.Cache.Plane for extrusion map slim can.Cache.Plane for extrusion map slim can"
+ lastSelectedCryptoLayerName CryptoMesh
+ name extruded_1
+ xpos -1305
+ ypos -3336
+}
+set N5c271800 [stack 0]
+Dot {
+ name Dot209
+ xpos -1271
+ ypos -3129
+}
+Cryptomatte {
+ pickerAdd {0 0 0 0 0 0 0 0}
+ unpremultiply true
+ lastSelectedCryptoLayerName CryptoMaterial
+ name Cryptomatte19
+ xpos -1423
+ ypos -3132
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label "Multichannel EXR reads go here"
+ xpos -4902
+ ypos -4467
+}
+StickyNote {
+ inputs 0
+ name StickyNote6
+ label "Cryptomatte goes here"
+ xpos -5362
+ ypos -4479
+}
+push $N5d780400
+Dot {
+ name Dot227
+ xpos -4956
+ ypos -3881
+}
+set N5c247800 [stack 0]
+Dot {
+ name Dot226
+ xpos -4736
+ ypos -3881
+}
+set N5c247000 [stack 0]
+Dot {
+ name Dot225
+ xpos -4516
+ ypos -3881
+}
+set N5c247400 [stack 0]
+Dot {
+ name Dot16
+ xpos -3716
+ ypos -3881
+}
+set N5c246c00 [stack 0]
+Dot {
+ name Dot212
+ xpos -3215
+ ypos -3881
+}
+set N5c246000 [stack 0]
+Dot {
+ name Dot214
+ xpos -2995
+ ypos -3881
+}
+set N5c1d7c00 [stack 0]
+Dot {
+ name Dot215
+ xpos -2772
+ ypos -3881
+}
+set N5c1d7800 [stack 0]
+Dot {
+ name Dot219
+ xpos -2030
+ ypos -3881
+}
+set N5c1d7000 [stack 0]
+Dot {
+ name Dot222
+ xpos -1637
+ ypos -3881
+}
+set N5c1d6c00 [stack 0]
+Dot {
+ name Dot13
+ xpos 277
+ ypos -3881
+}
+StickyNote {
+ inputs 0
+ name StickyNote7
+ label "split cryptomates out of the main \nchain to keep a consistent alpha\nfor unpremultiply."
+ xpos -4386
+ ypos -2789
+}
+push $N5c2bcc00
+Dot {
+ name Dot231
+ xpos -4243
+ ypos -3742
+}
+Cryptomatte {
+ pickerAdd {0.1539452672 0.2131251544 0.1025008783 0 1436 493 1437 494}
+ matteList "____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Plane for extrusion map slim can.Cache.Plane for extrusion map slim can.Cache.Plane for extrusion map slim can"
+ lastSelectedCryptoLayerName CryptoMesh
+ name extruded_7
+ xpos -4277
+ ypos -3501
+}
+set N41019c00 [stack 0]
+Cryptomatte {
+ pickerAdd {0.09726671129 0.05626772344 0.2250708938 0 945 1063 946 1064}
+ pickerRemove {1.097265244 1.056266308 0.2250706553 0.9999986887 984 1082 985 1083}
+ matteList "____________________ GEO _____________________.Can ball merge.Ball 02 slim can.Ball Y slim can.Ball Rotate slim can.Sphere\\\\-7up\\\\-Ball A.Cache.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name ball
+ label "\n"
+ xpos -4277
+ ypos -3426
+}
+set N575bd000 [stack 0]
+Cryptomatte {
+ pickerAdd {0.09726673365 0.05626773834 0.2250709534 0 968 1065 969 1066}
+ pickerRemove {1.097265244 1.056266308 0.2250706553 0.9999986887 984 1082 985 1083}
+ matteList "____________________ GEO _____________________.Can ball merge.Ball 02 slim for blur frame.Cache.Ball 02 slim for blur frame"
+ lastSelectedCryptoLayerName CryptoMesh
+ name ball_frame_29
+ label "\n"
+ xpos -4277
+ ypos -3356
+}
+set N28415c00 [stack 0]
+Cryptomatte {
+ pickerAdd {0.03630572185 0.08089160174 0.07356642932 0 995 1315 996 1316}
+ matteList "____________________ GEO _____________________.Can ball merge.Ball 02 slim can.Ball Y slim can.Ball Rotate slim can.Sphere\\\\-7up\\\\-Ball A.Cache.Sphere\\\\-7up\\\\-Ball A\n____________________ GEO _____________________.Ball Drop 01.Ball rotate.Sphere\\\\-7up\\\\-Ball A\n____________________ GEO _____________________.Intro Ball Drop 01.Ball rotate.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name ball_part_one
+ label "\n"
+ xpos -4277
+ ypos -3225
+}
+set N28415400 [stack 0]
+Dot {
+ name Dot5
+ xpos -4243
+ ypos -2676
+}
+Cryptomatte {
+ pickerAdd {0 0 0 0 0 0 0 0}
+ lastSelectedCryptoLayerName CryptoMaterial
+ name Cryptomatte1
+ xpos -4277
+ ypos -2636
+}
+StickyNote {
+ inputs 0
+ name StickyNote2
+ label "Cryptomattes get pulled BEFORE\nyou unpremultiply the main pipe"
+ xpos -4400
+ ypos -3661
+}
+push $N5c1d7000
+add_layer {BumpNormals BumpNormals.red BumpNormals.green BumpNormals.blue}
+Shuffle {
+ in BumpNormals
+ name Shuffle52
+ label "\[value in]"
+ xpos -2064
+ ypos -3771
+}
+StickyNote {
+ inputs 0
+ name StickyNote3
+ label "Utility passes get pulled AFTER you\nunpremultiply the main pipe.\nNOTE: Sometimes, passes like AO can\nrun into edging issues with this method"
+ xpos -3807
+ ypos -3784
+}
+StickyNote {
+ inputs 0
+ name StickyNote10
+ label "12-bit sRGB Prores 444 for Edit/Post  "
+ xpos 27
+ ypos 5355
+}
+StickyNote {
+ inputs 0
+ name StickyNote8
+ label "8-bit sRGB h264 for postings and syncsketch   "
+ xpos -310
+ ypos 5396
+}
+Read {
+ inputs 0
+ file_type jpeg
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/20221216_7up_bar sky_pack shoot_pet_zero_0815_R2.jpg"
+ format "2600 1733 0 0 2600 1733 1 "
+ origset true
+ name Read7
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2522
+ ypos -781
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay6
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2522
+ ypos -665
+}
+Read {
+ inputs 0
+ file_type jpeg
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/20221216_7up_bar sky_pack shoot_squat_zero_0850_R2.jpg"
+ format "2600 1733 0 0 2600 1733 1 "
+ origset true
+ name Read8
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2414
+ ypos -781
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay7
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2414
+ ypos -665
+}
+Read {
+ inputs 0
+ file_type tiff
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_20221215_7up_beach_slim_regular_4504_QC.tif
+ format "9504 6336 0 0 9504 6336 1 "
+ origset true
+ name Read9
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2305
+ ypos -780
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay8
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2305
+ ypos -664
+}
+Read {
+ inputs 0
+ file_type tiff
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_20221216_7up_bar green_slim_zero_1105_QC.tif"
+ format "9504 6336 0 0 9504 6336 1 "
+ origset true
+ name Read10
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2194
+ ypos -780
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay9
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2194
+ ypos -664
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_PET_Comp_B_V001_Reg.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read11
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2799
+ ypos -540
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay10
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2799
+ ypos -424
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_PET_Comp_B_V001_Zero.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read12
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2688
+ ypos -541
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay11
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2688
+ ypos -425
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_Repeat_Squat_Comp_B_V003_Free.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read13
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2579
+ ypos -542
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay12
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2579
+ ypos -426
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_Repeat_Squat_Comp_B_V003_Reg.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read14
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2468
+ ypos -541
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay13
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2468
+ ypos -425
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_Repeat_Squat_Comp_B_V003_Zero.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read15
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2359
+ ypos -540
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay14
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2359
+ ypos -424
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_Slim_Comp_C_v020_assemble_free_grn.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read16
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2248
+ ypos -541
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay15
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2248
+ ypos -425
+}
+Read {
+ inputs 0
+ file_type jpeg
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/20221216_7up_bar green_AXL_regular_1395_R2.jpg"
+ format "2600 1733 0 0 2600 1733 1 "
+ origset true
+ colorspace default
+ name Read5
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2807
+ ypos -780
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay2
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2807
+ ypos -664
+}
+Read {
+ inputs 0
+ file_type jpeg
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/20221216_7up_bar sky_pack shoot_pet_regular_0834_R2.jpg"
+ format "2600 1733 0 0 2600 1733 1 "
+ origset true
+ name Read6
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2635
+ ypos -781
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay4
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2635
+ ypos -665
+}
+Read {
+ inputs 0
+ file_type jpeg
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/20221215_7up_Meal_close up_squat_regular_2701_R2.jpg"
+ format "2600 1733 0 0 2600 1733 1 "
+ origset true
+ name Read4
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2086
+ ypos -779
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay5
+ label "bake down ACES 1.0 SDR-video"
+ xpos -2086
+ ypos -663
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_Slim_Comp_C_v020_assemble_zeroG_grn.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read18
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1942
+ ypos -622
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay17
+ label "bake down ACES 1.0 SDR-video"
+ xpos -1942
+ ypos -506
+}
+Read {
+ inputs 0
+ file_type png
+ file //CADDY/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Work/C4D/tex/7UP_Extrude_Slim_camera_map_01/7UP_Extrude_Slim_camera_map_01_#####.png
+ format "3840 3840 0 0 3840 3840 1 "
+ first 0
+ last 40
+ origfirst 0
+ origlast 40
+ origset true
+ premultiplied true
+ name Read19
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -4225
+ ypos -818
+}
+push $N5c2bc400
+Cryptomatte {
+ pickerAdd {0.1539452672 0.2131251395 0.1025008708 0 1338 554 1339 555}
+ matteList "____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Plane for extrusion map slim can.Cache.Plane for extrusion map slim can.Cache.Plane for extrusion map slim can"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte5
+ xpos -1421
+ ypos -3536
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Lime_Green_02.png
+ format "2400 2400 0 0 2400 2400 1 "
+ origset true
+ colorspace aces_interchange
+ name Read24
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1977
+ ypos -229
+}
+push $N28415400
+Erode {
+ size 0.4
+ name Erode3
+ xpos -4648
+ ypos -3180
+}
+push $N5c247800
+add_layer {DiffuseLighting DiffuseLighting.red DiffuseLighting.green DiffuseLighting.blue}
+Shuffle {
+ in DiffuseLighting
+ name Shuffle74
+ label "\[value in]"
+ xpos -4990
+ ypos -3749
+}
+set N8b883000 [stack 0]
+Shuffle {
+ in DiffuseLighting
+ name Shuffle10
+ label "\[value in]"
+ xpos -5194
+ ypos -3296
+}
+Keyer {
+ operation "saturation key"
+ range {0 0.8736143027 1 1}
+ name Keyer3
+ xpos -5194
+ ypos -3149
+}
+Expression {
+ expr0 a
+ expr1 a
+ expr2 a
+ expr3 1
+ name Expression4
+ xpos -4900
+ ypos -3142
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy3
+ xpos -4798
+ ypos -3149
+}
+Constant {
+ inputs 0
+ color 1
+ name Constant4
+ xpos -4373
+ ypos -3123
+}
+Merge2 {
+ inputs 2
+ name Merge9
+ xpos -4667
+ ypos -3099
+}
+Expression {
+ expr0 r
+ expr1 r
+ expr2 r
+ expr3 r
+ name Expression5
+ xpos -4850
+ ypos -3099
+}
+push $N28415400
+push $N28415400
+push $N8b883000
+Remove {
+ operation keep
+ channels rgb
+ name Remove35
+ xpos -4990
+ ypos -3709
+ disable true
+}
+Dot {
+ name Dot18
+ xpos -4956
+ ypos -3546
+}
+set Nb6e62400 [stack 0]
+Keyer {
+ operation "luminance key"
+ range {0.2114151158 0.3914105704 1 1}
+ name Keyer2
+ xpos -4617
+ ypos -3314
+}
+push $N28415c00
+Merge2 {
+ inputs 2
+ operation in
+ name Merge7
+ xpos -4617
+ ypos -3274
+}
+push $Nb6e62400
+Keyer {
+ operation "luminance key"
+ range {0.2114151158 0.3914105704 1 1}
+ name Keyer1
+ xpos -4623
+ ypos -3411
+}
+push $N28415c00
+Multiply {
+ inputs 1+1
+ value 0
+ name Multiply2
+ xpos -4623
+ ypos -3363
+}
+push $N575bd000
+push $N5d780800
+PostageStamp {
+ name PostageStamp1
+ xpos -4678
+ ypos -3727
+ hide_input true
+ postage_stamp true
+}
+ColorCorrect {
+ gamma 0.96
+ gain 1.84
+ name ColorCorrect1
+ xpos -4678
+ ypos -3653
+}
+Reformat {
+ name Reformat2
+ xpos -4678
+ ypos -3541
+}
+push $N41019c00
+Erode {
+ size -0.6
+ name Erode2
+ xpos -4429
+ ypos -3508
+ disable true
+}
+Merge2 {
+ inputs 2
+ operation in
+ name Merge1
+ xpos -4678
+ ypos -3501
+}
+push $Nb6e62400
+Merge2 {
+ inputs 2
+ name Merge2
+ xpos -4990
+ ypos -3501
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 1.2
+ gamma 1.2
+ gain 1.16
+ gain_panelDropped true
+ offset {0 0 0.02 0}
+ offset_panelDropped true
+ name cc_ball
+ xpos -4990
+ ypos -3426
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 1.04
+ gamma 1.2
+ gain {2.75 0.88 0.88 1.16}
+ gain_panelDropped true
+ offset {0 0 0.02 0}
+ offset_panelDropped true
+ name cc_ball_frame_29_red
+ xpos -4990
+ ypos -3356
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.74
+ gain 2.24
+ name cc_ball_frame_29_up
+ xpos -4990
+ ypos -3274
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 1.5
+ gamma {1.7 1.1 1.1 1.1}
+ gamma_panelDropped true
+ name cc_ball_part_one
+ xpos -4990
+ ypos -3225
+}
+ColorCorrect {
+ inputs 1+1
+ contrast 1.38
+ gamma 0.8
+ gain 1.2
+ mix {{curve x13 0.5 0}}
+ name ColorCorrect3
+ xpos -4990
+ ypos -3187
+}
+ColorCorrect {
+ inputs 1+1
+ gamma 1.5
+ gain 1.5
+ shadows.gamma 1.5
+ midtones 0
+ highlights 0
+ lookup {shadow {curve 1 s0 x0.403508693 0 s0}
+   midtone {1-shadow-highlight}
+   highlight {}}
+ invert_mask true
+ name cc_up
+ xpos -4990
+ ypos -3099
+}
+Dot {
+ name Dot228
+ xpos -4956
+ ypos -2988
+}
+set N39ffe800 [stack 0]
+FrameHold {
+ firstFrame 28
+ name FrameHold2
+ xpos -5023
+ ypos -2943
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Red.png
+ format "2400 2400 0 0 2400 2400 1 "
+ origset true
+ colorspace aces_interchange
+ name Read26
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1755
+ ypos -228
+}
+Reformat {
+ name Reformat4
+ xpos -1755
+ ypos -112
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Lime_Green_v003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace aces_interchange
+ name Read25
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1853
+ ypos -249
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Reg_Green.png
+ format "2400 2400 0 0 2400 2400 1 "
+ origset true
+ colorspace aces_interchange
+ name Read27
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2043
+ ypos -573
+}
+push $N5c271800
+Erode {
+ size -0.1
+ name Erode1
+ xpos -1561
+ ypos -3343
+}
+Read {
+ inputs 0
+ file_type png
+ file "//caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Dark Green.png"
+ format "2400 2400 0 0 2400 2400 1 "
+ origset true
+ colorspace aces_interchange
+ name Read21
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -2165
+ ypos -410
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/_fromKVs/KV020_Slim_Comp_C_v020_assemble_reg_grn.png
+ format "8000 8000 0 0 8000 8000 1 "
+ origset true
+ name Read17
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1870
+ ypos -863
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view Un-tone-mapped
+ layer rgba
+ name OCIODisplay16
+ label "bake down ACES 1.0 SDR-video"
+ xpos -1874
+ ypos -743
+}
+Reformat {
+ name Reformat1
+ xpos -1874
+ ypos -695
+}
+Transform {
+ translate {-326 -134}
+ center {960 960}
+ black_outside false
+ name Transform1
+ xpos -1874
+ ypos -669
+}
+Read {
+ inputs 0
+ file_type png
+ file "//caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Dark Green_v003.png"
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace aces_interchange
+ name Read22
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1854
+ ypos -400
+}
+push $N5c1d7000
+Shuffle {
+ in _Extrude_Matte
+ name Shuffle6
+ label "\[value in]"
+ xpos -1796
+ ypos -3758
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Reg_Green_v003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace aces_interchange
+ name Read28
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1749
+ ypos -482
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Lime_Green.png
+ format "2400 2400 0 0 2400 2400 1 "
+ origset true
+ colorspace aces_interchange
+ name Read23
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1789
+ ypos -655
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Yellow_V003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace aces_interchange
+ name Read29
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -1586
+ ypos -229
+}
+push $N5c247800
+Dot {
+ name Dot17
+ xpos -5414
+ ypos -3881
+}
+add_layer {Beauty Beauty.red Beauty.green Beauty.blue}
+Shuffle {
+ in Beauty
+ name Shuffle1
+ xpos -5448
+ ypos -3712
+}
+push $N5c2bc400
+Dot {
+ name Dot8
+ xpos 541
+ ypos -3970
+}
+Dot {
+ name Dot25
+ xpos 529
+ ypos -1670
+}
+set Nc5646400 [stack 0]
+Dot {
+ name Dot30
+ xpos 290
+ ypos -1344
+}
+Dot {
+ name Dot24
+ xpos -50
+ ypos -1344
+}
+set Nc5646000 [stack 0]
+Cryptomatte {
+ pickerAdd {0 0 0 0 1527 1164 1528 1165}
+ matteList "___________________ SCENE ___________________.============ SET =============.Cyc green.Cache.Cyc green.Cache.Cyc green"
+ lastSelectedCryptoLayerName CryptoMesh
+ name background
+ label "\n"
+ xpos -250
+ ypos -1068
+}
+set N8b883800 [stack 0]
+Cryptomatte {
+ pickerAdd {0 0 0 0 784 794 785 795}
+ pickerRemove {1.140763402 1.002221584 0.008888240904 0.9999995828 236 1632 237 1633}
+ matteList "___________________ SCENE ___________________.=========== LTS_SLIM ===========.ground.Cache.ground\n____________________ GEO _____________________.Bubbles.mesh.Cache.mesh\n____________________ GEO _____________________.Bubbles Slim.mesh.Cache.mesh"
+ lastSelectedCryptoLayerName CryptoMesh
+ name particles
+ label "\n"
+ xpos -250
+ ypos -1015
+}
+set N8b883400 [stack 0]
+Cryptomatte {
+ pickerAdd {0.00985613279 0.008698066697 0.001018918934 0.007946670055 772 720 773 721}
+ pickerRemove {1.140763402 1.002221584 0.008888240904 0.9999995828 236 1632 237 1633}
+ matteList "___________________ SCENE ___________________.============ SET =============.Cyc green.Cache.Cyc green.Cache.Cyc green\n____________________ GEO _____________________.Bubbles Slim.mesh.Cache.mesh"
+ lastSelectedCryptoLayerName CryptoMesh
+ name particles1
+ label "\n"
+ xpos -250
+ ypos -974
+}
+set N47f2400 [stack 0]
+Dot {
+ name Dot9
+ xpos -216
+ ypos -888
+}
+set N47f2c00 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte.red 0 0 rgba.red 0 0 Logo_Matte.green 0 1 rgba.green 0 1 Logo_Matte.blue 0 2 rgba.blue 0 2 Logo_Matte.green 0 1 rgba.alpha 0 3"
+ name logo_matte4
+ xpos -402
+ ypos -871
+}
+set N47f3800 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.green 0 1 rgba.alpha 0 3"
+ name logo_matte5
+ xpos -311
+ ypos -821
+}
+set N41019800 [stack 0]
+Expression {
+ expr0 r+b
+ expr1 r+b
+ expr2 r+b
+ expr3 r+b
+ name Expression6
+ xpos -357
+ ypos -762
+}
+Dot {
+ name Dot32
+ xpos -442
+ ypos -753
+}
+push $N47f3800
+Dot {
+ name Dot31
+ xpos -499
+ ypos -800
+}
+Multiply {
+ inputs 1+1
+ value 0
+ name Multiply3
+ xpos -552
+ ypos -764
+}
+set N41018c00 [stack 0]
+Dot {
+ name Dot10
+ xpos -518
+ ypos -724
+}
+push $N5c246c00
+add_layer {AO AO.red AO.green AO.blue}
+Shuffle {
+ in AO
+ name Shuffle64
+ label "\[value in]"
+ xpos -3750
+ ypos -3690
+}
+add_layer {Falloff Falloff.red Falloff.green Falloff.blue}
+Shuffle {
+ in Falloff
+ name Shuffle2
+ label "Fall Off\n"
+ xpos -3750
+ ypos -3571
+}
+add_layer {Shadows Shadows.red Shadows.green Shadows.blue}
+Shuffle {
+ in Shadows
+ name Shuffle3
+ label "Shadows\n"
+ xpos -3750
+ ypos -3449
+}
+push $Nc5646400
+Dot {
+ name Dot11
+ xpos 224
+ ypos -1515
+}
+set Nfe2b2c00 [stack 0]
+Cryptomatte {
+ pickerAdd {0.1316031516 0.1056508794 0.1726035625 0 1014 1305 1015 1306}
+ matteList "____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Slim_Can.Cache.Slim_Can.tab.Cache.tab\n____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Slim_Can.Cache.Slim_Can.slim_can_generic.slim_can_generic.slim_can_generic.Cache.slim_can_generic\n____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Slim_Can.Cache.Slim_Can.slimcan body sd.Cache.slimcan body extra cuts.Cache.slimcan body extra cuts\n____________________ GEO _____________________.Ball Drop 01.Ball rotate.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte4
+ label "Original Alpha\n"
+ xpos 190
+ ypos -1414
+}
+Read {
+ inputs 0
+ file_type tiff
+ file "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/ColorRef/ApprovedColor_CG_Color_Source/SRGB/_20221216_7up_bar green_slim_zero_1105_QC_SRGB.tif"
+ format "9504 6336 0 0 9504 6336 1 "
+ origset true
+ colorspace aces_interchange
+ auto_alpha true
+ name Read44
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -695
+ ypos -138
+}
+Crop {
+ box {2880 780 4700 4300}
+ reformat true
+ crop false
+ name Crop3
+ xpos -695
+ ypos 16
+}
+Transform {
+ translate {-3258 -20}
+ scale 0.6
+ center {1140 1900}
+ name Transform3
+ xpos -695
+ ypos 66
+}
+Reformat {
+ format "3840 1920 0 0 3840 1920 1 "
+ resize height
+ name Reformat11
+ xpos -695
+ ypos 128
+}
+push $Nfe2b2c00
+Dot {
+ name Dot41
+ xpos 824
+ ypos -1515
+}
+Dot {
+ name Dot40
+ xpos 850
+ ypos 166
+}
+set N55db8c00 [stack 0]
+Cryptomatte {
+ pickerAdd {0.231379807 0.202078715 0.0583152473 0 431 1295 432 1296}
+ matteList "___________________ SCENE ___________________.============ SET =============.Cyc white.Cache.Cyc white.Cache.Cyc white"
+ lastSelectedCryptoLayerName CryptoMesh
+ name first_background
+ label "\n"
+ xpos 23
+ ypos 136
+}
+push $N47f2c00
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte.red 0 0 rgba.red 0 0 Logo_Matte.green 0 1 rgba.green 0 1 Logo_Matte.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name logo_matte1
+ xpos -250
+ ypos -859
+}
+set N5cdb4800 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.green 0 1 rgba.alpha 0 3"
+ name logo_matte2
+ xpos -250
+ ypos -642
+}
+set N5cdb4000 [stack 0]
+Cryptomatte {
+ pickerAdd {0.1539453119 0.2131251991 0.1025009006 0 1386 519 1387 520}
+ matteList "____________________ GEO _____________________.Can ball merge.Can_Center.Can In.Can .Plane for extrusion map slim can.Cache.Plane for extrusion map slim can.Cache.Plane for extrusion map slim can"
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte6
+ xpos 63
+ ypos -672
+}
+push $N8b883400
+push $N5d780800
+PostageStamp {
+ name PostageStamp2
+ xpos 57
+ ypos -1510
+ hide_input true
+ postage_stamp true
+}
+push $N5c1d6c00
+add_layer {Emission Emission.red Emission.green Emission.blue}
+Shuffle {
+ in Emission
+ name Shuffle65
+ label "\[value in]"
+ xpos -1667
+ ypos -3748
+}
+push $N5c1d7800
+push $N5c1d7800
+add_layer {Refractions Refractions.red Refractions.green Refractions.blue}
+Shuffle {
+ in Refractions
+ name Shuffle69
+ label "\[value in]"
+ xpos -2961
+ ypos -3825
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy4
+ xpos -2806
+ ypos -3781
+}
+Premult {
+ name Premult2
+ xpos -2806
+ ypos -3714
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove24
+ xpos -2919
+ ypos -3679
+ disable true
+}
+push $N5c2bc800
+Dot {
+ name Dot233
+ xpos -2489
+ ypos -3724
+}
+set Nca94e000 [stack 0]
+Cryptomatte {
+ pickerAdd {0.1406746358 0.0007944105892 0.003177642357 0 1075 976 1076 977}
+ matteList "____________________ GEO _____________________.Can ball merge.Ball 02 slim can.Ball Y slim can.Ball Rotate slim can.Sphere\\\\-7up\\\\-Ball A.Cache.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name ball1
+ label "\n"
+ xpos -2523
+ ypos -3420
+}
+set Nc9186000 [stack 0]
+push $Nca94e000
+Dot {
+ name Dot28
+ xpos -2660
+ ypos -3724
+}
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 PuzzleMatte
+ fromInput2 {{0} B}
+ mappings "4 PuzzleMatte.red 0 0 rgba.red 0 0 PuzzleMatte.green 0 1 rgba.green 0 1 PuzzleMatte.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name Shuffle4
+ xpos -2698
+ ypos -3649
+}
+set Nb574a400 [stack 0]
+Dot {
+ name Dot27
+ xpos -2559
+ ypos -3645
+}
+Expression {
+ expr3 b
+ name Expression2
+ xpos -2593
+ ypos -3500
+}
+push $Nb574a400
+Expression {
+ expr3 r+g
+ name Expression1
+ xpos -2698
+ ypos -3572
+}
+push $N5c1d7c00
+push $N5c1d7c00
+add_layer {SpecularLighting SpecularLighting.red SpecularLighting.green SpecularLighting.blue}
+Shuffle {
+ in SpecularLighting
+ name Shuffle70
+ label "\[value in]"
+ xpos -3163
+ ypos -3829
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy5
+ xpos -3029
+ ypos -3783
+}
+Premult {
+ name Premult3
+ xpos -3027
+ ypos -3727
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove31
+ xpos -3027
+ ypos -3681
+ disable true
+}
+ColorCorrect {
+ inputs 1+1
+ gamma 0.85
+ gain 1.6
+ name cc_can_spec
+ xpos -3027
+ ypos -3572
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.5
+ gain 1.4
+ name cc_can_top_spec1
+ xpos -3027
+ ypos -3500
+}
+ColorCorrect {
+ inputs 1+1
+ gain 1.2
+ highlights.gain 1.06
+ name cc_ball_spec
+ xpos -3029
+ ypos -3420
+}
+push $Nc9186000
+Cryptomatte {
+ pickerAdd {0.1316031218 0.1056508571 0.1726035327 0 933 1108 934 1109}
+ matteList "____________________ GEO _____________________.Can ball merge.Ball 02 slim can.Ball Y slim can.Ball Rotate slim can.Sphere\\\\-7up\\\\-Ball A.Cache.Sphere\\\\-7up\\\\-Ball A\n____________________ GEO _____________________.Ball Drop 01.Ball rotate.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name ball_part_one1
+ label "\n"
+ xpos -2523
+ ypos -3295
+}
+push $N5c246000
+push $N5c246000
+add_layer {Reflections Reflections.red Reflections.green Reflections.blue}
+Shuffle {
+ in Reflections
+ name Shuffle71
+ label "\[value in]"
+ xpos -3378
+ ypos -3815
+}
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy6
+ xpos -3240
+ ypos -3774
+}
+Premult {
+ name Premult4
+ xpos -3240
+ ypos -3710
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove32
+ xpos -3240
+ ypos -3653
+ disable true
+}
+ColorCorrect {
+ inputs 1+1
+ gain {2.48 1 0.55 1}
+ gain_panelDropped true
+ name cc_bottom_of_ball
+ xpos -3249
+ ypos -3295
+}
+Dot {
+ name Dot223
+ xpos -3215
+ ypos -2856
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge27
+ xpos -3029
+ ypos -2859
+}
+Dot {
+ name Dot224
+ xpos -2995
+ ypos -2616
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge45
+ xpos -2919
+ ypos -2620
+}
+push $N5c247400
+add_layer {SSS SSS.red SSS.green SSS.blue}
+Shuffle {
+ in SSS
+ name Shuffle72
+ label "\[value in]"
+ xpos -4550
+ ypos -3749
+}
+Remove {
+ channels rgb
+ name Remove33
+ xpos -4550
+ ypos -3709
+ disable true
+}
+push $N5c247000
+add_layer {GI GI.red GI.green GI.blue}
+Shuffle {
+ in GI
+ name Shuffle73
+ label "\[value in]"
+ xpos -4770
+ ypos -3749
+}
+Remove {
+ operation keep
+ channels rgb
+ name Remove34
+ xpos -4770
+ ypos -3709
+ disable true
+}
+push $N39ffe800
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge50
+ xpos -4770
+ ypos -2992
+}
+Dot {
+ name Dot229
+ xpos -4736
+ ypos -2929
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge51
+ xpos -4550
+ ypos -2933
+}
+Dot {
+ name Dot230
+ xpos -4516
+ ypos -1433
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge57
+ xpos -2919
+ ypos -1437
+}
+Merge2 {
+ inputs 2
+ operation plus
+ Achannels rgb
+ name Merge58
+ xpos -1667
+ ypos -1437
+ disable true
+}
+Dot {
+ name Dot7
+ xpos -253
+ ypos -1433
+}
+set N2274f400 [stack 0]
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy7
+ xpos -12
+ ypos -1201
+}
+Unpremult {
+ name Unpremult3
+ xpos -12
+ ypos -1037
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.26
+ gain {1.95 1.9 1.85 1}
+ gain_panelDropped true
+ name cc_condensation2
+ xpos -12
+ ypos -943
+}
+set N1e511800 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte.red 0 0 rgba.red 0 0 Logo_Matte.green 0 1 rgba.green 0 1 Logo_Matte.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name Shuffle14
+ xpos 198
+ ypos -943
+}
+Expression {
+ channel1 rgba
+ channel3 rgba
+ expr3 "r - Logo_Matte_02.blue - Logo_Matte_02.red"
+ name Expression11
+ xpos 198
+ ypos -885
+}
+push $N1e511800
+ColorCorrect {
+ inputs 1+1
+ gamma {2.1 1.16 1 1}
+ gamma_panelDropped true
+ gain {1 2.04 1 1}
+ gain_panelDropped true
+ highlights.gain 0.92
+ lookup {shadow {}
+   midtone {}
+   highlight {curve x0.3681424856 0 s0 x0.598596096 1 s0}}
+ maskChannelMask rgba.red
+ name light_green_7_logo1
+ xpos -12
+ ypos -885
+}
+set Nb6524000 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3"
+ name Shuffle13
+ xpos -163
+ ypos -790
+}
+push $Nb6524000
+ColorCorrect {
+ gamma {1.106667 1.046667 1.146667 1}
+ gamma_panelDropped true
+ gain 1.34
+ maskChannelMask Logo_Matte.green
+ maskChannelInput Logo_Matte.green
+ name cc_dark_green_logo1
+ xpos -12
+ ypos -811
+}
+ColorCorrect {
+ inputs 1+1
+ gain {2 2 0.2 2}
+ gain_panelDropped true
+ maskChannelMask rgba.green
+ name text1
+ xpos -12
+ ypos -742
+}
+set Nb6525c00 [stack 0]
+Shuffle2 {
+ inputs 2
+ fromInput1 {{0} B A}
+ in1 _Extrude_Matte
+ fromInput2 {{1} B A}
+ in2 rgba
+ mappings "4 _Extrude_Matte.red 0 0 rgba.red 0 0 _Extrude_Matte.green 0 1 rgba.green 0 1 _Extrude_Matte.blue 0 2 rgba.blue 0 2 rgba.alpha 1 3 rgba.alpha 0 3"
+ name Shuffle7
+ xpos 182
+ ypos -672
+}
+Expression {
+ expr3 r*a
+ name Expression9
+ xpos 182
+ ypos -621
+}
+set Nb6f48400 [stack 0]
+push $Nb6f48400
+push $Nb6525c00
+ColorCorrect {
+ inputs 1+1
+ gain {1.2 1.98 2.18 1.34}
+ gain_panelDropped true
+ name cc_lt_green_logo_extrude3
+ xpos -11
+ ypos -605
+ disable true
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.002
+ gain {0.6080041528 1.170951366 0.07575337589 1}
+ gain_panelDropped true
+ maskChannelMask rgba.red
+ name cc_lt_green_logo_extrude4
+ xpos -11
+ ypos -555
+}
+ColorCorrect {
+ gamma 1.05
+ gain {1.6 1.14 1.74 1}
+ gain_panelDropped true
+ maskChannelMask rgba.green
+ maskChannelInput _Extrude_Matte.green
+ name cc_dark_green_logo_extrude1
+ xpos -11
+ ypos -467
+}
+set N41070c00 [stack 0]
+Dot {
+ name Dot29
+ xpos 105
+ ypos -231
+}
+set N41071400 [stack 0]
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.blue 0 2 rgba.blue 0 2 Logo_Matte_02.green 0 1 rgba.alpha 0 3"
+ name logo_matte3
+ xpos 23
+ ypos 46
+}
+set N41071800 [stack 0]
+push $N55db8c00
+Cryptomatte {
+ pickerAdd {0.1406746209 0.0007944105892 0.003177642357 0 1026 1041 1027 1042}
+ matteList "____________________ GEO _____________________.Can ball merge.Ball 02 slim can.Ball Y slim can.Ball Rotate slim can.Sphere\\\\-7up\\\\-Ball A.Cache.Sphere\\\\-7up\\\\-Ball A"
+ lastSelectedCryptoLayerName CryptoMesh
+ name redBalls
+ label "\n"
+ xpos 27
+ ypos 95
+}
+set N5717ec00 [stack 0]
+push $N41071800
+push $N41071400
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ in2 Logo_Matte
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3 Logo_Matte.blue 1 2 rgba.green 0 1"
+ name Shuffle11
+ xpos 121
+ ypos -51
+}
+push $N41071400
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ in2 Logo_Matte
+ mappings "4 Logo_Matte_02.red 0 0 rgba.red 0 0 Logo_Matte_02.blue 0 2 rgba.blue 0 2 black -1 -1 rgba.alpha 0 3 Logo_Matte.blue 1 2 rgba.green 0 1"
+ name Shuffle8
+ xpos 185
+ ypos -174
+}
+Expression {
+ expr3 "g - r - b"
+ name Expression10
+ xpos 185
+ ypos -116
+}
+push $N5cdb4000
+Shuffle {
+ in _Extrude_Matte
+ name Shuffle5
+ label "\[value in]"
+ xpos -250
+ ypos -530
+}
+set N39fff000 [stack 0]
+Dot {
+ name Dot2
+ xpos -446
+ ypos -179
+}
+push $N39fff000
+push $N39fff000
+push $N5cdb4000
+push $N5cdb4000
+Expression {
+ expr3 r+b
+ name Expression3
+ xpos 162
+ ypos -738
+}
+push $N5cdb4800
+Multiply {
+ inputs 1+1
+ value 0
+ name Multiply1
+ xpos 233
+ ypos -833
+}
+set N2274e400 [stack 0]
+push $N2274e400
+push $N8b883400
+push $N8b883400
+push 0
+push $N8b883400
+JoinViews {
+ inputs 4
+ name JoinViews6
+ xpos -111
+ ypos -1015
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+push $N8b883800
+Dot {
+ name Dot38
+ xpos -142
+ ypos -1088
+}
+set N2274ec00 [stack 0]
+push $N2274ec00
+push 0
+push $N2274ec00
+JoinViews {
+ inputs 4
+ name JoinViews5
+ xpos -105
+ ypos -1130
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+push $Nc5646000
+push $N2274f400
+Copy {
+ inputs 2
+ from0 rgba.alpha
+ to0 rgba.alpha
+ name Copy2
+ xpos -287
+ ypos -1355
+}
+set N2274f000 [stack 0]
+ColorCorrect {
+ inputs 1+1
+ contrast 0
+ gamma {0.55 3.187 0.9908 1}
+ gamma_panelDropped true
+ shadows 0
+ midtones 0
+ highlights 0
+ name cc_background_green
+ xpos 513
+ ypos -1155
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0
+ gain {6 5 4 6}
+ gain_panelDropped true
+ name cc_condensation
+ xpos 513
+ ypos -1015
+}
+ColorCorrect {
+ inputs 1+1
+ gamma {2.1 1.16 1 1}
+ gamma_panelDropped true
+ gain {1 2.04 1 1}
+ gain_panelDropped true
+ maskChannelMask Logo_Matte.red
+ name light_green_7_logo
+ xpos 513
+ ypos -862
+}
+ColorCorrect {
+ inputs 1+1
+ gamma {1.106667 1.046667 1.146667 1}
+ gamma_panelDropped true
+ gain 1.34
+ maskChannelMask Logo_Matte.green
+ name cc_dark_green_logo
+ xpos 513
+ ypos -746
+}
+ColorCorrect {
+ inputs 1+1
+ gain {2 2 0.2 2}
+ gain_panelDropped true
+ name text
+ xpos 513
+ ypos -642
+}
+ColorCorrect {
+ inputs 1+1
+ gain {1.2 1.98 2.18 1.34}
+ gain_panelDropped true
+ maskChannelMask rgba.red
+ name cc_lt_green_logo_extrude1
+ xpos 513
+ ypos -509
+}
+ColorCorrect {
+ inputs 1+1
+ gamma 1.05
+ gain {1.6 1.14 1.74 1}
+ gain_panelDropped true
+ maskChannelMask rgba.green
+ name cc_dark_green_logo_extrude2
+ xpos 513
+ ypos -453
+}
+Dot {
+ name Dot39
+ xpos 324
+ ypos -331
+}
+set N5bfe9000 [stack 0]
+push $N5bfe9000
+push $N39fff000
+push $N47f3800
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_02
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_02.green 0 1 rgba.green 0 1 Logo_Matte_02.green 0 1 rgba.alpha 0 3 Logo_Matte_02.green 0 1 rgba.red 0 0 Logo_Matte_02.green 0 1 rgba.blue 0 2"
+ name logo_matte9
+ xpos -534
+ ypos -573
+}
+push $N41019800
+Expression {
+ expr0 r+g+b+a
+ expr1 r+g+b+a
+ expr2 r+g+b+a
+ expr3 r+g+b+a
+ name Expression7
+ xpos -311
+ ypos -689
+}
+push $N47f3800
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_03
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_03.red 0 0 rgba.red 0 0 Logo_Matte_03.green 0 1 rgba.green 0 1 Logo_Matte_03.blue 0 2 rgba.blue 0 2 Logo_Matte_03.green 0 1 rgba.alpha 0 3"
+ name logo_matte7
+ xpos -411
+ ypos -722
+}
+Multiply {
+ inputs 1+1
+ value 0
+ name Multiply4
+ xpos -411
+ ypos -696
+}
+Expression {
+ expr0 r
+ expr1 r
+ expr2 r
+ expr3 r
+ name Expression8
+ xpos -411
+ ypos -656
+}
+set N5bfbb800 [stack 0]
+push $N5bfbb800
+push $N41018c00
+push $N41018c00
+push $N47f2400
+Shuffle2 {
+ fromInput1 {{0} B}
+ in1 Logo_Matte_03
+ fromInput2 {{0} B}
+ mappings "4 Logo_Matte_03.red 0 0 rgba.red 0 0 Logo_Matte_03.green 0 1 rgba.green 0 1 Logo_Matte_03.blue 0 2 rgba.blue 0 2 Logo_Matte_03.green 0 1 rgba.alpha 0 3"
+ name logo_matte8
+ xpos -322
+ ypos -930
+}
+push $N47f2400
+push $N2274f000
+Unpremult {
+ name Unpremult2
+ xpos -699
+ ypos -1034
+}
+ColorCorrect {
+ inputs 1+1
+ gain 1.4
+ name cc_condensation1
+ xpos -699
+ ypos -974
+}
+ColorCorrect {
+ inputs 1+1
+ gain 1.7
+ name ColorCorrect2_fruits
+ xpos -699
+ ypos -904
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.85
+ gain 1.56
+ offset -0.03
+ maskChannelMask rgba.red
+ mix {{curve x14 0 1}}
+ name light_green_extrude
+ xpos -699
+ ypos -808
+}
+ColorCorrect {
+ inputs 1+1
+ gain 1.28
+ maskChannelMask rgba.green
+ mix {{curve x14 0 1}}
+ name darkt_green_extrude1
+ xpos -699
+ ypos -709
+}
+ColorCorrect {
+ inputs 1+1
+ gamma {2.6 2.4 1.7 1}
+ gain {0.7 1.2 0.3 1}
+ gain_panelDropped true
+ highlights.gain {0.93 1.02 0.99 0.9}
+ highlights.gain_panelDropped true
+ mix 0.9
+ name cc_lime_green_can
+ xpos -699
+ ypos -656
+}
+ColorCorrect {
+ inputs 1+1
+ gain {1.1 1.05 1.1 1.1}
+ gain_panelDropped true
+ shadows 0
+ midtones 0
+ highlights 0
+ highlights.gain {1 1 1 1}
+ highlights.gain_panelDropped true
+ name ColorCorrect2
+ xpos -699
+ ypos -626
+}
+ColorCorrect {
+ inputs 1+1
+ gain 1.5
+ name cc_text
+ xpos -699
+ ypos -573
+}
+Premult {
+ name Premult1
+ xpos -699
+ ypos -521
+}
+ColorCorrect {
+ inputs 1+1
+ gain {1 0.68 1.28 1.08}
+ gain_panelDropped true
+ maskChannelMask rgba.red
+ name cc_lt_green_logo_extrude2
+ xpos -699
+ ypos -472
+}
+Read {
+ inputs 0
+ file_type png
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/Assets/2d/Color_Swatches/Reg_Green_v003.png
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ origset true
+ colorspace default
+ auto_alpha true
+ name Read34
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -851
+ ypos -637
+}
+Grade {
+ white {1 1.35 1.41 1}
+ white_panelDropped true
+ name Grade1
+ xpos -851
+ ypos -463
+}
+Reformat {
+ name Reformat5
+ xpos -851
+ ypos -387
+}
+set N39fff800 [stack 0]
+Merge2 {
+ inputs 2
+ operation disjoint-over
+ name Merge3
+ xpos -699
+ ypos -387
+}
+Dot {
+ name Dot23
+ xpos -665
+ ypos -332
+}
+push $N5bfe9000
+JoinViews {
+ inputs 4
+ name JoinViews3
+ xpos -272
+ ypos -239
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+ColorCorrect {
+ inputs 1+1
+ gain {2.513333 2.633334 2.053333 1.46}
+ gain_panelDropped true
+ maskChannelMask rgba.blue
+ name cc_white_logo_extrude
+ xpos -287
+ ypos -155
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.25
+ gamma 1.25
+ gain 2
+ mix {{curve x14 0 1}}
+ name white_7_logo
+ xpos -287
+ ypos -95
+}
+ColorCorrect {
+ inputs 1+1
+ gamma {1.34 1.26 1.5 1}
+ gamma_panelDropped true
+ gain {2.7 1.08 1 1}
+ gain_panelDropped true
+ maskChannelMask rgba.red
+ name can_red_ball
+ xpos -287
+ ypos -28
+}
+set Nb7b32000 [stack 0]
+Dot {
+ name Dot42
+ xpos -148
+ ypos -83
+}
+OneView {
+ view Chi
+ name OneView4
+ xpos -3
+ ypos -91
+}
+push $Nb7b32000
+Dot {
+ name Dot43
+ xpos -146
+ ypos -62
+}
+OneView {
+ view viet
+ name OneView3
+ xpos -72
+ ypos -66
+}
+push 0
+push 0
+JoinViews {
+ inputs 4
+ name JoinViews7
+ xpos -40
+ ypos -5
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.95
+ gain {1 1 1.4 1}
+ gain_panelDropped true
+ maskChannelMask rgba.red
+ name CC_red_ChiViet
+ xpos -157
+ ypos -5
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.9
+ gamma 1.3
+ gain {1 1 1.4 1}
+ gain_panelDropped true
+ mix {{curve x27 0.4 x29 1}}
+ name CC_red_ChiViet1
+ xpos -157
+ ypos 21
+}
+set N6234bc00 [stack 0]
+push $N6234bc00
+push $Nb7b32000
+push $Nb7b32000
+JoinViews {
+ inputs 4
+ name JoinViews8
+ xpos -287
+ ypos 6
+ viewassoc "green\ngreenZero\nviet\nChi"
+}
+ColorCorrect {
+ inputs 1+1
+ saturation 0.25
+ gamma 1.25
+ gain 2.25
+ maskChannelMask rgba.blue
+ name can_white_up
+ xpos -287
+ ypos 46
+}
+ColorCorrect {
+ inputs 1+1
+ gamma 1.02
+ gain 3.52
+ name cc_white_background
+ xpos -287
+ ypos 136
+}
+Defocus {
+ defocus 0.1
+ name Defocus1
+ xpos -287
+ ypos 247
+}
+set N275ce800 [stack 0]
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view "ACES 1.0 SDR-video"
+ layer rgba
+ name OCIODisplay18
+ label "bake down ACES 1.0 SDR-video"
+ xpos -437
+ ypos 363
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ xpos -695
+ ypos 272
+}
+StickyNote {
+ inputs 0
+ name StickyNote12
+ label "ACEScg EXR sequence"
+ xpos -288
+ ypos 4901
+}
+StickyNote {
+ inputs 0
+ name StickyNote11
+ label "JPG for Dailies, PDPlayer"
+ xpos -63
+ ypos 4889
+}
+push $N275ce800
+Dot {
+ name Dot12
+ xpos -253
+ ypos 3561
+}
+Group {
+ name fxT_chromaticAberration1
+ help "Chromatic Aberration tool with a bunch of options for matching the plate's aberration.\nHappy channel-shifting!\n\nDeveloped by - Tor Andreassen - fxtor.net"
+ tile_color 0xf9ff00ff
+ note_font Verdana
+ xpos -287
+ ypos 3760
+ disable true
+ addUserKnob {20 fxT_chromaticAberrationTAB l fxT_chromaticAberration}
+ addUserKnob {41 center T centerPoint.center}
+ addUserKnob {22 unlockReset l reset/lock t "By default the centerpoint is locked to the center of the input format.\n\nClick this button to unlock the values. This will also set the centerpoint to the center of the input format." -STARTLINE T "def resetLock():\n    me = nuke.thisNode()\n    lockValue = me\['center'].enabled()\n    x = 'width()/2'\n    y = 'height()/2'\n    x2 = nuke.thisNode().width()/2\n    y2 = nuke.thisNode().height()/2\n\n    \n\n    if lockValue == True:\n        print 'trueeeee'\n        me\['center'].setEnabled(not lockValue)\n        me\['center'].clearAnimated()\n        me\['center'].setExpression(x,0)\n        me\['center'].setExpression(y,1)\n    elif lockValue == False:\n        me\['center'].clearAnimated()\n        me\['center'].setValue(\[x2,y2])\n        me\['center'].setEnabled(not lockValue)\n\nresetLock()"}
+ addUserKnob {26 ""}
+ addUserKnob {4 mode l "aberration mode" t "Choose the chromatic aberration method.\nScale with Transforms or with Godrays.\n\nGodrays will give you a smearing effect between the channels, which can look more realistic." M {"godrays scale" "transforms scale" "" ""}}
+ mode "transforms scale"
+ addUserKnob {26 ""}
+ addUserKnob {7 redScale l "<font  color='#de0000'>Red scale</font>" t "Red channel scale size" R -0.5 1.5}
+ redScale 1.001
+ addUserKnob {7 greenScale l "<font  color='#7ebd64'>Green scale</font>" t "Green channel scale size" R -0.5 1.5}
+ greenScale 1
+ addUserKnob {7 blueScale l "<font color='#2279c3'>Blue scale</font>" t "Blue channel scale size" R -0.5 1.5}
+ blueScale 0.999
+ addUserKnob {26 ""}
+ addUserKnob {14 redChBlur l "<font color='#de0000'>Red Cannel Blur</font>" t "Red channel blur size" R 0 100}
+ redChBlur 1
+ addUserKnob {14 greenChBlur l "<font color='#7ebd64'>Green Cannel Blur</font>" t "Green channel blur size" R 0 100}
+ addUserKnob {14 blueChBlur l "<font color='#2279c3'>Blue Channel Blur</font>" t "Blue channel blur size" R 0 100}
+ addUserKnob {26 ""}
+ addUserKnob {20 extraOffsetControlsGROUP l "EXTRA GLOBAL OFFSET CONTROLS" n 1}
+ extraOffsetControlsGROUP 0
+ addUserKnob {6 activateEGOC l "activate extra global controls" t "Enable to activate the extra global offset controls.\n\nThis will give you more offset controls, but can cause some unwanted filtering.\n\nIf you want to use these controls, but it's causing too much filtering, try to restore some details with the 'restore luminance' checkbox.\n\nThese controls are intended for special cases to make it esier to match the plate's aberration. Pick your battles; more contol can cause some extra filtering." +STARTLINE}
+ addUserKnob {7 offsetRotation l Rotation t "Rotation offset control.\n\nThis is useful for shifting the direction of the offset." R -10 10}
+ addUserKnob {7 offsetX l X-axis t "X-axis offset control" R -20 20}
+ addUserKnob {7 offsetY l Y-axis t "Y-axis offset control" R -20 20}
+ addUserKnob {7 offsetTop l Top t "Offset control for the top of the frame.\n\nThis will offset the channels more on the top of the frame than the bottom." R -0.05 0.05}
+ addUserKnob {7 offsetBottom l Bottom t "Offset control for the bottom of the frame\n\nThis will offset the channels more on the bottom of the frame than the top" R -0.05 0.05}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {20 centerMaskGROUP l "CENTER MASK CONTROLS" n 1}
+ addUserKnob {6 centerMask l "use center mask" t "Enable to remove aberration in the center of the frame.\n\nThis \"mimics\" the real world lense where less aberration is applied to the center of the frame.\n\nYou can addjust the opacity, softness and size of the 'centerMask' with the sliders below.\nFor convience, turn on the 'displayMask' while addjusting the size." +STARTLINE}
+ addUserKnob {6 displayMask l "display mask" t "Enable to display the affect-area of the center mask" +STARTLINE}
+ addUserKnob {4 switchMaskColor l "|   display color" t "Choose what color to display when 'displayMask' in enabled" -STARTLINE M {red green blue "" "" "" "" "" "" "" "" ""}}
+ switchMaskColor blue
+ addUserKnob {14 displayMaskScale l scale t "Addjust the scale of the centerMask. This lets you decide how much of the image is affected by the centerMask" R 0 100}
+ displayMaskScale {0.5 1}
+ addUserKnob {16 centerMaskOpacity l opacity t "Addjust the center mask opacity.\n\nThis allows for controlling the opacity of the aberration showing in the center of the frame when the 'centerMask' box is enabled"}
+ centerMaskOpacity 1
+ addUserKnob {41 centerMaskFalloff l falloff T maskFalloff.centerMaskFalloff}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {6 restoreLuminance l "restore luminance  |" t "Restore the original luminace.\n\nThis can help bring back sharpness if the channel offset operations has caused too much filtering." +STARTLINE}
+ restoreLuminance true
+ addUserKnob {7 luminancePercent l amount t "Blend between comp luminance and input luminance to decide how much of the original luminance you want to restore.\n\n0 = comp luma (no restoration)\n1 = input luma (full restoration)\n\nThis only takes effect if the checkbox is checked." -STARTLINE}
+ luminancePercent 1
+ addUserKnob {26 ""}
+ addUserKnob {6 Rbypass l "&nbsp;<font color='#de0000'> Red</font><font color='#717171'>bypass</font>" t "Enable to bypass alteration to the red channel" +STARTLINE}
+ addUserKnob {6 Gbypass l "&nbsp;<font color='#7ebd64'> Green</font><font color='#717171'>bypass</font>" t "Enable to bypass alteration to the green channel" -STARTLINE}
+ addUserKnob {6 Bbypass l "&nbsp;<font color='#2279c3'> Blue</font><font color='#717171'>bypass</font>" t "Enable to bypass alteration to the blue channel" -STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {7 chromaticAberrationMix l Mix t "Dissolve between the original input at 0 and the full chromatic aberration at 1."}
+ chromaticAberrationMix 1
+ addUserKnob {26 ""}
+ addUserKnob {26 copyright l "" +STARTLINE T "<font color='#454545'>// fxT_chromaticAberration v3.1 © Tor Andreassen</font>"}
+}
+ BackdropNode {
+  inputs 0
+  name backdrop02
+  tile_color 0x3f4e69ff
+  gl_color 0x5f7a8701
+  label "RGB channel seperation"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -838
+  ypos -1175
+  bookmark false
+  bdwidth 2869
+  bdheight 107
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop03
+  tile_color 0x3f4e69ff
+  gl_color 0x5f7a8701
+  label "RGB channel offsets"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -839
+  ypos -1037
+  bookmark false
+  bdwidth 2869
+  bdheight 406
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop04
+  tile_color 0x3f4e69ff
+  gl_color 0x5f7a8701
+  label "induvidual channel blur"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -840
+  ypos -595
+  bookmark false
+  bdwidth 2873
+  bdheight 127
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop05
+  tile_color 0x3a3a3aff
+  gl_color 0x44444401
+  label "mask input"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos 2090
+  ypos -1556
+  bookmark false
+  bdwidth 662
+  bdheight 3664
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop08
+  tile_color 0x3f4e69ff
+  gl_color 0x44444401
+  label "mix between added chromatic aberration and original input"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -843
+  ypos 701
+  bookmark false
+  bdwidth 2879
+  bdheight 130
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop1
+  tile_color 0x3f4e69ff
+  gl_color 0x5f7a8701
+  label "center mask (less aberration in the center of the image)"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -838
+  ypos -271
+  bookmark false
+  bdwidth 2872
+  bdheight 490
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop2
+  tile_color 0x3f4e69ff
+  gl_color 0x5f7a8701
+  label "build RGB"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -842
+  ypos 258
+  bookmark false
+  bdwidth 2877
+  bdheight 151
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop3
+  tile_color 0x3f4e69ff
+  gl_color 0x44444401
+  label "display CenterMask"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -848
+  ypos 1527
+  bookmark false
+  bdwidth 2881
+  bdheight 431
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop4
+  tile_color 0x3f4e69ff
+  gl_color 0x44444401
+  label "restore luminence"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -844
+  ypos 873
+  bookmark false
+  bdwidth 2884
+  bdheight 447
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop5
+  tile_color 0x3f4e69ff
+  gl_color 0x44444401
+  label "keep input bbox"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -848
+  ypos 1999
+  bookmark false
+  bdwidth 2883
+  bdheight 111
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop6
+  tile_color 0x3f4e69ff
+  gl_color 0x44444401
+  label "keep input alpha channel"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -843
+  ypos 458
+  bookmark false
+  bdwidth 2878
+  bdheight 202
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop7
+  tile_color 0x3f4e69ff
+  gl_color 0x5f7a8701
+  label "bypass channels"
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -840
+  ypos -430
+  bookmark false
+  bdwidth 2873
+  bdheight 122
+ }
+ BackdropNode {
+  inputs 0
+  name backdrop8
+  tile_color 0x3f4e69ff
+  gl_color 0x44444401
+  label mask
+  note_font "Arial Black"
+  note_font_size 20
+  note_font_color 0xffffffff
+  xpos -846
+  ypos 1351
+  bookmark false
+  bdwidth 2881
+  bdheight 132
+ }
+ Input {
+  inputs 0
+  name rgba
+  label "\[value number]"
+  xpos 778
+  ypos -1500
+ }
+set Nb5743400 [stack 0]
+ Dot {
+  name Dot25
+  xpos 806
+  ypos -1393
+ }
+set Nb5743800 [stack 0]
+ NoOp {
+  name centerPoint
+  xpos 660
+  ypos -1390
+  addUserKnob {20 centerPoint}
+  addUserKnob {12 center}
+  center {960 960}
+ }
+ NoOp {
+  inputs 0
+  name values
+  xpos 432
+  ypos -720
+  hide_input true
+  addUserKnob {20 values}
+  addUserKnob {16 base}
+  base 0.1
+  addUserKnob {16 red}
+  red {{-1*blue}}
+  addUserKnob {16 green}
+  green {{base}}
+  addUserKnob {16 blue}
+  blue {{base+(green*2)}}
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  tile_color 0x545454ff
+  gl_color 0x545454ff
+  label "checking if the mask input has an existing alpha channel.\nif alpha channel exists, mask will use the input alpha,\nif no alpha exists, a solid alpha will be used (same as not masking)"
+  xpos 2402
+  ypos -1220
+ }
+push $Nb5743400
+ Dot {
+  name Dot2
+  xpos -998
+  ypos -1499
+ }
+ Dot {
+  name Dot23
+  xpos -998
+  ypos -195
+ }
+set Nb6a77c00 [stack 0]
+ Dot {
+  name Dot13
+  xpos -998
+  ypos 60
+ }
+set Nb6a77800 [stack 0]
+ Dot {
+  name Dot21
+  xpos -998
+  ypos 758
+ }
+set N1ab3c000 [stack 0]
+ Dot {
+  name Dot34
+  xpos -998
+  ypos 1099
+ }
+set N1ab3c800 [stack 0]
+ Dot {
+  name Dot7
+  xpos -998
+  ypos 1405
+ }
+set N1ab3c400 [stack 0]
+ Dot {
+  name Dot22
+  xpos -998
+  ypos 1586
+ }
+set N1ab3cc00 [stack 0]
+ Dot {
+  name Dot18
+  tile_color 0x272727ff
+  xpos -998
+  ypos 2057
+ }
+push $Nb6a77c00
+ Remove {
+  name Remove1
+  xpos -491
+  ypos -193
+ }
+ Radial {
+  area {0 0 {input.width()} {input.height()}}
+  name Radial2
+  xpos -491
+  ypos -161
+ }
+ Expression {
+  expr0 r
+  expr1 g
+  expr2 b
+  expr3 a<centerMaskFalloff?smoothstep(0,centerMaskFalloff,a):1
+  name maskFalloff
+  xpos -491
+  ypos -137
+  addUserKnob {20 maskFalloff l "mask falloff"}
+  addUserKnob {7 centerMaskFalloff l maskFalloff t "Adjust the alpha falloff of the 'centerMask'.\n\nThis will let you addjust how hard the transition is between the affected and not affected area when the centerMask is activated." R 0.2 0.75}
+  centerMaskFalloff 0.5
+ }
+ Transform {
+  scale {{parent.displayMaskScale.w} {parent.displayMaskScale.h}}
+  center {{(input.width())/2} {(input.height())/2}}
+  name Transform2
+  label centerMaskScale
+  xpos -491
+  ypos -113
+ }
+ Multiply {
+  channels rgba
+  value {{parent.centerMaskOpacity}}
+  name Multiply4
+  xpos -491
+  ypos -81
+ }
+ Clamp {
+  name Clamp1
+  xpos -491
+  ypos -57
+ }
+ Dot {
+  name Dot10
+  xpos -466
+  ypos 3
+ }
+set Ne838c00 [stack 0]
+ Dot {
+  name Dot15
+  xpos -929
+  ypos 3
+ }
+ Dot {
+  name Dot14
+  xpos -929
+  ypos 1841
+ }
+push $N1ab3cc00
+ Remove {
+  name Remove4
+  xpos -65
+  ypos 1585
+ }
+ Shuffle {
+  alpha white
+  name Shuffle1
+  tile_color 0xffffffff
+  label solidAlpha
+  xpos -65
+  ypos 1645
+ }
+set Ne839c00 [stack 0]
+ Add {
+  value {0 0 1 1}
+  name Add3
+  tile_color 0xffff
+  xpos 56
+  ypos 1701
+ }
+push $Ne839c00
+ Add {
+  value {0 1 0 1}
+  name Add2
+  tile_color 0xff00ff
+  xpos -65
+  ypos 1702
+ }
+push $Ne839c00
+ Add {
+  value {1 0 0 1}
+  name Add1
+  tile_color 0xff0000ff
+  xpos -197
+  ypos 1704
+ }
+ Switch {
+  inputs 3
+  which {{parent.switchMaskColor}}
+  name Switch2
+  xpos -65
+  ypos 1784
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos -65
+  ypos 1840
+ }
+ Premult {
+  name Premult1
+  xpos -65
+  ypos 1904
+ }
+push $Nb5743800
+ Dot {
+  name Dot5
+  xpos 806
+  ypos -1272
+ }
+set N1e186000 [stack 0]
+ Dot {
+  name Dot6
+  xpos 1668
+  ypos -1272
+ }
+set N1e186c00 [stack 0]
+ Shuffle {
+  alpha white
+  name Shuffle3
+  tile_color 0xffffffff
+  label solidAlpha
+  xpos 2457
+  ypos -1273
+ }
+ Input {
+  inputs 0
+  name mask
+  label "\[value number]"
+  xpos 2578
+  ypos -1410
+  number 1
+ }
+ Dot {
+  name Dot24
+  xpos 2603
+  ypos -1346
+ }
+set N1e187400 [stack 0]
+ Switch {
+  inputs 2
+  which {{!parent.autoAlphaCheck2.a}}
+  name Switch1
+  tile_color 0x666666ff
+  label AutoMaskCheck
+  xpos 2578
+  ypos -1273
+ }
+ Dot {
+  name Dot4
+  tile_color 0x272727ff
+  label mask
+  note_font "Arial Black"
+  note_font_size 25
+  xpos 2606
+  ypos 1405
+ }
+push $N1ab3c800
+ Colorspace {
+  colorspace_out YCbCr
+  name Colorspace1
+  label "Lin --> YCbCr"
+  xpos 1104
+  ypos 1098
+ }
+push $Nb5743400
+ Dot {
+  name Dot11
+  xpos 2338
+  ypos -1502
+ }
+ Dot {
+  name Dot26
+  xpos 2338
+  ypos 362
+ }
+set Nac8c0400 [stack 0]
+ Shuffle {
+  alpha white
+  name Shuffle5
+  tile_color 0xffffffff
+  label solidAlpha
+  xpos 2164
+  ypos 436
+ }
+push $Nac8c0400
+ Dot {
+  name Dot8
+  xpos 2338
+  ypos 517
+ }
+ Switch {
+  inputs 2
+  which {{!autoAlphaCheck1.a}}
+  name Switch3
+  tile_color 0x666666ff
+  label AutoMaskCheck
+  xpos 2164
+  ypos 519
+ }
+push $Ne838c00
+push $Nb6a77800
+ Shuffle {
+  alpha white
+  name Shuffle2
+  label "\[knob in]"
+  xpos -761
+  ypos 62
+ }
+ Dot {
+  name Dot17
+  xpos -607
+  ypos 60
+ }
+set Nac8c1400 [stack 0]
+ Shuffle {
+  green red
+  blue red
+  alpha white
+  name redShuffle1
+  tile_color 0xff0000ff
+  xpos -632
+  ypos 154
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge9
+  xpos -491
+  ypos 154
+ }
+push $N1e186000
+ Dot {
+  name Dot9
+  xpos 97
+  ypos -1272
+ }
+ Shuffle {
+  green red
+  blue red
+  alpha white
+  name redShuffle
+  tile_color 0xff0000ff
+  xpos 72
+  ypos -1107
+ }
+set N34996800 [stack 0]
+ Dot {
+  name Dot27
+  xpos -92
+  ypos -1113
+ }
+ Dot {
+  name Dot28
+  xpos -92
+  ypos -356
+ }
+push $N34996800
+ TransformMasked {
+  channels rgb
+  scale {{parent.redScale}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name redTransform1
+  tile_color 0xff0000ff
+  label "scale\n\[value filter]"
+  xpos -27
+  ypos -960
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetTop*(values.red)}}
+  center {{parent.centerPoint.input.width()/2} 0}
+  name redTransform23
+  tile_color 0xff0000ff
+  label "top offset: skewX\n\[value filter]"
+  xpos -27
+  ypos -886
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetBottom*(values.red)}}
+  center {{parent.centerPoint.input.width()/2} {parent.centerPoint.input.height()}}
+  name redTransform24
+  tile_color 0xff0000ff
+  label "bottom offset: skewY\n\[value filter]"
+  xpos -27
+  ypos -844
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  rotate {{parent.offsetRotation*(values.red/10)}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name redTransform25
+  tile_color 0xff0000ff
+  label "rotate\n\[value filter]"
+  xpos -27
+  ypos -802
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  translate {{parent.offsetX*values.red} {parent.offsetY*values.red}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name redTransform26
+  tile_color 0xff0000ff
+  label "x,y\n\[value filter]"
+  xpos -27
+  ypos -760
+  disable {{!parent.activateEGOC}}
+ }
+push $N34996800
+ GodRays {
+  channels rgb
+  scale {{parent.redScale}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  invert_mask true
+  name GodRays1
+  tile_color 0xff0000ff
+  label scale
+  xpos 72
+  ypos -955
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetTop*(values.red)}}
+  center {{parent.centerPoint.input.width()/2} 0}
+  name redTransform13
+  tile_color 0xff0000ff
+  label "top offset: skewX\n\[value filter]"
+  xpos 72
+  ypos -888
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetBottom*(values.red)}}
+  center {{parent.centerPoint.input.width()/2} {parent.centerPoint.input.height()}}
+  name redTransform14
+  tile_color 0xff0000ff
+  label "bottom offset: skewY\n\[value filter]"
+  xpos 72
+  ypos -846
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  rotate {{parent.offsetRotation*(values.red/10)}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name redTransform15
+  tile_color 0xff0000ff
+  label "rotate\n\[value filter]"
+  xpos 72
+  ypos -804
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  translate {{parent.offsetX*values.red} {parent.offsetY*values.red}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name redTransform21
+  tile_color 0xff0000ff
+  label "x,y\n\[value filter]"
+  xpos 74
+  ypos -762
+  disable {{!parent.activateEGOC}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.mode}}
+  name modeSwitch1
+  tile_color 0x666666ff
+  xpos 74
+  ypos -680
+ }
+ Blur {
+  channels rgb
+  size {{parent.redChBlur}}
+  name BlurRedCh
+  tile_color 0xff0000ff
+  xpos 74
+  ypos -512
+ }
+ Switch {
+  inputs 2
+  which {{parent.Rbypass}}
+  name bypassRedSwitch
+  tile_color 0x666666ff
+  xpos 74
+  ypos -350
+ }
+ Merge2 {
+  inputs 2
+  name Merge5
+  xpos 74
+  ypos 154
+  disable {{!(parent.centerMask)}}
+ }
+ Dot {
+  name Dot1
+  xpos 102
+  ypos 305
+ }
+push $Ne838c00
+ Dot {
+  name Dot20
+  xpos 590
+  ypos 3
+ }
+set N5c246800 [stack 0]
+push $Nac8c1400
+ Dot {
+  name Dot12
+  xpos 432
+  ypos 60
+ }
+set N5d841000 [stack 0]
+ Shuffle {
+  red green
+  blue green
+  alpha white
+  name greenShuffle1
+  tile_color 0xff00ff
+  xpos 407
+  ypos 145
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge11
+  xpos 562
+  ypos 145
+ }
+push $N1e186000
+ Shuffle {
+  red green
+  blue green
+  alpha white
+  name greenShuffle
+  tile_color 0xff00ff
+  xpos 781
+  ypos -1112
+ }
+set N824c0000 [stack 0]
+ Dot {
+  name Dot31
+  xpos 601
+  ypos -1115
+ }
+ Dot {
+  name Dot29
+  xpos 604
+  ypos -364
+ }
+push $N824c0000
+ TransformMasked {
+  channels rgb
+  scale {{parent.greenScale}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name greenTransform1
+  tile_color 0xff00ff
+  label "scale\n\[value filter]"
+  xpos 669
+  ypos -970
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetTop*(values.green)}}
+  center {{parent.centerPoint.input.width()/2} 0}
+  name redTransform3
+  tile_color 0xff00ff
+  label "top offset: skewX\n\[value filter]"
+  xpos 669
+  ypos -899
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetBottom*(values.green)}}
+  center {{parent.centerPoint.input.width()/2} {parent.centerPoint.input.height()}}
+  name redTransform4
+  tile_color 0xff00ff
+  label "bottom offset: skewY\n\[value filter]"
+  xpos 669
+  ypos -857
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  rotate {{parent.offsetRotation*(values.green/10)}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name greenTransform7
+  tile_color 0xff00ff
+  label "rotate\n\[value filter]"
+  xpos 669
+  ypos -815
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  translate {{parent.offsetX*values.green} {parent.offsetY*values.green}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name greenTransform8
+  tile_color 0xff00ff
+  label "x, y\n\[value filter]"
+  xpos 669
+  ypos -773
+  disable {{!parent.activateEGOC}}
+ }
+push $N824c0000
+ GodRays {
+  channels rgb
+  scale {{parent.greenScale}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  invert_mask true
+  name GodRays2
+  tile_color 0xff00ff
+  label scale
+  xpos 781
+  ypos -970
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetTop*(values.green)}}
+  center {{parent.centerPoint.input.width()/2} 0}
+  name redTransform10
+  tile_color 0xff00ff
+  label "top offset: skewX\n\[value filter]"
+  xpos 781
+  ypos -902
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetBottom*(values.green)}}
+  center {{parent.centerPoint.input.width()/2} {parent.centerPoint.input.height()}}
+  name redTransform16
+  tile_color 0xff00ff
+  label "bottom offset: skewY\n\[value filter]"
+  xpos 781
+  ypos -860
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  rotate {{parent.offsetRotation*(values.green/10)}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name greenTransform9
+  tile_color 0xff00ff
+  label "rotate\n\[value filter]"
+  xpos 781
+  ypos -818
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  translate {{parent.offsetX*values.green} {parent.offsetY*values.green}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name greenTransform10
+  tile_color 0xff00ff
+  label "x, y\n\[value filter]"
+  xpos 781
+  ypos -776
+  disable {{!parent.activateEGOC}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.mode}}
+  name modeSwitch3
+  tile_color 0x666666ff
+  xpos 782
+  ypos -686
+ }
+ Blur {
+  channels rgb
+  size {{parent.greenChBlur}}
+  name BlurGeenCh
+  tile_color 0xff00ff
+  xpos 782
+  ypos -518
+ }
+ Switch {
+  inputs 2
+  which {{parent.Gbypass}}
+  name bypassGreenSwitch
+  tile_color 0x666666ff
+  xpos 785
+  ypos -361
+ }
+ Merge2 {
+  inputs 2
+  name Merge6
+  xpos 785
+  ypos 145
+  disable {{!(parent.centerMask)}}
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  blue black
+  alpha black
+  name ShuffleCopy1
+  xpos 782
+  ypos 308
+ }
+ Dot {
+  name Dot3
+  xpos 807
+  ypos 357
+ }
+push $N5c246800
+ Dot {
+  name Dot19
+  xpos 1421
+  ypos 3
+ }
+push $N5d841000
+ Dot {
+  name Dot16
+  xpos 1281
+  ypos 60
+ }
+ Shuffle {
+  red blue
+  green blue
+  alpha white
+  name blueShuffle1
+  tile_color 0xffff
+  xpos 1256
+  ypos 145
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge8
+  xpos 1393
+  ypos 145
+ }
+push $N1e186c00
+ Shuffle {
+  red blue
+  green blue
+  alpha white
+  name blueShuffle
+  tile_color 0xffff
+  xpos 1640
+  ypos -1125
+ }
+set Ne8344000 [stack 0]
+ Dot {
+  name Dot33
+  xpos 1467
+  ypos -1131
+ }
+ Dot {
+  name Dot32
+  xpos 1467
+  ypos -373
+ }
+push $Ne8344000
+ TransformMasked {
+  channels rgb
+  scale {{parent.blueScale}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name blueTransform1
+  tile_color 0xffff
+  label "scale\n\[value filter]"
+  xpos 1532
+  ypos -970
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetTop*(values.blue)}}
+  center {{parent.centerPoint.input.width()/2} 0}
+  name redTransform6
+  tile_color 0xffff
+  label "top offset: skewX\n\[value filter]"
+  xpos 1532
+  ypos -874
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetBottom*(values.blue)}}
+  center {{parent.centerPoint.input.width()/2} {parent.centerPoint.input.height()}}
+  name redTransform7
+  tile_color 0xffff
+  label "bottom offset: skewY\n\[value filter]"
+  xpos 1532
+  ypos -832
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  rotate {{parent.offsetRotation*(values.blue/10)}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name blueTransform7
+  tile_color 0xffff
+  label "rotate\n\[value filter]"
+  xpos 1532
+  ypos -790
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  translate {{parent.offsetX*values.blue} {parent.offsetY*values.blue}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name blueTransform8
+  tile_color 0xffff
+  label "x,y\n\[value filter]"
+  xpos 1532
+  ypos -748
+  disable {{!parent.activateEGOC}}
+ }
+push $Ne8344000
+ GodRays {
+  channels rgb
+  scale {{parent.blueScale}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  invert_mask true
+  name GodRays3
+  tile_color 0xffff
+  label scale
+  xpos 1640
+  ypos -970
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetTop*(values.blue)}}
+  center {{parent.centerPoint.input.width()/2} 0}
+  name redTransform8
+  tile_color 0xffff
+  label "top offset: skewX\n\[value filter]"
+  xpos 1640
+  ypos -876
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  skewX {{parent.offsetBottom*(values.blue)}}
+  center {{parent.centerPoint.input.width()/2} {parent.centerPoint.input.height()}}
+  name redTransform9
+  tile_color 0xffff
+  label "bottom offset: skewY\n\[value filter]"
+  xpos 1640
+  ypos -834
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  rotate {{parent.offsetRotation*(values.blue/10)}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name blueTransform9
+  tile_color 0xffff
+  label "rotate\n\[value filter]"
+  xpos 1640
+  ypos -792
+  disable {{!parent.activateEGOC}}
+ }
+ TransformMasked {
+  channels rgb
+  translate {{parent.offsetX*values.blue} {parent.offsetY*values.blue}}
+  center {{parent.centerPoint.center.x} {parent.centerPoint.center.y}}
+  name blueTransform10
+  tile_color 0xffff
+  label "x,y\n\[value filter]"
+  xpos 1640
+  ypos -750
+  disable {{!parent.activateEGOC}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.mode}}
+  name modeSwitch5
+  tile_color 0x666666ff
+  xpos 1641
+  ypos -675
+ }
+ Blur {
+  channels rgb
+  size {{parent.blueChBlur}}
+  name BlurBlueCh
+  tile_color 0xffff
+  xpos 1641
+  ypos -537
+ }
+ Switch {
+  inputs 2
+  which {{parent.Bbypass}}
+  name bypassBlueSwitch
+  tile_color 0x666666ff
+  xpos 1641
+  ypos -367
+ }
+ Merge2 {
+  inputs 2
+  name Merge7
+  xpos 1644
+  ypos 145
+  disable {{!(parent.centerMask)}}
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  alpha black
+  name ShuffleCopy2
+  xpos 1641
+  ypos 363
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos 1641
+  ypos 519
+ }
+ Remove {
+  channels alpha
+  name Remove2
+  xpos 1641
+  ypos 577
+  disable {{parent.autoAlphaCheck1.a}}
+ }
+push $N1ab3c000
+ Dissolve {
+  inputs 2
+  which {{parent.chromaticAberrationMix}}
+  name Dissolve1
+  xpos 1641
+  ypos 757
+ }
+ Dot {
+  name Dot30
+  xpos 1666
+  ypos 1047
+ }
+set N5c384c00 [stack 0]
+ Colorspace {
+  colorspace_out YCbCr
+  name Colorspace5
+  label "Lin --> YCbCr"
+  xpos 1511
+  ypos 1049
+ }
+set N5c384800 [stack 0]
+ Dissolve {
+  inputs 2
+  channels rgb
+  which {{parent.luminancePercent}}
+  name Dissolve2
+  xpos 1337
+  ypos 1102
+ }
+push $N5c384800
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  name Copy11
+  xpos 1511
+  ypos 1098
+ }
+ Colorspace {
+  colorspace_in YCbCr
+  name Colorspace6
+  label "YCbCr --> Lin"
+  xpos 1511
+  ypos 1151
+ }
+push $N5c384c00
+ Switch {
+  inputs 2
+  which {{parent.restoreLuminance}}
+  name restore_luminance
+  tile_color 0x666666ff
+  xpos 1641
+  ypos 1155
+ }
+push $N1ab3c400
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos 1641
+  ypos 1404
+ }
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 1641
+  ypos 1907
+  disable {{!(parent.displayMask)}}
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos 1641
+  ypos 2062
+ }
+ Output {
+  name Output1
+  xpos 1641
+  ypos 2179
+ }
+push $Nb5743800
+ NoOp {
+  name autoAlphaCheck1
+  xpos 896
+  ypos -1387
+  addUserKnob {20 autoAlphaCheck}
+  addUserKnob {6 a +STARTLINE}
+  a {{"clamp(\[lsearch \[channels this] rgba.alpha]+1, 0, 1)"}}
+ }
+push $N1e187400
+ NoOp {
+  name autoAlphaCheck2
+  xpos 2456
+  ypos -1340
+  addUserKnob {20 autoAlphaCheck}
+  addUserKnob {6 a +STARTLINE}
+  a {{"clamp(\[lsearch \[channels this] rgba.alpha]+1, 0, 1)\n"}}
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote3
+  tile_color 0x545454ff
+  gl_color 0x545454ff
+  label "<left>info: \n\nThe nodes activated by default (only scale) controls the channelOffset.\nThis is the basic setup, the other transforms stacked under the scale-nodes are by default disabled to avoid filtering issus when extra offset controls is not needed.\n\nIf the 'activate global controls' checkbox is activated, all the transforms will be active.\nThis will give you access to all the extra offset controls, but can also cause some extra unwanted filtering. \n\nIf filtering becomes an issue, but you still want to use the extra controls, try using  the restore luminance option to restore detail.\n\nPick you battle:  more contol == some loss in detail"
+  xpos -825
+  ypos -974
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x545454ff
+  gl_color 0x545454ff
+  label "<left>info: \n\ncopy node is there to recreate the input alpha.\nif an alpha does not extist, a solid alpha will be copied in.\nthis is to not get errors when using the node on inputs with no alpha channel.\n\nTo restore the original blank alpha channel,\nthe remove node grabs the input alpha value and removes\nor keeps the alpha channel based on if an input alpha exists"
+  xpos 1193
+  ypos 498
+ }
+end_group
+Crop {
+ box {0 0 {format.width} {format.height}}
+ name Crop_to_Format
+ xpos -294
+ ypos 4490
+}
+Dot {
+ name Dot4
+ xpos -260
+ ypos 4592
+}
+OCIODisplay {
+ colorspace aces_interchange
+ display "sRGB Display"
+ view "ACES 1.0 SDR-video"
+ layer rgba
+ name OCIODisplay3
+ label "bake down ACES 1.0 SDR-video"
+ xpos -294
+ ypos 4628
+}
+set N5d841400 [stack 0]
+Dot {
+ name Dot3
+ xpos -22
+ ypos 4639
+}
+Write {
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_%V_Comp_v013/7up_SH010_Bounce_Slim_%V_Comp_v013.%04d.png
+ raw true
+ views {viet}
+ file_type png
+ datatype "16 bit"
+ create_directories true
+ checkHashOnRead false
+ version 26
+ in_colorspace scene_linear
+ out_colorspace scene_linear
+ name Write3_png
+ xpos -56
+ ypos 4749
+ disable true
+}
+Merge2 {
+ inputs 0
+ name Merge6
+ xpos -621
+ ypos -206
+}
+push $N275ce800
+OneView {
+ view viet
+ name OneView1
+ xpos -101
+ ypos 448
+}
+push $N275ce800
+OneView {
+ name OneView2
+ xpos -181
+ ypos 502
+}
+Merge2 {
+ inputs 2
+ name Merge8
+ xpos -48
+ ypos 571
+}
+push $N5bfe9000
+Dot {
+ name Dot36
+ xpos -220
+ ypos -306
+}
+push $N41070c00
+Premult {
+ name Premult5
+ xpos -52
+ ypos -411
+}
+push $N39fff800
+Dot {
+ name Dot34
+ xpos -501
+ ypos -426
+}
+Merge2 {
+ inputs 2
+ operation disjoint-over
+ name Merge5
+ xpos -84
+ ypos -366
+}
+Premult {
+ name Premult6
+ xpos -97
+ ypos -342
+}
+push $Ne839c000
+push $N5c35e800
+add_layer {extra_alpha extra_alpha.a}
+Shuffle2 {
+ inputs 2
+ fromInput1 {{0} B A}
+ fromInput2 {{1} B A}
+ in2 alpha
+ out2 extra_alpha
+ mappings "5 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3 rgba.alpha 1 0 extra_alpha.a 1 0"
+ name Shuffle15
+ xpos -4918
+ ypos -4132
+}
+push $N5d781000
+push 0
+Shuffle2 {
+ inputs 2
+ fromInput1 {{0} A}
+ in1 alpha
+ fromInput2 {{0} B A}
+ in2 rgb
+ mappings "4 rgba.alpha 0 0 rgba.alpha 0 3 rgba.red 1 0 rgba.red 0 0 rgba.green 1 1 rgba.green 0 1 rgba.blue 1 2 rgba.blue 0 2"
+ name Shuffle9
+ xpos -774
+ ypos -1633
+ hide_input true
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v007/Cyc/7up_SH010_Bounce_C_v007_Cyc_.0016.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ origset true
+ name Read20
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -569
+ ypos -1802
+}
+Merge2 {
+ inputs 2
+ Bchannels rgb
+ name Merge10
+ xpos -544
+ ypos -1530
+}
+push $N57f84c00
+PostageStamp {
+ name PostageStamp3
+ xpos -1487
+ ypos -1263
+ hide_input true
+ postage_stamp true
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/3d/7up_SH010_Bounce_C_v007/Cyc/7up_SH010_Bounce_C_v007_Cyc_.0016.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ origset true
+ name Read30
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -3296
+ ypos -1316
+}
+StickyNote {
+ inputs 0
+ name StickyNote4
+ label "12-bit sRGB Prores 444 for Edit/Post  "
+ xpos -5
+ ypos 5342
+}
+StickyNote {
+ inputs 0
+ name StickyNote5
+ label "8-bit sRGB h264 for postings and syncsketch   "
+ xpos -342
+ ypos 5383
+}
+push $N5d841400
+Write {
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_%V_Comp_v013/7up_SH010_Bounce_Slim_%V_Comp_v013.%04d.exr
+ views {green}
+ file_type exr
+ compression DWAA
+ first_part rgba
+ create_directories true
+ version 9
+ name Write2_exr
+ xpos -498
+ ypos 4728
+ postage_stamp true
+}
+push $N5c35f000
+Cryptomatte {
+ pickerAdd {0.1316031516 0.1056508794 0.1726035625 0 1014 1305 1015 1306}
+ lastSelectedCryptoLayerName CryptoMesh
+ name Cryptomatte3
+ label "Original Alpha\n"
+ xpos -5588
+ ypos -4275
+}
+push $N5d841400
+Write {
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_Chi_Comp_v025/7up_SH010_Bounce_Slim_Chi_Comp_v025.%04d.exr
+ raw true
+ views {Chi}
+ file_type exr
+ compression DWAA
+ heroview Chi
+ first_part rgba
+ create_directories true
+ version 15
+ name Write2_exr2
+ xpos -243
+ ypos 4746
+ postage_stamp true
+}
+push $N5717ec00
+push $N5d841400
+Viewer {
+ inputs 3
+ frame 26
+ frame_range 0-38
+ fps 25
+ colour_sample_bbox {0.05624999851 0.07500000298 0.05729166791 0.07604166865}
+ samplepoints {{0.0625 0.07187499851}
+   }
+ viewerProcess "Raw (sRGB Display)"
+ translate {-0.04349999875 0.5640000105}
+ rotate -810
+ name Viewer1
+ xpos -1348
+ ypos 682
+}
+push $N5d841400
+Write {
+ file //caddy/Work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_viet_Comp_v025/7up_SH010_Bounce_Slim_viet_Comp_v025.%04d.exr
+ raw true
+ views {viet}
+ file_type exr
+ compression DWAA
+ heroview viet
+ first_part rgba
+ create_directories true
+ version 17
+ name Write2_exr1
+ xpos -343
+ ypos 4751
+ postage_stamp true
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_viet_Comp_v025/7up_SH010_Bounce_Slim_viet_Comp_v025.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ name Read31
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -392
+ ypos 5095
+}
+Write {
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_viet_Comp_v025.mov
+ colorspace sRGB
+ raw true
+ views {viet}
+ file_type mov
+ mov64_format "mov (QuickTime / MOV)"
+ mov64_codec appr
+ mov_prores_codec_profile "ProRes 4:4:4:4 XQ 12-bit"
+ mov_h264_codec_profile "High 4:2:0 8-bit"
+ mov64_pixel_format {{0} "yuv420p\tYCbCr 4:2:0 8-bit"}
+ mov64_quality High
+ mov64_fast_start true
+ mov64_write_timecode true
+ mov64_gop_size 12
+ mov64_b_frames 0
+ mov64_bitrate 20000
+ mov64_bitrate_tolerance 4000000
+ mov64_quality_min 1
+ mov64_quality_max 3
+ create_directories true
+ checkHashOnRead false
+ version 8
+ name Write1
+ xpos -392
+ ypos 5265
+}
+Read {
+ inputs 0
+ file_type exr
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_Chi_Comp_v025/7up_SH010_Bounce_Slim_Chi_Comp_v025.####.exr
+ format "1920 1920 0 0 1920 1920 1 HD Square"
+ first 0
+ last 38
+ origfirst 0
+ origlast 38
+ origset true
+ version 1
+ name Read38
+ label "\[if \{\[regexp \{_v\\d\\d(\\.|_|/)\} \[filename] b]\} \{ return \[string trim \$b _/] \} \{return \"Version Not Found\"\}]"
+ xpos -79
+ ypos 5075
+}
+Write {
+ file //caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH010_Bounce/Render/Comp/7up_SH010_Bounce_Slim_Chi_Comp_v025.mov
+ colorspace sRGB
+ raw true
+ views {Chi}
+ file_type mov
+ mov64_format "mov (QuickTime / MOV)"
+ mov64_codec appr
+ mov_prores_codec_profile "ProRes 4:4:4:4 XQ 12-bit"
+ mov_h264_codec_profile "High 4:2:0 8-bit"
+ mov64_pixel_format {{0}}
+ mov64_quality High
+ mov64_fast_start true
+ mov64_write_timecode true
+ mov64_gop_size 12
+ mov64_b_frames 0
+ mov64_bitrate 20000
+ mov64_bitrate_tolerance 4000000
+ mov64_quality_min 1
+ mov64_quality_max 3
+ create_directories true
+ checkHashOnRead false
+ version 8
+ name Write2
+ xpos -79
+ ypos 5242
+}
