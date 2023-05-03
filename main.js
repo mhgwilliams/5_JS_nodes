@@ -1,11 +1,12 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require("electron");
 const path = require("path");
 const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase } = require("./data_handler");
+const { popupMenu } = require("./menumaker");
 
 let mainWindow;
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
     backgroundColor: "#2e2c29",
     width: 1200,
     height: 900,
@@ -18,6 +19,11 @@ function createWindow() {
 
   mainWindow.loadFile("index.html");
   //mainWindow.webContents.openDevTools();
+
+  mainWindow.webContents.on("context-menu", () => {
+    popupMenu.popup(mainWindow.webContents);
+  })
+  
 }
 
 app.whenReady().then(createWindow);

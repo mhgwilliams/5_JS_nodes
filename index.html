@@ -13,13 +13,16 @@
         width: 100%;
       }
       #config-container {
-        display: flex;
+        display: none;
         flex-direction: column;
         padding: 10px;
         width: 400px;
       }
       #loadNukeFileBtn {
         width: 100px; /* Set the width of the Nuke button */
+      }
+      #searchDirectoryBtn {
+        width: 100px; 
       }
     </style>
     <script src="./renderer.js" defer></script>
@@ -30,7 +33,7 @@
   </head>
   <body onload="loadJsonDataAndDraw()">
     <div id="mynetwork"></div>
-
+    <button id="toggleConfigBtn">Toggle Config</button>
     <div id="config-container">
       <script type="text/javascript" src="./data/NodeNet.js"></script>
       <div id="config"></div>
@@ -57,5 +60,15 @@
       <button id="loadNukeFileBtn">Load Nuke File</button>
       <button id="searchDirectoryBtn">Search Directory for JSON</button>
     </div>
+    <script>
+      document.getElementById('toggleConfigBtn').addEventListener('click', function () {
+        const configContainer = document.getElementById('config-container');
+        if (configContainer.style.display === 'none') {
+          configContainer.style.display = 'flex';
+        } else {
+          configContainer.style.display = 'none';
+        }
+      });
+    </script>
   </body>
 </html>
