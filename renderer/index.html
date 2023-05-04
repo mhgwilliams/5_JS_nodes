@@ -25,17 +25,16 @@
         width: 100px; 
       }
     </style>
-    <script src="./renderer.js" defer></script>
     <script
       type="text/javascript"
-      src="node_modules/vis-network/standalone/umd/vis-network.min.js"
+      src="../node_modules/vis-network/standalone/umd/vis-network.min.js"
     ></script>
   </head>
-  <body onload="loadJsonDataAndDraw()">
+  <body>
     <div id="mynetwork"></div>
     <button id="toggleConfigBtn">Toggle Config</button>
     <div id="config-container">
-      <script type="text/javascript" src="./data/NodeNet.js"></script>
+      <script type="text/javascript" src="./NodeNet.js"></script>
       <div id="config"></div>
       <p id="selection"></p>
       <div
@@ -70,5 +69,6 @@
         }
       });
     </script>
+    <script src="./renderer.js" ></script>
   </body>
 </html>

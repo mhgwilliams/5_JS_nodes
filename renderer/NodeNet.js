@@ -1,28 +1,23 @@
 
-// Replace 'data.json' with the path to your JSON file
-const jsonDataPath = "./data/database.json";
-const pathBasename = window.path.basename;
-
+const pathBasename = window.electronAPI.basename;
+const jsonDataPath = "../data/database.json";
 
 var imgDIR = "./icons/";
 
 
-function loadJsonDataAndDraw() {
-  fs.readFile(jsonDataPath, "utf8", (err, jsonString) => {
-    if (err) {
-      console.log("Error reading file:", err);
-      return;
-    }
-
-    try {
-      const jsonData = JSON.parse(jsonString);
-      createNodesAndEdges(jsonData);
-      redrawAll();
-    } catch (err) {
-      console.log("Error parsing JSON:", err);
-    }
-  });
+async function loadJsonDataAndDraw() {
+  try {
+    const jsonData = await fetch(jsonDataPath).then((response) =>
+      response.json()
+    );
+    console.log("JSON Data is ", jsonData);
+    createNodesAndEdges(jsonData);
+    redrawAll();
+  } catch (err) {
+    console.log("Error reading file or parsing JSON:", err);
+  }
 }
+
 function formatNode(asset, id) {
   const assetFileName = pathBasename(asset.path);
 
@@ -203,6 +198,10 @@ function redrawAll() {
   var container = document.getElementById("mynetwork");
 
   var options = {
+    layout: {
+      randomSeed: undefined,
+      improvedLayout:false,
+    },
     nodes: {
       shape: "dot",
       scaling: {
@@ -346,10 +345,6 @@ function redrawAll() {
   });
 }
 
-function testarino(){
-  console.log("testing from nodenet");
-}
-
-module.exports = {
-  testarino
-}
+window.addEventListener("load", () => {
+  loadJsonDataAndDraw();
+});

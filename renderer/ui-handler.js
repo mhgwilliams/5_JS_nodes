@@ -1,8 +1,5 @@
 // ui-handler.js
-
-const {
-    extractReadNodes
-} = require('./data_handler.js');
+const { extractReadNodes } = require('../main/data_handler.js');
 
 const loadNukeFileBtn = document.getElementById('loadNukeFileBtn');
 

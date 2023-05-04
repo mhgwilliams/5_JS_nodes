@@ -1,7 +1,11 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require("electron");
-const path = require("path");
+const path = require('path');
+const fs = require('fs');
+const { readFile } = require('fs/promises');
+
+
 const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase } = require("./data_handler");
-const { popupMenu } = require("./menumaker");
+const { popupMenu } = require("../renderer/menumaker");
 
 let mainWindow;
 
@@ -11,13 +15,14 @@ function createWindow() {
     width: 1200,
     height: 900,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "../preload/preload.js"),
+      sandbox: false,
     },
   });
 
-  mainWindow.loadFile("index.html");
+  mainWindow.loadFile("renderer/index.html");
   //mainWindow.webContents.openDevTools();
 
   mainWindow.webContents.on("context-menu", () => {
@@ -27,6 +32,7 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow);
+
 
 ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");
