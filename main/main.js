@@ -1,3 +1,7 @@
+// The main process runs in a Node.js environment, which means it can use Node.js APIs and modules.
+// Renderer processes run in a Chromium environment, which provides access to the DOM and web APIs,
+// but it is more restricted in terms of Node.js APIs due to security reasons.
+
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require("electron");
 const path = require('path');
 const fs = require('fs');
@@ -5,7 +9,7 @@ const { readFile } = require('fs/promises');
 
 
 const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase } = require("./data_handler");
-const { popupMenu } = require("../renderer/menumaker");
+const { buildPopupMenu } = require("./menumaker");
 
 let mainWindow;
 
@@ -23,16 +27,20 @@ function createWindow() {
   });
 
   mainWindow.loadFile("renderer/index.html");
-  //mainWindow.webContents.openDevTools();
-
-  mainWindow.webContents.on("context-menu", () => {
-    popupMenu.popup(mainWindow.webContents);
-  })
+  mainWindow.webContents.openDevTools();
   
 }
 
 app.whenReady().then(createWindow);
 
+// node network interaction
+ipcMain.on("nodeContext", (event, nodeId) => {
+  console.log("main: nodeContext received");
+  const popupMenu = buildPopupMenu(mainWindow);
+  popupMenu.popup(mainWindow);
+});
+
+// Buttons for loading files
 
 ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");

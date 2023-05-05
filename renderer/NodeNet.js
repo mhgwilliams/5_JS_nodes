@@ -1,9 +1,39 @@
-
 const pathBasename = window.electronAPI.basename;
 const jsonDataPath = "../data/database.json";
 
 var imgDIR = "./icons/";
+var nodes;
 
+let contextMenuElement = null;
+let selectedNode = null;
+
+function showPopupMenu(params) {
+  selectedNode = network.getNodeAt(params.pointer.DOM);
+  if (selectedNode) {
+    console.log("selectedNode", selectedNode);
+    ipcRenderer.send("nodeContext", selectedNode);
+  }
+  return contextMenuElement;
+}
+
+function togglePin(params) {
+  console.log(`togglePin(${params})`);
+  const nodeId = params;
+
+  if (nodeId) {
+    const node = nodes.get(nodeId);
+    const currentPhysics = node.physics !== undefined ? node.physics : true;
+    nodes.update({ id: nodeId, physics: !currentPhysics });
+  }
+}
+
+function removeContextMenu() {
+  if (contextMenuElement) {
+    contextMenuElement.remove();
+    selectedNode = null;
+    contextMenuElement = null;
+  }
+}
 
 async function loadJsonDataAndDraw() {
   try {
@@ -70,20 +100,21 @@ function createNodesAndEdges(jsonData) {
     if (!uniqueScenes[fileName]) {
       uniqueScenes[fileName] = {
         id: nodeId++,
-      label: fileName,
-      title: fileName,
-      group: "projectfile",
-      color: "yellow",
-      shape: "image",
-      image: isC4dFile ? imgDIR + "c4d.png" : imgDIR+ "nuke.png", // Set the image based on the file type
-    };
+        label: fileName,
+        title: fileName,
+        group: "projectfile",
+        color: "yellow",
+        shape: "image",
+        physics: false,
+        image: isC4dFile ? imgDIR + "c4d.png" : imgDIR + "nuke.png", // Set the image based on the file type
+      };
       nodesData.push(uniqueScenes[fileName]);
 
       // Create a hidden node for the project file node to control the textures
       nodesData.push({
         id: nodeId++,
         hidden: false,
-        physics: true,
+        physics: false,
         color: "rgba(255,255,255,0.1)",
         opacity: 0.1,
         title: "AssetControl",
@@ -94,7 +125,7 @@ function createNodesAndEdges(jsonData) {
       nodesData.push({
         id: nodeId++,
         hidden: false,
-        physics: true,
+        physics: false,
         color: "rgba(255,255,255,0.1)",
         opacity: 0.1,
         title: "OutputControl",
@@ -107,6 +138,7 @@ function createNodesAndEdges(jsonData) {
         from: uniqueScenes[fileName].id,
         to: nodeId - 1,
         length: 20,
+        physics: false,
         color: "red",
         hidden: true,
       });
@@ -117,13 +149,11 @@ function createNodesAndEdges(jsonData) {
         from: uniqueScenes[fileName].id,
         to: nodeId - 2,
         length: 20,
+        physics: false,
         color: "red",
         hidden: true,
       });
-
     }
-
-    
 
     item.assets.forEach((asset) => {
       const assetFileName = pathBasename(asset.path);
@@ -146,14 +176,14 @@ function createNodesAndEdges(jsonData) {
           item.parentProjectFileId === uniqueScenes[fileName].id &&
           item.title === "AssetControl"
       );
-    
+
       edgesData.push({
         id: edgeId++,
         from: AssetControlNode.id,
         to: uniqueAssets[assetFileName].id,
         length: 20,
         hidden: true,
-      });    
+      });
     });
 
     // Process the outputs if they exist
@@ -178,7 +208,7 @@ function createNodesAndEdges(jsonData) {
             item.parentProjectFileId === uniqueScenes[fileName].id &&
             item.title === "OutputControl"
         );
-      
+
         edgesData.push({
           id: edgeId++,
           from: OutputControlNode.id,
@@ -200,7 +230,7 @@ function redrawAll() {
   var options = {
     layout: {
       randomSeed: undefined,
-      improvedLayout:false,
+      improvedLayout: false,
     },
     nodes: {
       shape: "dot",
@@ -262,28 +292,52 @@ function redrawAll() {
 
   network = new vis.Network(container, data, options);
 
+  // interactions with the node net
 
-  network.on("selectNode", function (params) {
+  network.on("oncontext", function (params) {
+    params.event.preventDefault();
+    console.log("oncontext", params);
+
+    // Remove the existing context menu if any
+    if (contextMenuElement) {
+      contextMenuElement.remove();
+    }
+
+    contextMenuElement = showPopupMenu(params);
+
+    // Add a blur event listener to the window to remove the context menu when it loses focus
+    window.addEventListener("blur", removeContextMenu, { once: true });
+  });
+
+  network.on("dragStart", function (params) {
     if (params.nodes.length == 1) {
       if (network.isCluster(params.nodes[0]) == true) {
         network.openCluster(params.nodes[0]);
       } else {
         const nodeId = params.nodes[0];
         const node = nodes.get(nodeId);
-  
+
         if (node.group === "projectfile") {
           const connectedNodes = network.getConnectedNodes(nodeId);
-          const connectedAssetControlNodes = connectedNodes.filter((connectedNodeId) => {
-            const connectedNode = nodes.get(connectedNodeId);
-            return connectedNode && connectedNode.title === "AssetControl";
-          });
-          const connectedOutputControlNodes = connectedNodes.filter((connectedNodeId) => {
-            const connectedNode = nodes.get(connectedNodeId);
-            return connectedNode && connectedNode.title === "OutputControl";
-          });
-  
+          const connectedAssetControlNodes = connectedNodes.filter(
+            (connectedNodeId) => {
+              const connectedNode = nodes.get(connectedNodeId);
+              return connectedNode && connectedNode.title === "AssetControl";
+            }
+          );
+          const connectedOutputControlNodes = connectedNodes.filter(
+            (connectedNodeId) => {
+              const connectedNode = nodes.get(connectedNodeId);
+              return connectedNode && connectedNode.title === "OutputControl";
+            }
+          );
+
           network.setSelection({
-            nodes: [nodeId, ...connectedAssetControlNodes, ...connectedOutputControlNodes],
+            nodes: [
+              nodeId,
+              ...connectedAssetControlNodes,
+              ...connectedOutputControlNodes,
+            ],
           });
           const asset_node = connectedAssetControlNodes[0];
           const output_node = connectedOutputControlNodes[0];
@@ -292,28 +346,16 @@ function redrawAll() {
           const newX = projFilePos[nodeId].x;
           const asset_newY = projFilePos[nodeId].y - 200;
           const output_newY = projFilePos[nodeId].y + 200;
-          
+
           network.moveNode(connectedAssetControlNodes, newX, asset_newY);
           network.moveNode(connectedOutputControlNodes, newX, output_newY);
 
-          nodes.update({ id: asset_node, physics: false });
-          nodes.update({ id: output_node, physics: false });
-
+          //nodes.update({ id: asset_node, physics: false });
+          //nodes.update({ id: output_node, physics: false });
         }
       }
     }
   });
-  
-
-  network.on("dragEnd", (params) => {
-    if (params.nodes.length > 0) {
-      const nodeId = params.nodes[0];
-
-
-      nodes.update({ id: nodeId, physics: false });
-    }
-  });
-  
 
   network.on("doubleClick", function (params) {
     if (params.nodes.length == 1) {
@@ -344,6 +386,12 @@ function redrawAll() {
     container.style.height = "99vh";
   });
 }
+
+// ipc event listeners
+ipcRenderer.on("toggle-pin", () => {
+  console.log("nodenet: toggle-pin received");
+  togglePin(selectedNode);
+});
 
 window.addEventListener("load", () => {
   loadJsonDataAndDraw();

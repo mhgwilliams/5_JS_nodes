@@ -116,7 +116,23 @@ function updateDatabase(newData) {
 
   if (fs.existsSync("./data/database.json")) {
     data_list = JSON.parse(fs.readFileSync("./data/database.json", "utf8"));
-    data_list.data.push(newData);
+
+    const projectIndex = data_list.data.findIndex(project => {
+      return (
+        (project.nuke_script_name &&
+          newData.nuke_script_name &&
+          project.nuke_script_name === newData.nuke_script_name) ||
+        (project.c4d_file_name &&
+          newData.c4d_file_name &&
+          project.c4d_file_name === newData.c4d_file_name)
+      );
+    });
+
+    if (projectIndex !== -1) {
+      data_list.data[projectIndex] = newData;
+    } else {
+      data_list.data.push(newData);
+    }
   } else {
     data_list = {
       timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
@@ -126,6 +142,7 @@ function updateDatabase(newData) {
 
   fs.writeFileSync("./data/database.json", JSON.stringify(data_list, null, 4), "utf8");
 }
+
 
 function testPrint() {
   console.log("doing stuff in data handler file");
