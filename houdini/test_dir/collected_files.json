@@ -1,4 +1,25 @@
 {
-    "assets": [],
-    "outputs": []
+    "hou_file_name": "test_case.hiplc",
+    "file_path": "H:/5_JS_nodes/houdini/test_dir/test_case.hiplc",
+    "date": "2023-05-05 16:45:50.438481",
+    "assets": [
+        {
+            "type": "file",
+            "path": "H:/5_JS_nodes/houdini/test_dir/pig.obj"
+        },
+        {
+            "type": "file",
+            "path": "H:/00_Drive/02_Work/05_programming/pig3.obj"
+        },
+        {
+            "type": "filecache::2.0",
+            "path": "H:/5_JS_nodes/houdini/test_dir/geo/test_case.filecache1/v1/test_case.filecache1_v1.0001.bgeo.sc"
+        }
+    ],
+    "outputs": [
+        {
+            "type": "rop_alembic",
+            "path": "H:/5_JS_nodes/houdini/test_dir/pig_2.abc"
+        }
+    ]
 }

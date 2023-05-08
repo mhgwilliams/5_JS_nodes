@@ -2,6 +2,7 @@ import hou, os, re
 import shutil
 import glob
 import json
+from datetime import datetime
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
@@ -104,6 +105,8 @@ def getObjParent(node):
 
 #very simple implementation- need to come up with better way to check any content that originates from Houdini
 def is_rop_alembic_output(node):
+    print(node)
+    print(node.type().name())
     return node.type().name() == "rop_alembic"
 
 # currently unused
@@ -141,19 +144,26 @@ def collectProject(settings):
 
     # Create a dictionary to store file paths
     collected_files = {
+        "hou_file_name": "",
+        "file_path": "",
+        "date": str(datetime.now()),
         "assets": [],
         "outputs": []
     }
-    hou.hipFile.save()
+
+    #hou.hipFile.save()
     hipname = hou.hipFile.basename()    
     refs = hou.fileReferences()
+
+    collected_files["hou_file_name"] = hipname
+    collected_files["file_path"] = hou.hipFile.path()
         
     # ignore archived/proxy files
     proxy = ['.ifd', '.ass', '.rs']
     # ignore refs with these extensions for refs not in $HIP or $JOB
     ignoredExt = ['.hda', '.hdalc', '.hdanc', '.otl', '.pc', '.pmap']       
     # filetype whitelist
-    extfilter = ['.obj', '.abc']
+    extfilter = ['.obj', '.abc', '.bgeo', '.sc']
  
     if FILETYPE_FILTER:
         extfilter = ['.' + x for x in FILETYPES.split()]
@@ -167,38 +177,45 @@ def collectProject(settings):
 
 
     for ref in refs:
+        try:
 
-        parm = ref[0]
-        r = ref[1]
-        if parm:
-            for i in range(10): # hack to get referenced parm since isRef is not implemented?
-                parm = parm.getReferencedParm()                
-            bypassed = parm.node().isGenericFlagSet(hou.nodeFlag.Bypass)
-            # Testing for display flag. Could also apply to DOPs but maybe a bad idea..
-            disp = True
-            if isinstance(parm.node(), hou.SopNode):
-                top = getObjParent(parm.node())
-                if top:
-                    disp = top.isGenericFlagSet(hou.nodeFlag.Display)  
-            #
-            if IGNORE_NONDISPLAY and not disp:
-                print("not displayed")
-                toDel.append(top)
-            # copy ref if bypass option is off or node isnt bypassed                  
-            elif IGNORE_BYPASSED and bypassed:
-                pass
-            # copy ref if proxy filter off or ref extension isnt a render proxy                
-            elif IGNORE_PROXY and os.path.splitext(r)[1] in proxy:
-                pass
-            else:
-                fname, fext = os.path.splitext(ref[1])
+            parm = ref[0]
+            r = ref[1]
+            if parm:
+                for i in range(10): # hack to get referenced parm since isRef is not implemented?
+                    parm = parm.getReferencedParm()             
+                bypassed = parm.node().isGenericFlagSet(hou.nodeFlag.Bypass)
+                # Testing for display flag. Could also apply to DOPs but maybe a bad idea..
+                disp = True
+                if isinstance(parm.node(), hou.SopNode):
+                    top = getObjParent(parm.node())
+                    if top:
+                        disp = top.isGenericFlagSet(hou.nodeFlag.Display)  
+                #
+                if IGNORE_NONDISPLAY and not disp:
+                    print("not displayed")
+                    toDel.append(top)
+                # copy ref if bypass option is off or node isnt bypassed                  
+                elif IGNORE_BYPASSED and bypassed:
+                    pass
+                # copy ref if proxy filter off or ref extension isnt a render proxy                
+                elif IGNORE_PROXY and os.path.splitext(r)[1] in proxy:
+                    pass
+                # trying to check for the weird file path thing in filecache nodes
+                elif "descriptivelabel" in parm.name().lower():
+                    pass
+                else:
+                    fname, fext = os.path.splitext(ref[1])
+                    print(fname, fext)
 
-                # check for file extension filter
-                if extfilter and fext in extfilter:    
-                    if not DISABLE_ARCHIVE:
-                        print("ref variable:")
-                        print(ref)
-                        toCopy.append(ref) 
+                    # check for file extension filter
+                    if extfilter and fext in extfilter:    
+                        if not DISABLE_ARCHIVE:
+                            print("ref variable:")
+                            print(ref)
+                            toCopy.append(ref) 
+        except:
+            pass
     
     # Delete Non-Displayed
     if IGNORE_NONDISPLAY:
@@ -224,10 +241,14 @@ def collectProject(settings):
             try:
                 r = re.sub('\$HIP', hou.getenv("HIP"), r)
                 print( "new string format is:" + str(r))
-                if is_rop_alembic_output(node.ref[1]):
-                    collected_files["outputs"].append(r) 
+
+                node_type = parm.node()
+                file_info = {"type" : str(node_type.type().name()), "path" : r}
+            
+                if is_rop_alembic_output(node_type):
+                    collected_files["outputs"].append(file_info) 
                 else:
-                    collected_files["assets"].append(r)             
+                    collected_files["assets"].append(file_info)             
             except Exception as e:
                 pass
                 print(e)         

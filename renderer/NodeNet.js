@@ -7,6 +7,35 @@ var nodes;
 let contextMenuElement = null;
 let selectedNode = null;
 
+function objectToArray(obj) {
+  return Object.keys(obj).map(function (key) {
+    obj[key].id = key;
+    return obj[key];
+  });
+}
+
+function addConnections(elem, index) {
+  // need to replace this with a tree of the network, then get child direct children of the element
+  elem.connections = network.getConnectedNodes(index);
+}
+
+
+function exportNetwork() {
+  var nodes = objectToArray(network.getPositions());
+  nodes.forEach(addConnections);
+
+  // pretty print node data
+  var exportValue = JSON.stringify(nodes, undefined, 2);
+
+  // Send a message to the main process to save the network data
+  ipcRenderer.send('save-network-data', exportValue);
+}
+
+function loadNetworkFromFile() {
+  ipcRenderer.send('load-network-data');
+}
+
+
 function showPopupMenu(params) {
   selectedNode = network.getNodeAt(params.pointer.DOM);
   if (selectedNode) {
@@ -76,6 +105,9 @@ function formatNode(asset, id) {
   } else if (asset.type === "Render") {
     node.color = "#ff80c0";
     node.shape = "box";
+  } else if (asset.type === "alembic_rop") {
+    node.color = "#ffb703";
+    node.shape = "database";
   } else {
     node.color = "#fb8500";
     node.shape = "hexagon";
@@ -90,12 +122,27 @@ function createNodesAndEdges(jsonData) {
   const uniqueAssets = {};
   const uniqueScenes = {};
 
+  const fileTypeIcons = {
+    c4d: "c4d.png",
+    nuke: "nuke.png",
+    hou: "hou.png",
+    // Add more file types here
+  };
+
+  const fileTypeKeys = {
+    c4d: "c4d_file_name",
+    nuke: "nuke_script_name",
+    hou: "hou_file_name",
+    // Add more file types here
+  };
+
   let nodeId = 1;
   let edgeId = 1;
 
   jsonData.data.forEach((item) => {
-    const fileName = item.c4d_file_name || item.nuke_script_name;
-    const isC4dFile = item.c4d_file_name !== undefined;
+    const fileTypes = Object.keys(fileTypeIcons);
+    const fileType = fileTypes.find((type) => item[fileTypeKeys[type]] !== undefined);
+    const fileName = item[fileTypeKeys[fileType]];
 
     if (!uniqueScenes[fileName]) {
       uniqueScenes[fileName] = {
@@ -106,7 +153,7 @@ function createNodesAndEdges(jsonData) {
         color: "yellow",
         shape: "image",
         physics: false,
-        image: isC4dFile ? imgDIR + "c4d.png" : imgDIR + "nuke.png", // Set the image based on the file type
+        image: imgDIR + fileTypeIcons[fileType], // Set the image based on the file type
       };
       nodesData.push(uniqueScenes[fileName]);
 
@@ -292,6 +339,8 @@ function redrawAll() {
 
   network = new vis.Network(container, data, options);
 
+  //loadNetworkFromFile();
+
   // interactions with the node net
 
   network.on("oncontext", function (params) {
@@ -382,6 +431,17 @@ function redrawAll() {
     }
   });
 
+  ipcRenderer.on('network-data-loaded', (event, inputData) => {
+    if (inputData) {
+      var data = {
+        nodes: getNodeData(inputData),
+        edges: getEdgeData(inputData),
+      };
+  
+      network = new vis.Network(container, data, {});
+    }
+  });
+
   network.once("afterDrawing", () => {
     container.style.height = "99vh";
   });
@@ -392,6 +452,57 @@ ipcRenderer.on("toggle-pin", () => {
   console.log("nodenet: toggle-pin received");
   togglePin(selectedNode);
 });
+
+function getNodeData(data) {
+  var networkNodes = [];
+
+  data.forEach(function (elem, index, array) {
+    networkNodes.push({
+      id: elem.id,
+      label: elem.id,
+      x: elem.x,
+      y: elem.y,
+    });
+  });
+
+  return new vis.DataSet(networkNodes);
+}
+
+function getNodeById(data, id) {
+  for (var n = 0; n < data.length; n++) {
+    if (data[n].id == id) {
+      // double equals since id can be numeric or string
+      return data[n];
+    }
+  }
+
+  throw "Can not find id '" + id + "' in data";
+}
+
+function getEdgeData(data) {
+  var networkEdges = [];
+
+  data.forEach(function (node) {
+    // add the connection
+    node.connections.forEach(function (connId, cIndex, conns) {
+      networkEdges.push({ from: node.id, to: connId });
+      let cNode = getNodeById(data, connId);
+
+      var elementConnections = cNode.connections;
+
+      // remove the connection from the other node to prevent duplicate connections
+      var duplicateIndex = elementConnections.findIndex(function (connection) {
+        return connection == node.id; // double equals since id can be numeric or string
+      });
+
+      if (duplicateIndex != -1) {
+        elementConnections.splice(duplicateIndex, 1);
+      }
+    });
+  });
+
+  return new vis.DataSet(networkEdges);
+}
 
 window.addEventListener("load", () => {
   loadJsonDataAndDraw();

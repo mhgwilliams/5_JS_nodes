@@ -33,6 +33,25 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 
+// node network config save/load
+
+ipcMain.on('save-network-data', (event, data) => {
+  const filePath = path.join(__dirname, 'network_data.json');
+  fs.writeFileSync(filePath, data, 'utf8');
+});
+
+ipcMain.on('load-network-data', (event) => {
+  const filePath = path.join(__dirname, 'network_data.json');
+  if (fs.existsSync(filePath)) {
+    const data = fs.readFileSync(filePath, 'utf8');
+    event.reply('network-data-loaded', JSON.parse(data));
+  } else {
+    event.reply('network-data-loaded', null);
+  }
+});
+
+
+
 // node network interaction
 ipcMain.on("nodeContext", (event, nodeId) => {
   console.log("main: nodeContext received");
@@ -47,6 +66,27 @@ ipcMain.on("loadNukeFile", (event, file) => {
   console.log(file);
   loadNukeFile(file);
 });
+
+ipcMain.on("loadHouJson", (event) => {
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ extensions: ["json"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
+        
+        const data = fs.readFileSync(filePath, 'utf8');
+        updateDatabase(JSON.parse(data));
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 
 ipcMain.on("searchDirectory", (event) => {
   dialog
