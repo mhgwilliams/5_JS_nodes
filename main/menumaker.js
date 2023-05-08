@@ -1,8 +1,9 @@
 // this is not a renderer process apparently because I'm requiring it in main and using it there
 
-const { app, Menu } = require('electron');
+const { app, Menu, ipcMain } = require('electron');
 
-function buildPopupMenu(mainWindow) {
+function buildPopupMenu(mainWindow, node) {
+    console.log(node);
     const contextTemplate= [
         {
             label: "Node Options",
@@ -14,8 +15,14 @@ function buildPopupMenu(mainWindow) {
                     }
                 },
                 {
-                    label: "Toggle Control Nodes",
-                    click: () => {console.log("control nodes")}
+                    label: "Control Nodes Hidden",
+                    type: "checkbox",
+                    checked: node.controlNodes ? true : false,
+                    click: (item) => {
+                        const checkValue = item.checked;
+                        console.log("control nodes", checkValue);
+                        controlVis(checkValue);
+                    }
                 }
             ]
         },
@@ -28,6 +35,12 @@ function buildPopupMenu(mainWindow) {
         console.log("menumaker: togglePin");
         mainWindow.webContents.send('toggle-pin');
     }
+
+    function controlVis(checkValue){
+        console.log("menumaker: controlVis");
+        mainWindow.webContents.send('control-vis', checkValue);
+    }
+
     return Menu.buildFromTemplate(contextTemplate);
 
 }

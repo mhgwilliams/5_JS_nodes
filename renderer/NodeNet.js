@@ -7,46 +7,19 @@ var nodes;
 let contextMenuElement = null;
 let selectedNode = null;
 
-function objectToArray(obj) {
-  return Object.keys(obj).map(function (key) {
-    obj[key].id = key;
-    return obj[key];
-  });
-}
-
-function addConnections(elem, index) {
-  // need to replace this with a tree of the network, then get child direct children of the element
-  elem.connections = network.getConnectedNodes(index);
-}
-
-
-function exportNetwork() {
-  var nodes = objectToArray(network.getPositions());
-  nodes.forEach(addConnections);
-
-  // pretty print node data
-  var exportValue = JSON.stringify(nodes, undefined, 2);
-
-  // Send a message to the main process to save the network data
-  ipcRenderer.send('save-network-data', exportValue);
-}
-
-function loadNetworkFromFile() {
-  ipcRenderer.send('load-network-data');
-}
-
-
 function showPopupMenu(params) {
   selectedNode = network.getNodeAt(params.pointer.DOM);
+
   if (selectedNode) {
+    const node = nodes.get(selectedNode);
     console.log("selectedNode", selectedNode);
-    ipcRenderer.send("nodeContext", selectedNode);
+    ipcRenderer.send("nodeContext", node);
   }
+
   return contextMenuElement;
 }
 
 function togglePin(params) {
-  console.log(`togglePin(${params})`);
   const nodeId = params;
 
   if (nodeId) {
@@ -55,6 +28,29 @@ function togglePin(params) {
     nodes.update({ id: nodeId, physics: !currentPhysics });
   }
 }
+
+function controlVis(nodeId, checkValue) {
+  
+  if (nodeId) {
+    // set value on project node properites
+    const node = nodes.get(nodeId);
+    const currentCheckVal = node.controlNodes;
+
+    nodes.update({ id: nodeId, controlNodes: !currentCheckVal });
+
+    const connectedNodes = network.getConnectedNodes(nodeId);
+    connectedNodes.forEach(connectedNodeId => {
+      const connectedNode = nodes.get(connectedNodeId);
+      if (connectedNode.group === "controlNodes") {
+        console.log(connectedNode);
+        const hiddenControl = checkValue ? true : false;
+        nodes.update({ id: connectedNodeId, hidden: hiddenControl, color: "rgba(255,255,255,0.1)" });
+      }
+    });
+  }
+}
+
+
 
 function removeContextMenu() {
   if (contextMenuElement) {
@@ -150,6 +146,7 @@ function createNodesAndEdges(jsonData) {
         label: fileName,
         title: fileName,
         group: "projectfile",
+        controlNodes: true, // control nodes hidden option
         color: "yellow",
         shape: "image",
         physics: false,
@@ -160,10 +157,10 @@ function createNodesAndEdges(jsonData) {
       // Create a hidden node for the project file node to control the textures
       nodesData.push({
         id: nodeId++,
-        hidden: false,
+        hidden: true,
         physics: false,
+        group: "controlNodes",
         color: "rgba(255,255,255,0.1)",
-        opacity: 0.1,
         title: "AssetControl",
         parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
       });
@@ -171,10 +168,10 @@ function createNodesAndEdges(jsonData) {
       // Create a hidden node for the project file node to control the renders
       nodesData.push({
         id: nodeId++,
-        hidden: false,
+        hidden: true,
         physics: false,
+        group: "controlNodes",
         color: "rgba(255,255,255,0.1)",
-        opacity: 0.1,
         title: "OutputControl",
         parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
       });
@@ -226,8 +223,8 @@ function createNodesAndEdges(jsonData) {
 
       edgesData.push({
         id: edgeId++,
-        from: AssetControlNode.id,
-        to: uniqueAssets[assetFileName].id,
+        to: AssetControlNode.id,
+        from: uniqueAssets[assetFileName].id,
         length: 20,
         hidden: true,
       });
@@ -258,8 +255,8 @@ function createNodesAndEdges(jsonData) {
 
         edgesData.push({
           id: edgeId++,
-          from: OutputControlNode.id,
-          to: uniqueAssets[outputFileName].id,
+          to: OutputControlNode.id,
+          from: uniqueAssets[outputFileName].id,
           length: 20,
           hidden: true,
         });
@@ -339,13 +336,10 @@ function redrawAll() {
 
   network = new vis.Network(container, data, options);
 
-  //loadNetworkFromFile();
-
   // interactions with the node net
 
   network.on("oncontext", function (params) {
     params.event.preventDefault();
-    console.log("oncontext", params);
 
     // Remove the existing context menu if any
     if (contextMenuElement) {
@@ -357,6 +351,8 @@ function redrawAll() {
     // Add a blur event listener to the window to remove the context menu when it loses focus
     window.addEventListener("blur", removeContextMenu, { once: true });
   });
+
+  // This event listener is to select and reposition the control nodes when the project file node is dragged
 
   network.on("dragStart", function (params) {
     if (params.nodes.length == 1) {
@@ -393,8 +389,8 @@ function redrawAll() {
 
           const projFilePos = network.getPositions(nodeId);
           const newX = projFilePos[nodeId].x;
-          const asset_newY = projFilePos[nodeId].y - 200;
-          const output_newY = projFilePos[nodeId].y + 200;
+          const asset_newY = projFilePos[nodeId].y - 100;
+          const output_newY = projFilePos[nodeId].y + 100;
 
           network.moveNode(connectedAssetControlNodes, newX, asset_newY);
           network.moveNode(connectedOutputControlNodes, newX, output_newY);
@@ -406,6 +402,7 @@ function redrawAll() {
     }
   });
 
+  // this event listener handles clustering. Should consider changing cluster functionality
   network.on("doubleClick", function (params) {
     if (params.nodes.length == 1) {
       const clickedNodeId = params.nodes[0];
@@ -431,7 +428,7 @@ function redrawAll() {
     }
   });
 
-  ipcRenderer.on('network-data-loaded', (event, inputData) => {
+  /*ipcRenderer.on('network-data-loaded', (event, inputData) => {
     if (inputData) {
       var data = {
         nodes: getNodeData(inputData),
@@ -440,7 +437,7 @@ function redrawAll() {
   
       network = new vis.Network(container, data, {});
     }
-  });
+  });*/
 
   network.once("afterDrawing", () => {
     container.style.height = "99vh";
@@ -453,56 +450,10 @@ ipcRenderer.on("toggle-pin", () => {
   togglePin(selectedNode);
 });
 
-function getNodeData(data) {
-  var networkNodes = [];
-
-  data.forEach(function (elem, index, array) {
-    networkNodes.push({
-      id: elem.id,
-      label: elem.id,
-      x: elem.x,
-      y: elem.y,
-    });
-  });
-
-  return new vis.DataSet(networkNodes);
-}
-
-function getNodeById(data, id) {
-  for (var n = 0; n < data.length; n++) {
-    if (data[n].id == id) {
-      // double equals since id can be numeric or string
-      return data[n];
-    }
-  }
-
-  throw "Can not find id '" + id + "' in data";
-}
-
-function getEdgeData(data) {
-  var networkEdges = [];
-
-  data.forEach(function (node) {
-    // add the connection
-    node.connections.forEach(function (connId, cIndex, conns) {
-      networkEdges.push({ from: node.id, to: connId });
-      let cNode = getNodeById(data, connId);
-
-      var elementConnections = cNode.connections;
-
-      // remove the connection from the other node to prevent duplicate connections
-      var duplicateIndex = elementConnections.findIndex(function (connection) {
-        return connection == node.id; // double equals since id can be numeric or string
-      });
-
-      if (duplicateIndex != -1) {
-        elementConnections.splice(duplicateIndex, 1);
-      }
-    });
-  });
-
-  return new vis.DataSet(networkEdges);
-}
+ipcRenderer.on("control-vis", (event, checkValue) => {
+  console.log("nodenet: control-vis received");
+  controlVis(selectedNode, checkValue);
+});
 
 window.addEventListener("load", () => {
   loadJsonDataAndDraw();

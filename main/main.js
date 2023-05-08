@@ -53,10 +53,10 @@ ipcMain.on('load-network-data', (event) => {
 
 
 // node network interaction
-ipcMain.on("nodeContext", (event, nodeId) => {
+ipcMain.on("nodeContext", (event, node) => {
   console.log("main: nodeContext received");
-  const popupMenu = buildPopupMenu(mainWindow);
-  popupMenu.popup(mainWindow);
+  const popupMenu = buildPopupMenu(mainWindow, node);
+  popupMenu.popup(mainWindow, node);
 });
 
 // Buttons for loading files
