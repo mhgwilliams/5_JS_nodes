@@ -1,8 +1,19 @@
+//const { ipcRenderer } = require("electron");
+
 const pathBasename = window.electronAPI.basename;
 const jsonDataPath = "../data/database.json";
 
 var imgDIR = "./icons/";
-var nodes;
+var nodes = new vis.DataSet();
+var edges = new vis.DataSet();
+
+var networkState;
+var nodesData = [];
+var edgesData = [];
+
+var data;
+
+let serializedState;
 
 let contextMenuElement = null;
 let selectedNode = null;
@@ -71,7 +82,6 @@ async function loadJsonDataAndDraw() {
     );
     console.log("JSON Data is ", jsonData);
     createNodesAndEdges(jsonData);
-    redrawAll();
   } catch (err) {
     console.log("Error reading file or parsing JSON:", err);
   }
@@ -117,8 +127,6 @@ function formatNode(asset, id) {
 }
 
 function createNodesAndEdges(jsonData) {
-  const nodesData = [];
-  const edgesData = [];
   const uniqueAssets = {};
   const uniqueScenes = {};
 
@@ -270,9 +278,15 @@ function createNodesAndEdges(jsonData) {
 
   nodes = new vis.DataSet(nodesData);
   edges = new vis.DataSet(edgesData);
-}
 
-function redrawAll() {
+  console.log(nodes);
+
+  initNetwork();
+}
+function initNetwork() {
+
+  console.log("network initialized");
+
   var container = document.getElementById("mynetwork");
 
   var options = {
@@ -333,27 +347,35 @@ function redrawAll() {
     },
   };
 
-  var data = {
+  data = {
     nodes: nodes,
     edges: edges,
   };
 
   network = new vis.Network(container, data, options);
+  network.once("afterDrawing", () => {
+      container.style.height = "99vh";
+    });
+
+  networkInteraction();
+
+}
+
+function networkInteraction(){
 
   // interactions with the node net
-
   network.on("oncontext", function (params) {
-    params.event.preventDefault();
+  params.event.preventDefault();
 
-    // Remove the existing context menu if any
-    if (contextMenuElement) {
-      contextMenuElement.remove();
-    }
+  // Remove the existing context menu if any
+  if (contextMenuElement) {
+    contextMenuElement.remove();
+  }
 
-    contextMenuElement = showPopupMenu(params);
+  contextMenuElement = showPopupMenu(params);
 
-    // Add a blur event listener to the window to remove the context menu when it loses focus
-    window.addEventListener("blur", removeContextMenu, { once: true });
+  // Add a blur event listener to the window to remove the context menu when it loses focus
+  window.addEventListener("blur", removeContextMenu, { once: true });
   });
 
   // This event listener is to select and reposition the control nodes when the project file node is dragged
@@ -432,21 +454,122 @@ function redrawAll() {
     }
   });
 
-  /*ipcRenderer.on('network-data-loaded', (event, inputData) => {
-    if (inputData) {
-      var data = {
-        nodes: getNodeData(inputData),
-        edges: getEdgeData(inputData),
-      };
   
-      network = new vis.Network(container, data, {});
-    }
-  });*/
-
-  network.once("afterDrawing", () => {
-    container.style.height = "99vh";
-  });
 }
+
+function redrawAll() {
+
+  var container = document.getElementById("mynetwork");
+
+  var options = {
+    layout: {
+      randomSeed: undefined,
+      improvedLayout: false,
+    },
+    nodes: {
+      shape: "dot",
+      scaling: {
+        min: 5,
+        max: 10,
+      },
+      font: {
+        size: 0,
+        face: "Tahoma",
+        strokeWidth: 2,
+        strokeColor: "#ffffff",
+      },
+    },
+    edges: {
+      color: { inherit: true },
+      width: 0.15,
+      smooth: {
+        type: "cubicBezier",
+        forceDirection: "none",
+        roundness: 0.9,
+      },
+      arrows: {
+        to: { enabled: true, scaleFactor: 0.5 },
+      },
+    },
+    interaction: {
+      hideEdgesOnDrag: false,
+      tooltipDelay: 200,
+    },
+    physics: {
+      barnesHut: {
+        gravitationalConstant: -150,
+        springLength: 225,
+        damping: 0.76,
+        avoidOverlap: 0.33,
+      },
+      maxVelocity: 28,
+      minVelocity: 0.49,
+    },
+    configure: {
+      filter: function (option, path) {
+        if (path.indexOf("physics") !== -1) {
+          return true;
+        }
+        if (path.indexOf("smooth") !== -1 || option === "smooth") {
+          return true;
+        }
+        return false;
+      },
+      container: document.getElementById("config"),
+    },
+  };
+
+  data = {
+    nodes: nodes,
+    edges: edges,
+  };
+
+  network = new vis.Network(container, data, options);
+
+
+}
+
+
+
+
+
+function exportNetwork(){
+  // variables for saving state
+
+  networkState = {
+    nodes: nodesData,
+    edges: edgesData,
+  };
+
+  console.log(networkState); // Check the value of networkState
+  console.log(networkState.nodes); // Check the value of networkState.nodes
+
+  if (networkState.nodes && Array.isArray(networkState.nodes)) {
+      networkState.nodes.forEach(node => {
+          const position = network.getPositions(node.id);
+          if (position) {
+            node.x = position[node.id].x;
+            node.y = position[node.id].y;
+          } else {
+            node.x = 0;
+            node.y = 0;
+          }
+      });
+  }
+
+  serializedState = JSON.stringify(networkState, null, 2);
+}
+
+function restoreNetwork(savedNetwork){
+  console.log("loading data");
+
+  nodesData = savedNetwork.nodes;
+  edgesData = savedNetwork.edges;
+
+  nodes = new vis.DataSet(savedNetwork.nodes);
+  edges = new vis.DataSet(savedNetwork.edges);
+
+};
 
 // ipc event listeners
 ipcRenderer.on("toggle-pin", () => {
@@ -454,11 +577,34 @@ ipcRenderer.on("toggle-pin", () => {
   togglePin(selectedNode);
 });
 
+ipcRenderer.on("save-network-data", (event) => {
+  console.log("nodenet: save-network-data received from main");
+  exportNetwork();
+  ipcRenderer.send('network-data-response', serializedState);
+});
+
+ipcRenderer.on("network-data-loaded", (event, savedNetwork) => {
+  console.log("nodenet: network-data-loaded received from main");
+  restoreNetwork(savedNetwork);
+
+});
+
+ipcRenderer.on("process-json-data", (event) => {
+  loadJsonDataAndDraw();
+  //initNetwork();
+});
 ipcRenderer.on("control-vis", (event, checkValue) => {
   console.log("nodenet: control-vis received");
   controlVis(selectedNode, checkValue);
 });
 
+ipcRenderer.on('load-network-data', (event, networkData) => {
+  console.log("restoring network");
+  restoreNetwork(networkData);
+  initNetwork();
+});
+
 window.addEventListener("load", () => {
-  loadJsonDataAndDraw();
+  console.log("window loaded");
+  ipcRenderer.send('request-network-data');
 });

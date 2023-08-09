@@ -71,7 +71,17 @@ def export_assets_to_json(assets, c4d_file_path, c4d_file_name, unique_image_seq
         "outputs": unique_image_sequences
     }
 
+    # Get the directory of c4d_file_path
+    directory = os.path.dirname(c4d_file_path)
+
+    # Create a 'data' subdirectory if it doesn't exist
+    data_directory = os.path.join(directory, 'data')
+    os.makedirs(data_directory, exist_ok=True)
+
     json_file_path = os.path.splitext(c4d_file_path)[0] + ".json"
+
+    # Construct the full path to the JSON file
+    json_file_path = os.path.join(data_directory, json_file_name)
 
     with open(json_file_path, "w") as json_file:
         json.dump(data, json_file, indent=4)
@@ -102,7 +112,7 @@ def combine_image_sequences(assets):
 
 
 
-def main():
+def main_process():
     doc = c4d.documents.GetActiveDocument()
     c4d_file_path = doc.GetDocumentPath() + '/' + doc.GetDocumentName()
     c4d_file_name = doc.GetDocumentName()
@@ -160,6 +170,3 @@ def main():
                    [{"type": "Geometry", "path": geo} for geo in assets['geometry']]
 
     export_assets_to_json(formatted_assets, c4d_file_path, c4d_file_name, unique_image_sequences)
-
-if __name__ == '__main__':
-    main()
