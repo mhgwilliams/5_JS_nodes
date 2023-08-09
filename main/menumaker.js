@@ -20,7 +20,7 @@ function buildPopupMenu(mainWindow, node) {
                     checked: node.controlNodes ? true : false,
                     click: (item) => {
                         const checkValue = item.checked;
-                        console.log("control nodes", checkValue);
+                        //console.log("control nodes", checkValue);
                         controlVis(checkValue);
                     }
                 }

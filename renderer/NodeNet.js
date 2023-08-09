@@ -1,8 +1,18 @@
+//const { ipcRenderer } = require("electron");
+
 const pathBasename = window.electronAPI.basename;
 const jsonDataPath = "../data/database.json";
 
 var imgDIR = "./icons/";
 var nodes;
+var edges;
+var networkState;
+const nodesData = [];
+const edgesData = [];
+
+var data;
+
+let serializedState;
 
 let contextMenuElement = null;
 let selectedNode = null;
@@ -117,8 +127,6 @@ function formatNode(asset, id) {
 }
 
 function createNodesAndEdges(jsonData) {
-  const nodesData = [];
-  const edgesData = [];
   const uniqueAssets = {};
   const uniqueScenes = {};
 
@@ -273,6 +281,7 @@ function createNodesAndEdges(jsonData) {
 }
 
 function redrawAll() {
+
   var container = document.getElementById("mynetwork");
 
   var options = {
@@ -333,7 +342,7 @@ function redrawAll() {
     },
   };
 
-  var data = {
+  data = {
     nodes: nodes,
     edges: edges,
   };
@@ -432,26 +441,60 @@ function redrawAll() {
     }
   });
 
-  /*ipcRenderer.on('network-data-loaded', (event, inputData) => {
-    if (inputData) {
-      var data = {
-        nodes: getNodeData(inputData),
-        edges: getEdgeData(inputData),
-      };
-  
-      network = new vis.Network(container, data, {});
-    }
-  });*/
-
   network.once("afterDrawing", () => {
     container.style.height = "99vh";
   });
 }
 
+function exportNetwork(){
+  // variables for saving state
+
+  networkState = {
+    nodes: nodesData,
+    edges: edgesData,
+  };
+
+  networkState.nodes.forEach(node => {
+    const position = network.getPositions(node.id);
+    if (position) {
+      node.x = position[node.id].x;
+      node.y = position[node.id].y;
+
+    } else {
+      node.x = 0;
+      node.y = 0;
+    }
+  });
+
+  serializedState = JSON.stringify(networkState, null, 2);
+}
+
+function restoreNetwork(savedNetwork){
+  console.log("loading data");
+
+  storedNodes = new vis.DataSet(savedNetwork.nodes);
+  storedEdges = new vis.DataSet(savedNetwork.edges);
+
+  network.setData({ nodes: storedNodes, edges: storedEdges });
+
+};
+
 // ipc event listeners
 ipcRenderer.on("toggle-pin", () => {
   console.log("nodenet: toggle-pin received");
   togglePin(selectedNode);
+});
+
+ipcRenderer.on("save-network-data", (event) => {
+  console.log("nodenet: save-network-data received from main");
+  exportNetwork();
+  ipcRenderer.send('network-data-response', serializedState);
+});
+
+ipcRenderer.on("network-data-loaded", (event, savedNetwork) => {
+  console.log("nodenet: network-data-loaded received from main");
+  restoreNetwork(savedNetwork);
+
 });
 
 ipcRenderer.on("control-vis", (event, checkValue) => {

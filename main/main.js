@@ -35,18 +35,27 @@ app.whenReady().then(createWindow);
 
 // node network config save/load
 
-ipcMain.on('save-network-data', (event, data) => {
-  const filePath = path.join(__dirname, 'network_data.json');
-  fs.writeFileSync(filePath, data, 'utf8');
+ipcMain.on('save-network', (event) => {
+  //const filePath = path.join(__dirname, 'network_data.json');
+  //fs.writeFileSync(filePath, data, 'utf8');
+  console.log("main: save network received");
+  mainWindow.webContents.send('save-network-data');
 });
 
-ipcMain.on('load-network-data', (event) => {
+ipcMain.on('network-data-response', (event, data) => {
+  const filePath = path.join(__dirname, 'network_data.json');
+  fs.writeFileSync(filePath, data, 'utf8');
+  //console.log(data);
+
+});
+
+ipcMain.on('load-network', (event) => {
   const filePath = path.join(__dirname, 'network_data.json');
   if (fs.existsSync(filePath)) {
     const data = fs.readFileSync(filePath, 'utf8');
-    event.reply('network-data-loaded', JSON.parse(data));
+    mainWindow.webContents.send('network-data-loaded', JSON.parse(data));
   } else {
-    event.reply('network-data-loaded', null);
+    mainWindow.webContents.send('network-data-loaded', null);
   }
 });
 
@@ -54,7 +63,7 @@ ipcMain.on('load-network-data', (event) => {
 
 // node network interaction
 ipcMain.on("nodeContext", (event, node) => {
-  console.log("main: nodeContext received");
+  //console.log("main: nodeContext received");
   const popupMenu = buildPopupMenu(mainWindow, node);
   popupMenu.popup(mainWindow, node);
 });
