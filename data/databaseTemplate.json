@@ -1,0 +1,32 @@
+{
+    "timestamp": "2023-04-17 14:08:28",
+    "data": [
+        {
+            "file_name": "7up_SH030_Pop_Bottles_B_v038.c4d",
+            "file_path": "",
+            "date_modified": "",
+            "user": "",
+            "project_details": {
+                "fps": "00",
+                "software_version": "",
+                "renderer": ""
+            },
+            "assets": [
+                {
+                    "type": "Texture",
+                    "path": "//bunker/Resources/Assets/Images/HDRI/GreyScaleGorilla/StudioGlow.hdr"
+                },
+                {
+                    "type": "Geometry",
+                    "path": ""
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "write",
+                    "path": ""
+                }
+            ]
+            }
+        ]
+    }

@@ -65,8 +65,9 @@ def process_tokens(render_path, doc):
 
 def export_assets_to_json(assets, c4d_file_path, c4d_file_name, unique_image_sequences):
     data = {
-        "c4d_file_name": c4d_file_name,
-        "date": str(datetime.now()),
+        "file_name": c4d_file_name,
+        "file_path": c4d_file_path,
+        "date_modified": str(datetime.now()),
         "assets": assets,
         "outputs": unique_image_sequences
     }

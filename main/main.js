@@ -13,6 +13,7 @@ const { buildPopupMenu } = require("./menumaker");
 
 let mainWindow;
 
+
 function createWindow() {
     mainWindow = new BrowserWindow({
     backgroundColor: "#2e2c29",
@@ -52,26 +53,54 @@ ipcMain.on('network-data-response', (event, data) => {
 ipcMain.on('request-network-data', (event) => {
   console.log("request for network config received");
   const networkDataPath = path.join(__dirname, 'network_data.json');
-  const networkData = fs.readFileSync(networkDataPath, 'utf8');
-  const jsonContent = JSON.parse(networkData);
 
-  if (fs.existsSync(networkDataPath) && fs.statSync(networkDataPath).size > 0 && jsonContent.nodes.length !== 0) {
-    
-    mainWindow.webContents.send('load-network-data', JSON.parse(networkData));
+  // Check if file exists and is not empty
+  if (!fs.existsSync(networkDataPath) || fs.statSync(networkDataPath).size === 0) {
+    console.log("saved network config NOT found");
+    mainWindow.webContents.send('process-json-data');
+    return; // Exit the function early
+  }
+
+  // Read the file's content
+  const networkData = fs.readFileSync(networkDataPath, 'utf8').trim();
+
+  // If the content is empty (or whitespace), bypass the JSON parsing
+  if (!networkData) {
+    console.log("saved network config NOT found");
+    mainWindow.webContents.send('process-json-data');
+    return; // Exit the function early
+  }
+
+  // Safely parse JSON
+  let jsonContent;
+  try {
+    jsonContent = JSON.parse(networkData);
+  } catch (error) {
+    console.error('Error parsing network data:', error);
+    console.log("saved network config NOT found");
+    mainWindow.webContents.send('process-json-data');
+    return; // Exit the function early
+  }
+
+  // Check if 'nodes' exists and is not empty
+  if (jsonContent.nodes && jsonContent.nodes.length !== 0) {
     console.log("saved network config found");
+    mainWindow.webContents.send('load-network-data', jsonContent);
   } else {
     console.log("saved network config NOT found");
     mainWindow.webContents.send('process-json-data');
   }
 });
 
+
+
 ipcMain.on('load-network', (event) => {
   const filePath = path.join(__dirname, 'network_data.json');
   if (fs.existsSync(filePath)) {
     const data = fs.readFileSync(filePath, 'utf8');
-    mainWindow.webContents.send('network-data-loaded', JSON.parse(data));
+    mainWindow.webContents.send('load-network-data', JSON.parse(data));
   } else {
-    mainWindow.webContents.send('network-data-loaded', null);
+    console.log("nothing to load");
   }
 });
 

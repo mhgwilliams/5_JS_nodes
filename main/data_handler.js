@@ -1,5 +1,42 @@
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
+
+// currently this function just grabs the username but should be set to grab all the metadata I want from the file.
+function getUsername(filePath) {
+
+  var username;
+  var uid;
+
+  fs.stat(filePath, function(err, stats){
+  
+    //Checking for errors
+   if(err){
+       console.log(err)
+   }
+   else{
+    //Logging the stats Object
+   uid = stats.uid;
+   }
+  });
+
+  try {
+
+    // Printing user information
+    console.log(os.userInfo());
+    var userInfo = os.userInfo(uid);
+    username = userInfo.username;
+
+  } catch (err) {
+   
+    // Printing if any exception occurs
+    console.log(": error occurred" + err);
+
+  }
+
+  return username;
+
+};
 
 function findJsonFiles(rootDir) {
   let jsonFiles = [];

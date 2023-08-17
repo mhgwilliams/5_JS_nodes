@@ -6,6 +6,8 @@ const loadHouJsonBtn = document.getElementById("loadHouJson");
 const saveNetworkBtn = document.getElementById("save_button");
 const loadNetworkBtn = document.getElementById("load_button");
 
+const openConfigBtn = document.getElementById("toggleConfigBtn");
+
 loadNukeFileBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the nukefilebutton
   loadNukeFileInput.click();
@@ -38,4 +40,10 @@ loadNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button
   console.log("load network clicked");
   window.ipcRenderer.send("load-network");
+});
+
+openConfigBtn.addEventListener("click", () => {
+  // Send a message to the main process to execute the save button
+  console.log("toggle config clicked");
+  window.ipcRenderer.send("open-config");
 });

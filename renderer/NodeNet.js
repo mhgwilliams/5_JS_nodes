@@ -18,10 +18,6 @@ let serializedState;
 let contextMenuElement = null;
 let selectedNode = null;
 
-// This is a multiline Comment
-// ! testing things
-// TODO: blah blah
-
 function showPopupMenu(params) {
   selectedNode = network.getNodeAt(params.pointer.DOM);
 
@@ -156,7 +152,7 @@ function createNodesAndEdges(jsonData) {
       uniqueScenes[fileName] = {
         id: nodeId++,
         label: fileName,
-        title: fileName,
+        title: fileName, //testing div element as title
         group: "projectfile",
         controlNodes: true, // control nodes hidden option
         color: "yellow",
@@ -433,6 +429,8 @@ function networkInteraction(){
     if (params.nodes.length == 1) {
       const clickedNodeId = params.nodes[0];
 
+      console.log("doubleclick");
+
       // Check if the clicked node is a cluster
       // Cluster the nodes directly connected to the clicked node
       const connectedNodes = network.getConnectedNodes(clickedNodeId);
@@ -529,10 +527,6 @@ function redrawAll() {
 
 }
 
-
-
-
-
 function exportNetwork(){
   // variables for saving state
 
@@ -583,16 +577,11 @@ ipcRenderer.on("save-network-data", (event) => {
   ipcRenderer.send('network-data-response', serializedState);
 });
 
-ipcRenderer.on("network-data-loaded", (event, savedNetwork) => {
-  console.log("nodenet: network-data-loaded received from main");
-  restoreNetwork(savedNetwork);
-
-});
-
 ipcRenderer.on("process-json-data", (event) => {
   loadJsonDataAndDraw();
   //initNetwork();
 });
+
 ipcRenderer.on("control-vis", (event, checkValue) => {
   console.log("nodenet: control-vis received");
   controlVis(selectedNode, checkValue);
