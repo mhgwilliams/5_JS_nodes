@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 
+const { v4: uuidv4 } = require('uuid'); //generating unique id's for each datapoint
+
 // currently this function just grabs the username but should be set to grab all the metadata I want from the file.
 function getUsername(filePath) {
 
@@ -166,11 +168,17 @@ function updateDatabase(newData) {
     });
 
     if (projectIndex !== -1) {
-      data_list.data[projectIndex] = newData;
+      // Preserve the existing UUID if the entry already exists
+      const existingId = data_list.data[projectIndex].id;
+      data_list.data[projectIndex] = { ...newData, id: existingId };
     } else {
+      // Assign a new UUID for new data
+      newData.id = uuidv4();
       data_list.data.push(newData);
     }
   } else {
+    // Create a new list with a UUID for the new entry
+    newData.id = uuidv4();
     data_list = {
       timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
       data: [newData],

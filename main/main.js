@@ -7,6 +7,8 @@ const path = require('path');
 const fs = require('fs');
 const { readFile } = require('fs/promises');
 
+const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
+
 
 const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
@@ -168,6 +170,45 @@ ipcMain.on("searchDirectory", (event) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+//window stuff
+ipcMain.on('open-node-details', (event, uuid) => {
+  let nodeWindow = new MicaBrowserWindow({
+    width: 800,
+    height: 600,
+    autoHideMenuBar: true,
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false, // Consider security implications
+      // Other webPreferences you might need
+    }
+  });
+
+  //nodeWindow.webContents.openDevTools();
+
+  nodeWindow.setCustomEffect(WIN10.BLURBEHIND, '#303030', 0.4); 
+
+  // Load a specific HTML file or URL, you might pass nodeId to dynamically change content
+  nodeWindow.loadFile('renderer/node-details.html');
+
+  const jsonData = JSON.parse(fs.readFileSync('data/database.json', 'utf8'));
+  const nodeInfo = jsonData.data.find(item => item.id === uuid);
+
+  // Send data to new window
+  nodeWindow.webContents.on('did-finish-load', () => {
+    nodeWindow.webContents.send('node-data', nodeInfo);
+  });
+
+  nodeWindow.webContents.once('dom-ready', () => {
+    nodeWindow.show();
+  });
+
+  // Handle window close
+  nodeWindow.on('closed', () => {
+    nodeWindow = null;
+  });
 });
 
 app.on("window-all-closed", () => {

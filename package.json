@@ -2,8 +2,10 @@
   "name": "5_js_nodes",
   "version": "1.0.0",
   "description": "",
-  "electronmon":{
-    "patterns": ["!main/*.json"]
+  "electronmon": {
+    "patterns": [
+      "!main/*.json"
+    ]
   },
   "main": "./main/main.js",
   "scripts": {
@@ -14,7 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "vis-network": "^6.5.2"
+    "@pgrabovets/json-view": "^2.7.5",
+    "mica-electron": "^1.5.3",
+    "vis-network": "^9.1.9"
   },
   "devDependencies": {
     "electron": "^24.2.0"

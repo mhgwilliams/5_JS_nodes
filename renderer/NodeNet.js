@@ -147,10 +147,13 @@ function createNodesAndEdges(jsonData) {
     const fileTypes = Object.keys(fileTypeIcons);
     const fileType = fileTypes.find((type) => item[fileTypeKeys[type]] !== undefined);
     const fileName = item[fileTypeKeys[fileType]];
+    const uniqueID = item.id;
+
 
     if (!uniqueScenes[fileName]) {
       uniqueScenes[fileName] = {
         id: nodeId++,
+        UUID: uniqueID,
         label: fileName,
         title: fileName, //testing div element as title
         group: "projectfile",
@@ -428,8 +431,14 @@ function networkInteraction(){
   network.on("doubleClick", function (params) {
     if (params.nodes.length == 1) {
       const clickedNodeId = params.nodes[0];
+      const nodeData = nodes.get(params.nodes[0]);
+
 
       console.log("doubleclick");
+      //I want to display information for a node in a popup window when a user doubleclicks. I think I need
+      //to send a message to main.js because I have to load content from the json file.
+
+      ipcRenderer.send('open-node-details', nodeData.UUID);
 
       // Check if the clicked node is a cluster
       // Cluster the nodes directly connected to the clicked node

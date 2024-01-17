@@ -1,0 +1,74 @@
+{
+    "file_name": "240109_Color_dev.c4d",
+    "file_path": "C:\\Users\\hoganwilliams\\Documents\\1_HoganStuff\\7_programming\\1_Asset_Dependencies\\1_C4D_stuff\\240109_Color_dev.c4d",
+    "date_modified": "2024-01-16 14:37:13.284218",
+    "project_info": {
+        "fps": 30,
+        "min_time": 0.0,
+        "max_time": 3.0,
+        "color_management": 1,
+        "ocio_preset": 1,
+        "ocio_config": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\config.ocio",
+        "ocio_render_colorspace": 0,
+        "program_creator_name": "Maxon Cinema 4D 26.107",
+        "program_writer_name": "Maxon Cinema 4D 2024.1.0"
+    },
+    "assets": [
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\config.ocio",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\ACEScg_Labels_ColorChecker2014.exr",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "asset:///file_ac9de763f1c7041c~.exr",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Show_LMT_cct.cube",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_RGC_33.cube",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_gm_lut_shaper_to_linear_v01.spi1d",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#LMT_Soft_v9_cct_33.cube",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Log2_48_nits_Shaper_to_linear.spi1d",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#softRolloff_v03_ocioLogLin_linLog_1Dlog.cube",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Unity_neutral_viewtransform.ctf",
+            "frames": 1
+        },
+        {
+            "type": "Texture",
+            "path": "\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\sRGB_Labels_ColorChecker2014.exr",
+            "frames": 1
+        }
+    ],
+    "outputs": []
+}
