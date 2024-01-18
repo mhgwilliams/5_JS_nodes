@@ -106,6 +106,20 @@ ipcMain.on('load-network', (event) => {
   }
 });
 
+ipcMain.on('clear-network', (event) => {
+  const filePath = path.join(__dirname, 'network_data.json');
+  if (fs.existsSync(filePath)) {
+    // Write an empty object to the file
+    fs.writeFileSync(filePath, JSON.stringify({}), 'utf8');
+
+    // Optionally, notify mainWindow that the network data has been cleared
+    // You can adjust the message and data sent based on your application's needs
+    mainWindow.webContents.send('network-data-cleared', {});
+    console.log("Network data cleared");
+  } else {
+    console.log("File not found, nothing to clear");
+  }
+});
 
 
 // node network interaction
@@ -120,7 +134,14 @@ ipcMain.on("nodeContext", (event, node) => {
 ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");
   console.log(file);
-  loadNukeFile(file);
+  const nukeContent = loadNukeFile(file);
+  console.log(nukeContent);
+  const updatedData = updateDatabase(nukeContent);
+        if (!updatedData.duplicate){
+          mainWindow.webContents.send('database-updated', updatedData.newData);
+        } else {
+          console.log("duplicate entry");
+        }
 });
 
 ipcMain.on("loadHouJson", (event) => {
@@ -135,7 +156,37 @@ ipcMain.on("loadHouJson", (event) => {
         console.log("Selected file:", filePath);
         
         const data = fs.readFileSync(filePath, 'utf8');
-        updateDatabase(JSON.parse(data));
+        const updatedData = updateDatabase(JSON.parse(data));
+        if (!updatedData.duplicate){
+          mainWindow.webContents.send('database-updated', updatedData.newData);
+        } else {
+          console.log("duplicate entry");
+        }
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+ipcMain.on("loadC4DJson", (event) => {
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ extensions: ["json"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
+        
+        const data = fs.readFileSync(filePath, 'utf8');
+        const updatedData = updateDatabase(JSON.parse(data));
+        if (!updatedData.duplicate){
+          mainWindow.webContents.send('database-updated', updatedData.newData);
+        } else {
+          console.log("duplicate entry");
+        }
       }
     })
     .catch((err) => {

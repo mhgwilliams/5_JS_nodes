@@ -117,10 +117,16 @@ def combine_image_sequences(assets):
 
 
 
-def main_process():
+def main():
     doc = c4d.documents.GetActiveDocument()
-    c4d_file_path = doc.GetDocumentPath() + '/' + doc.GetDocumentName()
-    c4d_file_name = doc.GetDocumentName()
+    c4d_file_path = os.path.join(doc.GetDocumentPath(), doc.GetDocumentName())
+    c4d_file_name = os.path.splitext(doc.GetDocumentName())[0] + ".json"
+    json_file_path = os.path.join(doc.GetDocumentPath(), 'data', c4d_file_name)
+
+    # Check if the JSON file already exists
+    if os.path.exists(json_file_path):
+        print("JSON file already generated")
+        return
 
     # Collect additional data points
     additional_data = {
@@ -191,6 +197,6 @@ def main_process():
                    [{"type": "Geometry", "path": geo} for geo in assets['geometry']]
 
     export_assets_to_json(formatted_assets, c4d_file_path, c4d_file_name, unique_image_sequences, additional_data)
-    
+
 if __name__ == '__main__':
-    main_process()
+    main()

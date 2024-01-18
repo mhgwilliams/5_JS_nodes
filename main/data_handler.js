@@ -138,43 +138,42 @@ function loadNukeFile(filePath) {
     const outputs = writeNodes.map((path) => ({ type: "write", path }));
 
     const output = {
-      nuke_script_name: nukeScriptName,
+      file_name: nukeScriptName,
       date,
       assets,
       outputs,
     };
 
-    updateDatabase(output);
-    console.log("Finished processing Nuke file.");
-    console.log("JSON data appended to 'database.json'.");
+    return output;
+
+    //updateDatabase(output);
+    //console.log("Finished processing Nuke file.");
+    //console.log("JSON data appended to 'database.json'.");
   }
 }
 
 function updateDatabase(newData) {
   let data_list;
+  let duplicateEntry = false;
 
   if (fs.existsSync("./data/database.json")) {
     data_list = JSON.parse(fs.readFileSync("./data/database.json", "utf8"));
 
     const projectIndex = data_list.data.findIndex(project => {
-      return (
-        (project.nuke_script_name &&
-          newData.nuke_script_name &&
-          project.nuke_script_name === newData.nuke_script_name) ||
-        (project.c4d_file_name &&
-          newData.c4d_file_name &&
-          project.c4d_file_name === newData.c4d_file_name)
-      );
+      return project.file_name && newData.file_name && project.file_name === newData.file_name;
     });
 
     if (projectIndex !== -1) {
       // Preserve the existing UUID if the entry already exists
       const existingId = data_list.data[projectIndex].id;
       data_list.data[projectIndex] = { ...newData, id: existingId };
+      duplicateEntry = true;
     } else {
       // Assign a new UUID for new data
       newData.id = uuidv4();
       data_list.data.push(newData);
+      //send a message to the nodenet that we got new shit
+
     }
   } else {
     // Create a new list with a UUID for the new entry
@@ -186,6 +185,7 @@ function updateDatabase(newData) {
   }
 
   fs.writeFileSync("./data/database.json", JSON.stringify(data_list, null, 4), "utf8");
+  return {newData: newData, duplicate: duplicateEntry};
 }
 
 

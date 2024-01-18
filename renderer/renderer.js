@@ -2,9 +2,10 @@ const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
 const loadNukeFileInput = document.getElementById("loadNukeFileInput");
 const searchDirectoryBtn = document.getElementById("searchDirectoryBtn");
 const loadHouJsonBtn = document.getElementById("loadHouJson");
+const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 
 const saveNetworkBtn = document.getElementById("save_button");
-const loadNetworkBtn = document.getElementById("load_button");
+const clearNetworkBtn = document.getElementById("clear_button");
 
 const openConfigBtn = document.getElementById("toggleConfigBtn");
 
@@ -30,16 +31,21 @@ loadHouJsonBtn.addEventListener("click", () => {
   window.ipcRenderer.send("loadHouJson");
 });
 
+loadC4DJsonBtn.addEventListener("click", () => {
+  // Send a message to the main process to open the file
+  window.ipcRenderer.send("loadC4DJson");
+});
+
 saveNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button
   console.log("save network clicked");
   window.ipcRenderer.send("save-network");
 });
 
-loadNetworkBtn.addEventListener("click", () => {
+clearNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button
-  console.log("load network clicked");
-  window.ipcRenderer.send("load-network");
+  console.log("clear network clicked");
+  window.ipcRenderer.send("clear-network");
 });
 
 openConfigBtn.addEventListener("click", () => {

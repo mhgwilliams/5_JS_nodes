@@ -7,6 +7,9 @@ var imgDIR = "./icons/";
 var nodes = new vis.DataSet();
 var edges = new vis.DataSet();
 
+var uniqueAssets = {};
+var uniqueScenes = {};
+
 var networkState;
 var nodesData = [];
 var edgesData = [];
@@ -123,20 +126,11 @@ function formatNode(asset, id) {
 }
 
 function createNodesAndEdges(jsonData) {
-  const uniqueAssets = {};
-  const uniqueScenes = {};
 
   const fileTypeIcons = {
     c4d: "c4d.png",
-    nuke: "nuke.png",
-    hou: "hou.png",
-    // Add more file types here
-  };
-
-  const fileTypeKeys = {
-    c4d: "c4d_file_name",
-    nuke: "nuke_script_name",
-    hou: "hou_file_name",
+    nk: "nuke.png",
+    hip: "hou.png",
     // Add more file types here
   };
 
@@ -144,9 +138,10 @@ function createNodesAndEdges(jsonData) {
   let edgeId = 1;
 
   jsonData.data.forEach((item) => {
-    const fileTypes = Object.keys(fileTypeIcons);
-    const fileType = fileTypes.find((type) => item[fileTypeKeys[type]] !== undefined);
-    const fileName = item[fileTypeKeys[fileType]];
+    const fileExtension = item.file_name.split('.').pop().toLowerCase();
+    const fileType = fileExtension in fileTypeIcons ? fileExtension : null;
+    //const fileType = fileTypes.find((type) => item[fileTypeKeys[type]] !== undefined);
+    const fileName = item.file_name;
     const uniqueID = item.id;
 
 
@@ -278,10 +273,170 @@ function createNodesAndEdges(jsonData) {
   nodes = new vis.DataSet(nodesData);
   edges = new vis.DataSet(edgesData);
 
-  console.log(nodes);
+  initNetwork();
+}
+function addNodesAndEdges(jsonData) {
+
+  const fileTypeIcons = {
+    c4d: "c4d.png",
+    nk: "nuke.png",
+    hip: "hou.png",
+    // Add more file types here
+  };
+
+  let nodeId;
+  let edgeId;
+
+  if (nodesData.length > 0 && typeof nodesData[nodesData.length - 1].id !== 'undefined') {
+      nodeId = nodesData[nodesData.length - 1].id + 1;
+  } else {
+      nodeId = 1;
+  }
+
+  if (edgesData.length > 0 && typeof edgesData[edgesData.length - 1].id !== 'undefined') {
+      edgeId = edgesData[edgesData.length - 1].id + 1;
+  } else {
+      edgeId = 1;
+  }
+
+  const fileExtension = jsonData.file_name.split('.').pop().toLowerCase();
+  const fileType = fileExtension in fileTypeIcons ? fileExtension : null;
+  //const fileType = fileTypes.find((type) => item[fileTypeKeys[type]] !== undefined);
+  const fileName = jsonData.file_name;
+  const uniqueID = jsonData.id;
+
+
+  if (!uniqueScenes[fileName]) {
+    uniqueScenes[fileName] = {
+      id: nodeId++,
+      UUID: uniqueID,
+      label: fileName,
+      title: fileName, //testing div element as title
+      group: "projectfile",
+      controlNodes: true, // control nodes hidden option
+      color: "yellow",
+      shape: "image",
+      physics: false,
+      image: imgDIR + fileTypeIcons[fileType], // Set the image based on the file type
+    };
+    nodesData.push(uniqueScenes[fileName]);
+
+    // Create a hidden node for the project file node to control the textures
+    nodesData.push({
+      id: nodeId++,
+      hidden: true,
+      physics: false,
+      group: "controlNodes",
+      color: "rgba(255,255,255,0.1)",
+      title: "AssetControl",
+      parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
+    });
+
+    // Create a hidden node for the project file node to control the renders
+    nodesData.push({
+      id: nodeId++,
+      hidden: true,
+      physics: false,
+      group: "controlNodes",
+      color: "rgba(255,255,255,0.1)",
+      title: "OutputControl",
+      parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
+    });
+
+    // Create an edge between the hidden node and the project file node
+    edgesData.push({
+      id: edgeId++,
+      from: uniqueScenes[fileName].id,
+      to: nodeId - 1,
+      length: 20,
+      physics: false,
+      color: "red",
+      hidden: true,
+    });
+
+    // Create an edge between the hidden node and the project file node
+    edgesData.push({
+      id: edgeId++,
+      from: uniqueScenes[fileName].id,
+      to: nodeId - 2,
+      length: 20,
+      physics: false,
+      color: "red",
+      hidden: true,
+    });
+  }
+
+  jsonData.assets.forEach((asset) => {
+    const assetFileName = pathBasename(asset.path);
+
+    if (!uniqueAssets[assetFileName]) {
+      uniqueAssets[assetFileName] = formatNode(asset, nodeId++);
+      nodesData.push(uniqueAssets[assetFileName]);
+    }
+
+    edgesData.push({
+      id: edgeId++,
+      to: uniqueScenes[fileName].id,
+      from: uniqueAssets[assetFileName].id,
+      arrows: "to", // Add an arrow to the edge
+    });
+
+    // Connect hidden nodes to their texture nodes
+    const AssetControlNode = nodesData.find(
+      (item) =>
+        item.parentProjectFileId === uniqueScenes[fileName].id &&
+        item.title === "AssetControl"
+    );
+
+    edgesData.push({
+      id: edgeId++,
+      to: AssetControlNode.id,
+      from: uniqueAssets[assetFileName].id,
+      length: 20,
+      hidden: true,
+    });
+  });
+
+  // Process the outputs if they exist
+  if (jsonData.outputs) {
+    jsonData.outputs.forEach((output) => {
+      const outputFileName = pathBasename(output.path);
+
+      if (!uniqueAssets[outputFileName]) {
+        uniqueAssets[outputFileName] = formatNode(output, nodeId++);
+        nodesData.push(uniqueAssets[outputFileName]);
+      }
+
+      edgesData.push({
+        id: edgeId++,
+        from: uniqueScenes[fileName].id,
+        to: uniqueAssets[outputFileName].id,
+        arrows: "to", // Add an arrow to the edge
+      });
+
+      const OutputControlNode = nodesData.find(
+        (item) =>
+          item.parentProjectFileId === uniqueScenes[fileName].id &&
+          item.title === "OutputControl"
+      );
+
+      edgesData.push({
+        id: edgeId++,
+        to: OutputControlNode.id,
+        from: uniqueAssets[outputFileName].id,
+        length: 20,
+        hidden: true,
+      });
+    });
+  }
+
+  nodes = new vis.DataSet(nodesData);
+  edges = new vis.DataSet(edgesData);
+
 
   initNetwork();
 }
+
 function initNetwork() {
 
   console.log("network initialized");
@@ -596,9 +751,16 @@ ipcRenderer.on("control-vis", (event, checkValue) => {
   controlVis(selectedNode, checkValue);
 });
 
+ipcRenderer.on('database-updated', (event, newData) => {
+  console.log("database updated- new data received");
+  //console.log(newData);
+  addNodesAndEdges(newData);
+});
+
 ipcRenderer.on('load-network-data', (event, networkData) => {
   console.log("restoring network");
   restoreNetwork(networkData);
+  //before i re-init the network i need to check if there are any new nodes from the database
   initNetwork();
 });
 

@@ -4,7 +4,7 @@
   "description": "",
   "electronmon": {
     "patterns": [
-      "!main/*.json"
+      "!main/*.json", "!data/database.json"
     ]
   },
   "main": "./main/main.js",
