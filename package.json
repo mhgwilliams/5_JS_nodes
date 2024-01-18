@@ -1,7 +1,7 @@
 {
-  "name": "5_js_nodes",
-  "version": "1.0.0",
-  "description": "",
+  "name": "FlowViewer",
+  "version": "0.1.0",
+  "description": "node view of project assets and renders",
   "electronmon": {
     "patterns": [
       "!main/*.json", "!data/database.json"

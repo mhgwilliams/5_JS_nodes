@@ -27,7 +27,11 @@ function buildPopupMenu(mainWindow, node) {
             ]
         },
         {
-            label: "more options"
+            label: "Open Details",
+            click: () => {
+                const nodeUUID = node.UUID;
+                openDetails(nodeUUID);
+            }
         }
     ];
 
@@ -39,6 +43,11 @@ function buildPopupMenu(mainWindow, node) {
     function controlVis(checkValue){
         console.log("menumaker: controlVis");
         mainWindow.webContents.send('control-vis', checkValue);
+    }
+
+    function openDetails(nodeUUID){
+        console.log("menumaker: openDetails", nodeUUID);
+        mainWindow.webContents.send('open-details', nodeUUID);
     }
 
     return Menu.buildFromTemplate(contextTemplate);

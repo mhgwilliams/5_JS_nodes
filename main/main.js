@@ -17,10 +17,10 @@ let mainWindow;
 
 
 function createWindow() {
-    mainWindow = new BrowserWindow({
-    backgroundColor: "#2e2c29",
+    mainWindow = new MicaBrowserWindow({
     width: 1200,
     height: 900,
+    show: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -29,8 +29,14 @@ function createWindow() {
     },
   });
 
+  mainWindow.setCustomEffect(WIN10.BLURBEHIND, '#303030', 0.1); 
+
   mainWindow.loadFile("renderer/index.html");
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
+
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.show();
+  });
   
 }
 
@@ -124,9 +130,10 @@ ipcMain.on('clear-network', (event) => {
 
 // node network interaction
 ipcMain.on("nodeContext", (event, node) => {
-  //console.log("main: nodeContext received");
+
   const popupMenu = buildPopupMenu(mainWindow, node);
   popupMenu.popup(mainWindow, node);
+
 });
 
 // Buttons for loading files
@@ -135,7 +142,7 @@ ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");
   console.log(file);
   const nukeContent = loadNukeFile(file);
-  console.log(nukeContent);
+
   const updatedData = updateDatabase(nukeContent);
         if (!updatedData.duplicate){
           mainWindow.webContents.send('database-updated', updatedData.newData);
@@ -225,6 +232,10 @@ ipcMain.on("searchDirectory", (event) => {
 
 //window stuff
 ipcMain.on('open-node-details', (event, uuid) => {
+  openNodeDetails_Menu(uuid);
+});
+
+function openNodeDetails_Menu(uuid){
   let nodeWindow = new MicaBrowserWindow({
     width: 800,
     height: 600,
@@ -260,7 +271,7 @@ ipcMain.on('open-node-details', (event, uuid) => {
   nodeWindow.on('closed', () => {
     nodeWindow = null;
   });
-});
+};
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -269,7 +280,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
+  if (MicaBrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });

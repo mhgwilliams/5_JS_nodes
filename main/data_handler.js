@@ -188,11 +188,6 @@ function updateDatabase(newData) {
   return {newData: newData, duplicate: duplicateEntry};
 }
 
-
-function testPrint() {
-  console.log("doing stuff in data handler file");
-}
-
 module.exports = {
     loadNukeFile,
     findJsonFiles,
