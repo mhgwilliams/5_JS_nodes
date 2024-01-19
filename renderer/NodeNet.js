@@ -1,6 +1,5 @@
-//const { ipcRenderer } = require("electron");
-
 const pathBasename = window.electronAPI.basename;
+
 const jsonDataPath = "../data/database.json";
 
 var imgDIR = "./icons/";
@@ -72,11 +71,8 @@ function removeContextMenu() {
   }
 }
 
-async function loadJsonDataAndDraw() {
+async function receiveJsonDataAndDraw(jsonData) {
   try {
-    const jsonData = await fetch(jsonDataPath).then((response) =>
-      response.json()
-    );
     console.log("JSON Data is ", jsonData.data);
     loadFromDatabase(jsonData.data);
   } catch (err) {
@@ -720,9 +716,9 @@ ipcRenderer.on("save-network-data", (event) => {
   ipcRenderer.send('network-data-response', serializedState);
 });
 
-ipcRenderer.on("process-json-data", (event) => {
+ipcRenderer.on("process-json-data", (event, jsonData) => {
   //on startup only
-  loadJsonDataAndDraw()
+  receiveJsonDataAndDraw(jsonData)
   initNetwork();
 });
 

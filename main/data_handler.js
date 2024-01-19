@@ -4,41 +4,35 @@ const os = require("os");
 
 const { v4: uuidv4 } = require('uuid'); //generating unique id's for each datapoint
 
-// currently this function just grabs the username but should be set to grab all the metadata I want from the file.
-function getUsername(filePath) {
+const { app } = require("electron");
 
-  var username;
-  var uid;
+var appPath = app.getAppPath();
+var appDataPath = app.getPath('userData');
 
-  fs.stat(filePath, function(err, stats){
-  
-    //Checking for errors
-   if(err){
-       console.log(err)
-   }
-   else{
-    //Logging the stats Object
-   uid = stats.uid;
-   }
-  });
+async function loadDatabase(){
+  const jsonDataPath = path.join(appDataPath, "data", "database.json");
+  let jsonData = {
+    timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
+    data: [],
+  };
 
   try {
-
-    // Printing user information
-    console.log(os.userInfo());
-    var userInfo = os.userInfo(uid);
-    username = userInfo.username;
-
+    if (fs.existsSync(jsonDataPath)) {
+      const fileData = fs.readFileSync(jsonDataPath, 'utf8');
+      jsonData = JSON.parse(fileData);
+    } else {
+      throw new Error('File does not exist');
+    }
+    console.log("JSON Data is ", jsonData);
   } catch (err) {
-   
-    // Printing if any exception occurs
-    console.log(": error occurred" + err);
-
+    console.error("Error reading file or parsing JSON:", err);
+    // Create an empty JSON file if it doesn't exist or there was a parsing error
+    fs.writeFileSync(jsonDataPath, JSON.stringify(jsonData, null, 4), 'utf8');
+    console.log("Created empty JSON file");
   }
 
-  return username;
-
-};
+  return jsonData;
+}
 
 function findJsonFiles(rootDir) {
   let jsonFiles = [];
@@ -155,25 +149,31 @@ function loadNukeFile(filePath) {
 function updateDatabase(newData) {
   let data_list;
   let duplicateEntry = false;
+  const jsonDataPath = path.join(appDataPath, "data", "database.json");
 
-  if (fs.existsSync("./data/database.json")) {
-    data_list = JSON.parse(fs.readFileSync("./data/database.json", "utf8"));
+  if (fs.existsSync(jsonDataPath)) {
+    data_list = JSON.parse(fs.readFileSync(jsonDataPath, "utf8"));
 
-    const projectIndex = data_list.data.findIndex(project => {
-      return project.file_name && newData.file_name && project.file_name === newData.file_name;
-    });
+    if (data_list && data_list.data) {
+      const projectIndex = data_list.data.findIndex((project) => {
+        return (
+          project.file_name &&
+          newData.file_name &&
+          project.file_name === newData.file_name
+        );
+      });
 
-    if (projectIndex !== -1) {
-      // Preserve the existing UUID if the entry already exists
-      const existingId = data_list.data[projectIndex].id;
-      data_list.data[projectIndex] = { ...newData, id: existingId };
-      duplicateEntry = true;
-    } else {
-      // Assign a new UUID for new data
-      newData.id = uuidv4();
-      data_list.data.push(newData);
-      //send a message to the nodenet that we got new shit
-
+      if (projectIndex !== -1) {
+        // Preserve the existing UUID if the entry already exists
+        const existingId = data_list.data[projectIndex].id;
+        data_list.data[projectIndex] = { ...newData, id: existingId };
+        duplicateEntry = true;
+      } else {
+        // Assign a new UUID for new data
+        newData.id = uuidv4();
+        data_list.data.push(newData);
+        //send a message to the nodenet that we got new shit
+      }
     }
   } else {
     // Create a new list with a UUID for the new entry
@@ -183,8 +183,20 @@ function updateDatabase(newData) {
       data: [newData],
     };
   }
+  
+  try {
+    fs.writeFileSync(jsonDataPath, JSON.stringify(data_list, null, 4), "utf8");
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      // Create the directory if it doesn't exist
+      fs.mkdirSync(path.dirname(jsonDataPath), { recursive: true });
+      // Create the file
+      fs.writeFileSync(jsonDataPath, JSON.stringify(data_list, null, 4), "utf8");
+    } else {
+      throw error;
+    }
+  }
 
-  fs.writeFileSync("./data/database.json", JSON.stringify(data_list, null, 4), "utf8");
   return {newData: newData, duplicate: duplicateEntry};
 }
 
@@ -193,5 +205,6 @@ module.exports = {
     findJsonFiles,
     readJsonData,
     updateDatabase,
+    loadDatabase
   };
   

@@ -10,10 +10,14 @@ const { readFile } = require('fs/promises');
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
-const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase } = require("./data_handler");
+const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
+var appPath = app.getAppPath();
+var appDataPath = app.getPath('userData');
+
 let mainWindow;
+let jsonDatabase;
 
 
 function createWindow() {
@@ -40,42 +44,46 @@ function createWindow() {
   
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  createWindow();
+  jsonDatabase = await loadDatabase();
+  console.log("jsonDatabase is ", jsonDatabase);
+});
 
 // node network config save/load
 
 ipcMain.on('save-network', (event) => {
-  //const filePath = path.join(__dirname, 'network_data.json');
-  //fs.writeFileSync(filePath, data, 'utf8');
   console.log("main: save network received");
   mainWindow.webContents.send('save-network-data');
 });
 
 ipcMain.on('network-data-response', (event, data) => {
-  const filePath = path.join(__dirname, 'network_data.json');
+  const filePath = path.join(appDataPath, 'network_data.json');
   fs.writeFileSync(filePath, data, 'utf8');
-  //console.log(data);
-
 });
 
-ipcMain.on('request-network-data', (event) => {
+ipcMain.on('request-network-data', async (event) => {
   console.log("request for network config received");
-  const networkDataPath = path.join(__dirname, 'network_data.json');
-
-  // Check if file exists and is not empty
-  if (!fs.existsSync(networkDataPath) || fs.statSync(networkDataPath).size === 0) {
-    console.log("saved network config NOT found");
-    mainWindow.webContents.send('process-json-data');
-    return; // Exit the function early
-  }
+  const networkDataPath = path.join(appDataPath, 'network_data.json');
 
   // Read the file's content
-  const networkData = fs.readFileSync(networkDataPath, 'utf8').trim();
+  let networkData;
+  try {
+    networkData = fs.readFileSync(networkDataPath, 'utf8').trim();
+  } catch (error) {
+    console.error('Error reading network data:', error);
+    console.log("Creating empty network data file");
+    fs.writeFileSync(networkDataPath, '', 'utf8');
+    networkData = '';
+  }
 
   // If the content is empty (or whitespace), bypass the JSON parsing
   if (!networkData) {
     console.log("saved network config NOT found");
-    mainWindow.webContents.send('process-json-data');
+    var jsonData = await loadDatabase();
+    if (jsonData){
+      mainWindow.webContents.send('process-json-data', jsonData);
+    }
     return; // Exit the function early
   }
 
@@ -86,7 +94,9 @@ ipcMain.on('request-network-data', (event) => {
   } catch (error) {
     console.error('Error parsing network data:', error);
     console.log("saved network config NOT found");
-    mainWindow.webContents.send('process-json-data');
+    if (jsonData){
+      mainWindow.webContents.send('process-json-data', jsonData);
+    }
     return; // Exit the function early
   }
 
@@ -96,14 +106,16 @@ ipcMain.on('request-network-data', (event) => {
     mainWindow.webContents.send('load-network-data', jsonContent);
   } else {
     console.log("saved network config NOT found");
-    mainWindow.webContents.send('process-json-data');
+    if (jsonData){
+      mainWindow.webContents.send('process-json-data', jsonData);
+    }
   }
 });
 
 
 
 ipcMain.on('load-network', (event) => {
-  const filePath = path.join(__dirname, 'network_data.json');
+  const filePath = path.join(appDataPath, 'network_data.json');
   if (fs.existsSync(filePath)) {
     const data = fs.readFileSync(filePath, 'utf8');
     mainWindow.webContents.send('load-network-data', JSON.parse(data));
@@ -113,7 +125,7 @@ ipcMain.on('load-network', (event) => {
 });
 
 ipcMain.on('clear-network', (event) => {
-  const filePath = path.join(__dirname, 'network_data.json');
+  const filePath = path.join(appDataPath, 'network_data.json');
   if (fs.existsSync(filePath)) {
     // Write an empty object to the file
     fs.writeFileSync(filePath, JSON.stringify({}), 'utf8');
@@ -250,16 +262,14 @@ function openNodeDetails_Menu(uuid){
 
   //nodeWindow.webContents.openDevTools();
 
-  nodeWindow.setCustomEffect(WIN10.BLURBEHIND, '#303030', 0.4); 
-
-  // Load a specific HTML file or URL, you might pass nodeId to dynamically change content
-  nodeWindow.loadFile('renderer/node-details.html');
-
-  const jsonData = JSON.parse(fs.readFileSync('data/database.json', 'utf8'));
-  const nodeInfo = jsonData.data.find(item => item.id === uuid);
+  if (jsonDatabase && jsonDatabase.data) {
+    nodeInfo = jsonDatabase.data.find(item => item.id === uuid);
+    console.log("nodeInfo is ", nodeInfo);
+  }
 
   // Send data to new window
   nodeWindow.webContents.on('did-finish-load', () => {
+    console.log("sending node data to node details window");
     nodeWindow.webContents.send('node-data', nodeInfo);
   });
 
