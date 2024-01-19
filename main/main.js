@@ -2,7 +2,7 @@
 // Renderer processes run in a Chromium environment, which provides access to the DOM and web APIs,
 // but it is more restricted in terms of Node.js APIs due to security reasons.
 
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
 const path = require('path');
 const fs = require('fs');
 const { readFile } = require('fs/promises');
@@ -156,11 +156,17 @@ ipcMain.on("loadNukeFile", (event, file) => {
   const nukeContent = loadNukeFile(file);
 
   const updatedData = updateDatabase(nukeContent);
-        if (!updatedData.duplicate){
-          mainWindow.webContents.send('database-updated', updatedData.newData);
-        } else {
-          console.log("duplicate entry");
-        }
+  if (!updatedData.duplicate) {
+    mainWindow.webContents.send('database-updated', updatedData.newData);
+  } else {
+    dialog.showMessageBox(mainWindow, {
+      type: 'warning',
+      title: 'Duplicate Entry',
+      message: 'This file has already been added to the network.',
+      buttons: ['OK']
+    });
+    console.log("duplicate entry");
+  }
 });
 
 ipcMain.on("loadHouJson", (event) => {
@@ -179,6 +185,12 @@ ipcMain.on("loadHouJson", (event) => {
         if (!updatedData.duplicate){
           mainWindow.webContents.send('database-updated', updatedData.newData);
         } else {
+          dialog.showMessageBox(mainWindow, {
+            type: 'warning',
+            title: 'Duplicate Entry',
+            message: 'This file has already been added to the network.',
+            buttons: ['OK']
+          });
           console.log("duplicate entry");
         }
       }
@@ -204,6 +216,12 @@ ipcMain.on("loadC4DJson", (event) => {
         if (!updatedData.duplicate){
           mainWindow.webContents.send('database-updated', updatedData.newData);
         } else {
+          dialog.showMessageBox(mainWindow, {
+            type: 'warning',
+            title: 'Duplicate Entry',
+            message: 'This file has already been added to the network.',
+            buttons: ['OK']
+          });
           console.log("duplicate entry");
         }
       }
@@ -245,9 +263,44 @@ ipcMain.on("searchDirectory", (event) => {
 //window stuff
 ipcMain.on('open-node-details', (event, uuid) => {
   openNodeDetails_Menu(uuid);
+  console.log("opening node details window");
 });
 
-function openNodeDetails_Menu(uuid){
+ipcMain.on('open-file-explorer', (event, uuid, directory) => {
+  openFileExplorer(uuid, directory);
+});
+
+function openFileExplorer(uuid, directory) {
+  
+  //directory is a boolean that determines if I open the folder or the file
+
+  let nodeInfo;
+  let path;
+
+  if (jsonDatabase && jsonDatabase.data) {
+    nodeInfo = jsonDatabase.data.find(item => item.id === uuid);
+    path = nodeInfo.file_path;
+  }
+
+  if (directory) {
+    path = path.substring(0, path.lastIndexOf("\\"));
+    console.log("opening directory", path);
+  }
+
+  shell.openPath(path)
+      .then(result => {
+        if (result) {
+          console.error('An error occurred:', result);
+        } else {
+          console.log('File explorer opened successfully.');
+        }
+      })
+      .catch(err => {
+        console.error('Failed to open file explorer:', err);
+      });
+}
+
+function openNodeDetails_Menu(uuid) {
   let nodeWindow = new MicaBrowserWindow({
     width: 800,
     height: 600,
@@ -264,8 +317,10 @@ function openNodeDetails_Menu(uuid){
 
   if (jsonDatabase && jsonDatabase.data) {
     nodeInfo = jsonDatabase.data.find(item => item.id === uuid);
-    console.log("nodeInfo is ", nodeInfo);
   }
+
+  // Load a specific HTML file or URL, you might pass nodeId to dynamically change content
+  nodeWindow.loadFile('renderer/node-details.html');
 
   // Send data to new window
   nodeWindow.webContents.on('did-finish-load', () => {
@@ -274,6 +329,7 @@ function openNodeDetails_Menu(uuid){
   });
 
   nodeWindow.webContents.once('dom-ready', () => {
+    console.log("node details window ready");
     nodeWindow.show();
   });
 

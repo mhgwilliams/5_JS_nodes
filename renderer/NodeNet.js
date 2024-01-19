@@ -732,6 +732,10 @@ ipcRenderer.on("open-details", (event, UUID) => {
   ipcRenderer.send('open-node-details', UUID);
 });
 
+ipcRenderer.on("open-explorer", (event, UUID, directory) => {
+  ipcRenderer.send('open-file-explorer', UUID, directory);
+});
+
 ipcRenderer.on('database-updated', (event, newData) => {
   console.log("database updated- new data received");
   addNewNodesAndEdges(newData);

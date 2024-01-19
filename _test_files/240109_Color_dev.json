@@ -16,57 +16,57 @@
     "assets": [
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\config.ocio",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\config.ocio",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\ACEScg_Labels_ColorChecker2014.exr",
+            "file_path": "\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\ACEScg_Labels_ColorChecker2014.exr",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "asset:///file_ac9de763f1c7041c~.exr",
+            "file_path": "asset:///file_ac9de763f1c7041c~.exr",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Show_LMT_cct.cube",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Show_LMT_cct.cube",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_RGC_33.cube",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_RGC_33.cube",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_gm_lut_shaper_to_linear_v01.spi1d",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_gm_lut_shaper_to_linear_v01.spi1d",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#LMT_Soft_v9_cct_33.cube",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#LMT_Soft_v9_cct_33.cube",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Log2_48_nits_Shaper_to_linear.spi1d",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Log2_48_nits_Shaper_to_linear.spi1d",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#softRolloff_v03_ocioLogLin_linLog_1Dlog.cube",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#softRolloff_v03_ocioLogLin_linLog_1Dlog.cube",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Unity_neutral_viewtransform.ctf",
+            "file_path": "\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Unity_neutral_viewtransform.ctf",
             "frames": 1
         },
         {
             "type": "Texture",
-            "path": "\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\sRGB_Labels_ColorChecker2014.exr",
+            "file_path": "\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\sRGB_Labels_ColorChecker2014.exr",
             "frames": 1
         }
     ],

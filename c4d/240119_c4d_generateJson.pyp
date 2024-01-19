@@ -193,8 +193,8 @@ def main():
     collect_geometry(doc.GetFirstObject(), assets)
     combined_assets = combine_image_sequences(assets)
 
-    formatted_assets = [{"type": "Texture", "path": tex, "frames": frames} for tex, frames in assets['textures'].items()] + \
-                   [{"type": "Geometry", "path": geo} for geo in assets['geometry']]
+    formatted_assets = [{"type": "Texture", "file_path": tex, "frames": frames} for tex, frames in assets['textures'].items()] + \
+                   [{"type": "Geometry", "file_path": geo} for geo in assets['geometry']]
 
     export_assets_to_json(formatted_assets, c4d_file_path, c4d_file_name, unique_image_sequences, additional_data)
 

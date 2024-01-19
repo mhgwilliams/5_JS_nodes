@@ -32,6 +32,22 @@ function buildPopupMenu(mainWindow, node) {
                 const nodeUUID = node.UUID;
                 openDetails(nodeUUID);
             }
+        },
+        {
+            label: "Open Directory",
+            click: () => {
+                const nodeUUID = node.UUID;
+                const directory = true;
+                openFileExplorer(nodeUUID, directory);
+            }
+        },
+        {
+            label: "Open File",
+            click: () => {
+                const nodeUUID = node.UUID;
+                const directory = false;
+                openFileExplorer(nodeUUID, directory);
+            }
         }
     ];
 
@@ -49,6 +65,11 @@ function buildPopupMenu(mainWindow, node) {
         console.log("menumaker: openDetails", nodeUUID);
         mainWindow.webContents.send('open-details', nodeUUID);
     }
+
+    function openFileExplorer(nodeUUID, directory) {
+        console.log("menumaker: open explorer", nodeUUID);
+        mainWindow.webContents.send('open-explorer', nodeUUID, directory);
+      }
 
     return Menu.buildFromTemplate(contextTemplate);
 
