@@ -1,181 +1,181 @@
 {
-    "hou_file_name": "SH030_Pop_A_bubbles_v018_test.hip",
+    "file_name": "SH030_Pop_A_bubbles_v018_test.hip",
     "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/SH030_Pop_A_bubbles_v018_test.hip",
     "date": "2023-05-05 13:56:40.547805",
     "assets": [
         {
             "type": "alembicarchive",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembicxform",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembic",
-            "path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "${BUCK_SHOT_PATH}/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/C4D/_abcOUT/7up_SH030_Pop_Bottles_AXL_B_v015.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/C4D/_abcOUT/7up_SH030_Pop_Bottles_AXL_B_v015.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidAnim_003.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidAnim_003.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidBooleanShape_003.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidBooleanShape_003.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/liquid_move_test_001.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/liquid_move_test_001.abc"
         },
         {
             "type": "filecache::2.0",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/geo/SH030_Pop_A_bubbles_v017_hw.axl_liquid_int_precache/v1/SH030_Pop_A_bubbles_v017_hw.axl_liquid_int_precache_v1.0001.bgeo.sc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/geo/SH030_Pop_A_bubbles_v017_hw.axl_liquid_int_precache/v1/SH030_Pop_A_bubbles_v017_hw.axl_liquid_int_precache_v1.0001.bgeo.sc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/C4D/_abcOUT/7up_SH030_Pop_Bottles_Carolina_B_v004.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/C4D/_abcOUT/7up_SH030_Pop_Bottles_Carolina_B_v004.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/SH030_Pop_A/Work/Houdini/assets/7up_SH030_Pop_Bottles_Carolina_B_v004.abc"
+            "file_path": "$JOB/Production/SH030_Pop_A/Work/Houdini/assets/7up_SH030_Pop_Bottles_Carolina_B_v004.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidAnim_003.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidAnim_003.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidBooleanShape_003.abc"
+            "file_path": "$JOB/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidBooleanShape_003.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/SH030_Pop_A/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
+            "file_path": "$JOB/Production/SH030_Pop_A/Work/Houdini/assets/SH030_Pop_A_v002_export.abc"
         },
         {
             "type": "alembic",
-            "path": "$JOB/Production/SH030_Pop_A/Work/Houdini/assets/7up_SH030_Pop_A_v010_squat_export_01.abc"
+            "file_path": "$JOB/Production/SH030_Pop_A/Work/Houdini/assets/7up_SH030_Pop_A_v010_squat_export_01.abc"
         }
     ],
     "outputs": [
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_AXL_interior_fizz_med_002.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_AXL_interior_fizz_med_002.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_lg_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_lg_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_med_sm_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_med_sm_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_int_bub_lg_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_int_bub_lg_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_lg_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_lg_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_med_sm_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_med_sm_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_polys_002.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_polys_002.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidBooleanShape_003.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_int_liquidBooleanShape_003.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_AXL_int_liquidAnim_004.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/sh30_AXL_int_liquidAnim_004.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_lg_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_lg_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_med_sm_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_ext_bub_med_sm_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_int_bub_lg_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_int_bub_lg_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_med_003.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_med_003.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_lg_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_lg_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_med_sm_001.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/carolina_spritz_bub_med_sm_001.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_polys_002.abc"
+            "file_path": "//caddy/work/current/PEPSI_7UP_NOW_THATS_REFRESHING_PEPNY_N0004/Production/CG/SH030_Pop/Work/Houdini/abc/SH30_Pop_Carolina_interior_fizz_polys_002.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
+            "file_path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
+            "file_path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
+            "file_path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
         },
         {
             "type": "rop_alembic",
-            "path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
+            "file_path": "${BUCK_GEO}/${OS}_${BUCK_VER}.abc"
         }
     ]
 }

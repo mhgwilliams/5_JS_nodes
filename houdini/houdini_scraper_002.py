@@ -144,7 +144,7 @@ def collectProject(settings):
 
     # Create a dictionary to store file paths
     collected_files = {
-        "hou_file_name": "",
+        "file_name": "",
         "file_path": "",
         "date": str(datetime.now()),
         "assets": [],
@@ -155,7 +155,7 @@ def collectProject(settings):
     hipname = hou.hipFile.basename()    
     refs = hou.fileReferences()
 
-    collected_files["hou_file_name"] = hipname
+    collected_files["file_name"] = hipname
     collected_files["file_path"] = hou.hipFile.path()
         
     # ignore archived/proxy files

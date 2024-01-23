@@ -31,6 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "@pgrabovets/json-view": "^2.7.5",
+    "fuse.js": "^7.0.0",
     "mica-electron": "^1.5.3",
     "uuid": "^9.0.1",
     "vis-network": "^9.1.9"

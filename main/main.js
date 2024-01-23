@@ -7,10 +7,12 @@ const path = require('path');
 const fs = require('fs');
 const { readFile } = require('fs/promises');
 
+const Fuse = require('fuse.js');
+
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
-const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase } = require("./data_handler");
+const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
 var appPath = app.getAppPath();
@@ -47,7 +49,27 @@ function createWindow() {
 app.whenReady().then(async () => {
   createWindow();
   jsonDatabase = await loadDatabase();
-  console.log("jsonDatabase is ", jsonDatabase);
+});
+
+// search functionality
+function searchDatabase(searchTerm) {
+  console.log("searching database for", searchTerm);
+  const options = {
+    includeScore: true,
+    keys: ['file_name', 'file_path']
+  }
+  const fuse = new Fuse(jsonDatabase.data, options);
+  const result = fuse.search(searchTerm);
+
+  return result;
+  //console.log(result);
+  //mainWindow.webContents.send('search-results', result);
+}
+
+ipcMain.on('searchBox', (event, searchTerm) => {
+  const results = searchDatabase(searchTerm);
+  //mainWindow.webContents.send('search-results', results);
+  console.log(results);
 });
 
 // node network config save/load
@@ -79,10 +101,9 @@ ipcMain.on('request-network-data', async (event) => {
 
   // If the content is empty (or whitespace), bypass the JSON parsing
   if (!networkData) {
-    console.log("saved network config NOT found");
-    var jsonData = await loadDatabase();
-    if (jsonData){
-      mainWindow.webContents.send('process-json-data', jsonData);
+    console.log("saved network config NOT found 1");
+    if (jsonDatabase){
+      mainWindow.webContents.send('process-json-data', jsonDatabase);
     }
     return; // Exit the function early
   }
@@ -93,9 +114,9 @@ ipcMain.on('request-network-data', async (event) => {
     jsonContent = JSON.parse(networkData);
   } catch (error) {
     console.error('Error parsing network data:', error);
-    console.log("saved network config NOT found");
-    if (jsonData){
-      mainWindow.webContents.send('process-json-data', jsonData);
+    console.log("saved network config NOT found 2");
+    if (jsonDatabase){
+      mainWindow.webContents.send('process-json-data', jsonDatabase);
     }
     return; // Exit the function early
   }
@@ -105,9 +126,9 @@ ipcMain.on('request-network-data', async (event) => {
     console.log("saved network config found");
     mainWindow.webContents.send('load-network-data', jsonContent);
   } else {
-    console.log("saved network config NOT found");
-    if (jsonData){
-      mainWindow.webContents.send('process-json-data', jsonData);
+    console.log("saved network config NOT found 3");
+    if (jsonDatabase){
+      mainWindow.webContents.send('process-json-data', jsonDatabase);
     }
   }
 });
@@ -129,15 +150,42 @@ ipcMain.on('clear-network', (event) => {
   if (fs.existsSync(filePath)) {
     // Write an empty object to the file
     fs.writeFileSync(filePath, JSON.stringify({}), 'utf8');
-
-    // Optionally, notify mainWindow that the network data has been cleared
-    // You can adjust the message and data sent based on your application's needs
-    mainWindow.webContents.send('network-data-cleared', {});
+    
     console.log("Network data cleared");
   } else {
     console.log("File not found, nothing to clear");
   }
 });
+
+ipcMain.on('clear-database', (event) => {
+  dialog.showMessageBox(mainWindow, {
+    type: 'warning',
+    title: 'clearing database',
+    message: 'Continue clearing the database?',
+    buttons: [
+      'OK',
+      'Cancel'
+    ]
+  }).then((response) => {
+    if (response.response === 0) {
+      // Continue with clearing the database
+      clearDatabase();
+      //jsonDatabase = loadDatabase();
+    } else {
+      // User clicked on a button other than OK
+      console.log("Database clearing cancelled");
+    }
+  });
+});
+
+function checkVersion(){
+  //function to periodically check the locations of the previous json files for new versions
+  //if a new version is found, highlight the node in the network
+  //if the user wants to update, update the database
+
+  
+
+}
 
 
 // node network interaction
@@ -279,6 +327,7 @@ function openFileExplorer(uuid, directory) {
 
   if (jsonDatabase && jsonDatabase.data) {
     nodeInfo = jsonDatabase.data.find(item => item.id === uuid);
+    console.log(nodeInfo);
     path = nodeInfo.file_path;
   }
 

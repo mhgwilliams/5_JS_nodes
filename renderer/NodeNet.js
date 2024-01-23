@@ -49,17 +49,65 @@ function controlVis(nodeId, checkValue) {
     const node = nodes.get(nodeId);
     const currentCheckVal = node.controlNodes;
 
+    const targColor = {
+      background: "rgba(255,255,255,0.1)",
+      border: "rgba(255,255,255,0.1)",
+      highlight: {
+        background: "rgba(255,255,255,0.1)",
+        border: "rgba(255,255,255,0.1)",
+        },
+    }
+
     nodes.update({ id: nodeId, controlNodes: !currentCheckVal });
 
     const connectedNodes = network.getConnectedNodes(nodeId);
     connectedNodes.forEach(connectedNodeId => {
       const connectedNode = nodes.get(connectedNodeId);
+
+      //change all nodes
+      //nodes.update({ id: connectedNodeId, color: targColor });
+
       if (connectedNode.group === "controlNodes") {
         console.log(connectedNode);
         const hiddenControl = checkValue ? true : false;
         nodes.update({ id: connectedNodeId, hidden: hiddenControl, color: "rgba(255,255,255,0.1)" });
       }
     });
+  }
+}
+
+function toggleCluster(node, checkValue) {
+
+  console.log("toggleCluster", node, checkValue);
+
+  if (node) {
+    //const node = nodes.get(nodeId);
+    const currentCheckVal = node.clusterInOut;
+    const nodeId = node.id;
+
+    // Check if the clicked node is a cluster
+    // Cluster the nodes directly connected to the clicked node
+    const connectedNodes = network.getConnectedNodes(nodeId);
+
+    const clusterOptions = {
+      joinCondition: function (nodeOptions) {
+        const isConnected = connectedNodes.indexOf(nodeOptions.id) !== -1;
+        const hasSingleConnection =
+          network.getConnectedNodes(nodeOptions.id).length === 1;
+        return isConnected && hasSingleConnection;
+      },
+      clusterNodeProperties: {
+        label: `Cluster of ${nodeId}`,
+        borderWidth: 3,
+        shape: "database",
+        size: 20,
+      },
+    };
+    if (!currentCheckVal) {
+      console.log("clustering");
+      network.clusterByConnection(nodeId);
+      nodes.update({ id: nodeId, clusterInOut: !currentCheckVal });
+    }
   }
 }
 
@@ -81,7 +129,7 @@ async function receiveJsonDataAndDraw(jsonData) {
 }
 
 function formatNode(asset, id) {
-  const assetFileName = pathBasename(asset.path);
+  const assetFileName = pathBasename(asset.file_path);
 
   const node = {
     id,
@@ -90,27 +138,25 @@ function formatNode(asset, id) {
   };
 
   if (asset.type === "Texture") {
-    node.color = "#8ecae6";
-    node.shape = "diamond";
     node.size = 10;
+    node.group = "Texture";
   } else if (asset.type === "Geometry") {
-    node.color = "#ffb703";
-    node.shape = "database";
     node.size = 10;
+    node.group = "Geometry";
   } else if (asset.type === "read") {
-    node.color = "#219ebc";
-    node.shape = "box";
     node.size = 15;
+    node.group = "read";
   } else if (asset.type === "write") {
-    node.color = "#83f3c4";
-    node.shape = "box";
     node.size = 15;
+    node.group = "write";
   } else if (asset.type === "Render") {
-    node.color = "#ff80c0";
-    node.shape = "box";
+    node.group = "Render";
   } else if (asset.type === "alembic_rop") {
-    node.color = "#ffb703";
-    node.shape = "database";
+    node.group = "Geometry";
+  } else if (asset.type.includes("alembic") && !asset.type.includes("alembic_rop")) {
+    node.group = "Geometry";
+  } else if (asset.type.includes("filecache")) {
+    node.group = "file_cache";
   } else {
     node.color = "#fb8500";
     node.shape = "hexagon";
@@ -165,6 +211,8 @@ function loadFromDatabase(jsonData) {
       edgeId = 1;
     }
 
+    console.log(item.file_name);
+
     const fileExtension = item.file_name.split('.').pop().toLowerCase();
     const fileType = fileExtension in fileTypeIcons ? fileExtension : null;
 
@@ -180,7 +228,8 @@ function loadFromDatabase(jsonData) {
         title: fileName, //testing div element as title
         group: "projectfile",
         controlNodes: true, // control nodes hidden option
-        color: "yellow",
+        clusterInOut: false,
+        color: "#67676710",
         shape: "image",
         physics: false,
         x: Math.floor(Math.random() * 500) - 200,
@@ -240,7 +289,7 @@ function loadFromDatabase(jsonData) {
     });
 
     item.assets.forEach((asset) => {
-      const assetFileName = pathBasename(asset.path);
+      const assetFileName = pathBasename(asset.file_path);
 
       if (!uniqueAssets[assetFileName]) {
         uniqueAssets[assetFileName] = formatNode(asset, nodeId++);
@@ -274,7 +323,7 @@ function loadFromDatabase(jsonData) {
     if (item.outputs) {
       
       item.outputs.forEach((output) => {
-        const outputFileName = pathBasename(output.path);
+        const outputFileName = pathBasename(output.file_path);
 
         if (!uniqueAssets[outputFileName]) {
           uniqueAssets[outputFileName] = formatNode(output, nodeId++);
@@ -360,7 +409,9 @@ function addNewNodesAndEdges(jsonData) {
       title: fileName, //testing div element as title
       group: "projectfile",
       controlNodes: true, // control nodes hidden option
-      color: "yellow",
+      clusterInOut: false,
+      color: "grey",
+      outline: "yellow",
       shape: "image",
       physics: false,
       image: imgDIR + fileTypeIcons[fileType], // Set the image based on the file type
@@ -414,7 +465,7 @@ function addNewNodesAndEdges(jsonData) {
   });
 
   jsonData.assets.forEach((asset) => {
-    const assetFileName = pathBasename(asset.path);
+    const assetFileName = pathBasename(asset.file_path);
 
     if (!uniqueAssets[assetFileName]) {
       uniqueAssets[assetFileName] = formatNode(asset, nodeId++);
@@ -449,7 +500,7 @@ function addNewNodesAndEdges(jsonData) {
     console.log("outputs exist");
     
     jsonData.outputs.forEach((output) => {
-      const outputFileName = pathBasename(output.path);
+      const outputFileName = pathBasename(output.file_path);
 
       if (!uniqueAssets[outputFileName]) {
         uniqueAssets[outputFileName] = formatNode(output, nodeId++);
@@ -486,6 +537,17 @@ function initNetwork() {
 
   var container = document.getElementById("mynetwork");
 
+  const colorPalette = {
+    orange: "#ffb703",
+    teal: "#83f3c4",
+    blue: "#8ecae6",
+    aqua: "#219ebc",
+    pink: "#ff80c0",
+    grey: "#404040",
+    black: "#000000",
+    white: "#ffffff",
+  };
+
   var options = {
     layout: {
       randomSeed: undefined,
@@ -508,7 +570,7 @@ function initNetwork() {
       },
     },
     edges: {
-      color: { inherit: true },
+      color: { inherit: 'both' },
       width: 0.15,
       smooth: {
         type: "cubicBezier",
@@ -517,6 +579,86 @@ function initNetwork() {
       },
       arrows: {
         to: { enabled: true, scaleFactor: 0.5 },
+      },
+    },
+    groups: {
+      Texture: {
+        shape: "diamond",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.blue,
+          highlight: {
+            background: "#8ecae6",
+            border: "#d5dee2",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
+      },
+      Geometry: {
+        shape: "database",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.orange,
+          highlight: {
+            background: "#ffb703",
+            border: "#a8a08b",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
+      },
+      file_cache: {
+        shape: "database",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.orange,
+          highlight: {
+            background: "#ffb703",
+            border: "#a8a08b",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
+      },
+      Render: {
+        shape: "box",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.pink,
+          highlight: {
+            background: "#ff80c0",
+            border: "#a8a08b",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
+      },
+      read: {
+        shape: "box",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.aqua,
+          highlight: {
+            background: "#219ebc",
+            border: "#a8a08b",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
+      },
+      write: {
+        shape: "box",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.teal,
+          highlight: {
+            background: "#83f3c4",
+            border: "#a8a08b",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
       },
     },
     interaction: {
@@ -553,7 +695,7 @@ function initNetwork() {
   };
 
   network = new vis.Network(container, data, options);
-
+  
   network.once("afterDrawing", () => {
       container.style.height = "99vh";
     });
@@ -582,6 +724,7 @@ function networkInteraction(){
   // This event listener is to select and reposition the control nodes when the project file node is dragged
 
   network.on("dragStart", function (params) {
+    // this is weird and messing up clustering
     if (params.nodes.length == 1) {
       if (network.isCluster(params.nodes[0]) == true) {
         network.openCluster(params.nodes[0]);
@@ -704,6 +847,7 @@ function restoreNetwork(savedNetwork){
 
 };
 
+
 // ipc event listeners
 ipcRenderer.on("toggle-pin", () => {
   console.log("nodenet: toggle-pin received");
@@ -718,6 +862,7 @@ ipcRenderer.on("save-network-data", (event) => {
 
 ipcRenderer.on("process-json-data", (event, jsonData) => {
   //on startup only
+  console.log("nodenet: starting up, processing json data from database");
   receiveJsonDataAndDraw(jsonData)
   initNetwork();
 });
@@ -725,6 +870,11 @@ ipcRenderer.on("process-json-data", (event, jsonData) => {
 ipcRenderer.on("control-vis", (event, checkValue) => {
   console.log("nodenet: control-vis received");
   controlVis(selectedNode, checkValue);
+});
+
+ipcRenderer.on("toggle-cluster", (event, node, checkValue) => {
+  console.log("nodenet: toggle-cluster received");
+  toggleCluster(node, checkValue);
 });
 
 // This is so stupid it's just to get the right click menu to also open the node details view GODDAMNIT

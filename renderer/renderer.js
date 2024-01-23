@@ -7,7 +7,16 @@ const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 const saveNetworkBtn = document.getElementById("save_button");
 const clearNetworkBtn = document.getElementById("clear_button");
 
+const clearDbBtn = document.getElementById("clear_DB_button");
+
 const openConfigBtn = document.getElementById("toggleConfigBtn");
+
+const searchBox = document.getElementById("searchBox");
+
+searchBox.addEventListener("input", (event) => {
+  const searchText = event.target.value;
+  window.ipcRenderer.send("searchBox", searchText);
+});
 
 loadNukeFileBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the nukefilebutton
@@ -43,13 +52,19 @@ saveNetworkBtn.addEventListener("click", () => {
 });
 
 clearNetworkBtn.addEventListener("click", () => {
-  // Send a message to the main process to execute the save button
+  // Send a message to the main process to execute the clear button
   console.log("clear network clicked");
   window.ipcRenderer.send("clear-network");
 });
 
-openConfigBtn.addEventListener("click", () => {
+clearDbBtn.addEventListener("click", () => {
+  // Send a message to the main process to execute the clear db button
+  console.log("clear database clicked");
+  window.ipcRenderer.send("clear-database");
+});
+
+/* openConfigBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button
   console.log("toggle config clicked");
   window.ipcRenderer.send("open-config");
-});
+}); */

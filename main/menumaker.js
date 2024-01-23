@@ -15,13 +15,23 @@ function buildPopupMenu(mainWindow, node) {
                     }
                 },
                 {
+                    label: "Cluster In/Out",
+                    type: "checkbox",
+                    checked: node.clusterInOut ? true : false,
+                    click: (item) => {
+                        const checkValue = item.checked;
+                        console.log("cluster in/out", checkValue);
+                        toggleCluster(checkValue);
+                    }
+                },
+                {
                     label: "Control Nodes Hidden",
                     type: "checkbox",
                     checked: node.controlNodes ? true : false,
                     click: (item) => {
                         const checkValue = item.checked;
                         //console.log("control nodes", checkValue);
-                        controlVis(checkValue);
+                        controlVis(node, checkValue);
                     }
                 }
             ]
@@ -54,6 +64,11 @@ function buildPopupMenu(mainWindow, node) {
     function togglePin(){
         console.log("menumaker: togglePin");
         mainWindow.webContents.send('toggle-pin');
+    }
+
+    function toggleCluster(checkValue){
+        console.log("menumaker: toggleCluster");
+        mainWindow.webContents.send('toggle-cluster', node, checkValue);
     }
 
     function controlVis(checkValue){

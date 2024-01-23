@@ -23,7 +23,6 @@ async function loadDatabase(){
     } else {
       throw new Error('File does not exist');
     }
-    console.log("JSON Data is ", jsonData);
   } catch (err) {
     console.error("Error reading file or parsing JSON:", err);
     // Create an empty JSON file if it doesn't exist or there was a parsing error
@@ -32,6 +31,22 @@ async function loadDatabase(){
   }
 
   return jsonData;
+}
+
+function clearDatabase() {
+  const filePath = path.join(appDataPath, "data", "database.json");
+  if (fs.existsSync(filePath)) {
+    // Write database boilerplate to file
+    const boilerplate = {
+      "timestamp": new Date().toISOString().replace("T", " ").substring(0, 19),
+      "data": []
+    }
+    fs.writeFileSync(filePath, JSON.stringify(boilerplate, null, 4), 'utf8');
+
+    console.log("Database cleared");
+  } else {
+    console.log("File not found, nothing to clear");
+  }
 }
 
 function findJsonFiles(rootDir) {
@@ -62,19 +77,6 @@ function readJsonData(jsonFiles) {
   }
 
   return data_list;
-}
-
-function saveDataList(dataList, outputFile) {
-  let current_time = new Date()
-    .toISOString()
-    .replace("T", " ")
-    .substring(0, 19);
-  let data = {
-    timestamp: current_time,
-    data: dataList,
-  };
-
-  fs.writeFileSync(outputFile, JSON.stringify(data, null, 4), "utf8");
 }
 
 // Nuke functions
@@ -128,8 +130,8 @@ function loadNukeFile(filePath) {
     const nukeScriptName = path.basename(filePath);
     const date = new Date().toISOString().substring(0, 10);
 
-    const assets = readNodes.map((path) => ({ type: "read", path }));
-    const outputs = writeNodes.map((path) => ({ type: "write", path }));
+    const assets = readNodes.map((file_path) => ({ type: "read", file_path }));
+    const outputs = writeNodes.map((file_path) => ({ type: "write", file_path }));
 
     const output = {
       file_name: nukeScriptName,
@@ -205,6 +207,7 @@ module.exports = {
     findJsonFiles,
     readJsonData,
     updateDatabase,
-    loadDatabase
+    loadDatabase,
+    clearDatabase
   };
   
