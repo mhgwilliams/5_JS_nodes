@@ -211,8 +211,6 @@ function loadFromDatabase(jsonData) {
       edgeId = 1;
     }
 
-    console.log(item.file_name);
-
     const fileExtension = item.file_name.split('.').pop().toLowerCase();
     const fileType = fileExtension in fileTypeIcons ? fileExtension : null;
 
@@ -847,6 +845,17 @@ function restoreNetwork(savedNetwork){
 
 };
 
+function removeNodes(uuid){
+  const existingNodeObjects = nodes.get();
+  for (const node of existingNodeObjects) {
+    if (node.UUID === uuid) {
+      const connectedNodes = network.getConnectedNodes(node.id);
+      nodes.remove(node);
+      nodes.remove(connectedNodes);
+      break;
+    }
+  }
+};
 
 // ipc event listeners
 ipcRenderer.on("toggle-pin", () => {
@@ -875,6 +884,11 @@ ipcRenderer.on("control-vis", (event, checkValue) => {
 ipcRenderer.on("toggle-cluster", (event, node, checkValue) => {
   console.log("nodenet: toggle-cluster received");
   toggleCluster(node, checkValue);
+});
+
+ipcRenderer.on("toggleButton", (event, uuid) => {
+  console.log("nodenet: toggleButton received");
+  removeNodes(uuid);
 });
 
 // This is so stupid it's just to get the right click menu to also open the node details view GODDAMNIT

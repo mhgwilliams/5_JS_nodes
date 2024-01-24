@@ -48,7 +48,15 @@ function createWindow() {
 
 app.whenReady().then(async () => {
   createWindow();
-  jsonDatabase = await loadDatabase();
+
+  try {
+    jsonDatabase = await loadDatabase();
+    mainWindow.webContents.send('database-loaded', jsonDatabase);
+    console.log("database loaded");
+  } catch (error) {
+    console.error("Error loading database:", error);
+  }
+
 });
 
 // search functionality
@@ -68,8 +76,10 @@ function searchDatabase(searchTerm) {
 
 ipcMain.on('searchBox', (event, searchTerm) => {
   const results = searchDatabase(searchTerm);
-  //mainWindow.webContents.send('search-results', results);
-  console.log(results);
+  const fileNames = results.map(result => result.item.file_name); // Get the file_name for each result
+  mainWindow.webContents.send('search-results', fileNames);
+  
+  console.log(fileNames);
 });
 
 // node network config save/load
@@ -133,8 +143,6 @@ ipcMain.on('request-network-data', async (event) => {
   }
 });
 
-
-
 ipcMain.on('load-network', (event) => {
   const filePath = path.join(appDataPath, 'network_data.json');
   if (fs.existsSync(filePath)) {
@@ -187,7 +195,6 @@ function checkVersion(){
 
 }
 
-
 // node network interaction
 ipcMain.on("nodeContext", (event, node) => {
 
@@ -197,6 +204,12 @@ ipcMain.on("nodeContext", (event, node) => {
 });
 
 // Buttons for loading files
+
+ipcMain.on("toggleButton", (event, uuid) => {
+  console.log("toggle button received in main");
+  console.log(uuid);
+  mainWindow.webContents.send('toggleButton', uuid);
+});
 
 ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");
@@ -262,7 +275,7 @@ ipcMain.on("loadC4DJson", (event) => {
         const data = fs.readFileSync(filePath, 'utf8');
         const updatedData = updateDatabase(JSON.parse(data));
         if (!updatedData.duplicate){
-          mainWindow.webContents.send('database-updated', updatedData.newData);
+          mainWindow.webContents.send('database-updated', updatedData.newData, updatedData.uiContent);
         } else {
           dialog.showMessageBox(mainWindow, {
             type: 'warning',
@@ -270,7 +283,6 @@ ipcMain.on("loadC4DJson", (event) => {
             message: 'This file has already been added to the network.',
             buttons: ['OK']
           });
-          console.log("duplicate entry");
         }
       }
     })

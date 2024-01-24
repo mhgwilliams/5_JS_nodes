@@ -11,9 +11,11 @@ var appDataPath = app.getPath('userData');
 
 async function loadDatabase(){
   const jsonDataPath = path.join(appDataPath, "data", "database.json");
+  console.log("Loading database...", jsonDataPath);
   let jsonData = {
     timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
     data: [],
+    uiContent: [],
   };
 
   try {
@@ -39,7 +41,8 @@ function clearDatabase() {
     // Write database boilerplate to file
     const boilerplate = {
       "timestamp": new Date().toISOString().replace("T", " ").substring(0, 19),
-      "data": []
+      "data": [],
+      "uiContent": [],
     }
     fs.writeFileSync(filePath, JSON.stringify(boilerplate, null, 4), 'utf8');
 
@@ -151,6 +154,7 @@ function loadNukeFile(filePath) {
 function updateDatabase(newData) {
   let data_list;
   let duplicateEntry = false;
+  let uiContent = {};
   const jsonDataPath = path.join(appDataPath, "data", "database.json");
 
   if (fs.existsSync(jsonDataPath)) {
@@ -176,6 +180,26 @@ function updateDatabase(newData) {
         data_list.data.push(newData);
         //send a message to the nodenet that we got new shit
       }
+
+      // Update or Add UIContent entry
+      uiContent = {
+        file_name: newData.file_name,
+        id: newData.id,
+        // Additional key-value pairs
+        deployed: false,
+        key2: 'value2',
+      };
+
+      if (duplicateEntry) {
+        // Update the existing UIContent entry
+        const uiIndex = data_list.uiContent.findIndex(ui => ui.id === newData.id);
+        if (uiIndex !== -1) {
+          data_list.uiContent[uiIndex] = uiContent;
+        }
+      } else {
+        // Add new UIContent entry
+        data_list.uiContent.push(uiContent);
+      }
     }
   } else {
     // Create a new list with a UUID for the new entry
@@ -183,6 +207,12 @@ function updateDatabase(newData) {
     data_list = {
       timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
       data: [newData],
+      uiContent: [{
+        file_name: newData.file_name,
+        id: newData.id,
+        deployed: false,
+        key2: 'value2',
+      }],
     };
   }
   
@@ -199,7 +229,7 @@ function updateDatabase(newData) {
     }
   }
 
-  return {newData: newData, duplicate: duplicateEntry};
+  return {newData: newData, uiContent: uiContent, duplicate: duplicateEntry};
 }
 
 module.exports = {

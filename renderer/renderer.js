@@ -11,12 +11,6 @@ const clearDbBtn = document.getElementById("clear_DB_button");
 
 const openConfigBtn = document.getElementById("toggleConfigBtn");
 
-const searchBox = document.getElementById("searchBox");
-
-searchBox.addEventListener("input", (event) => {
-  const searchText = event.target.value;
-  window.ipcRenderer.send("searchBox", searchText);
-});
 
 loadNukeFileBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the nukefilebutton
