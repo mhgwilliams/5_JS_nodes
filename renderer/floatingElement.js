@@ -109,6 +109,20 @@ ipcRenderer.on('database-loaded', (event, databaseContent) => {
     clickToggle();
 });
 
+ipcRenderer.on('newProjectFile', (event, newData) => {
+    console.log("new project file, populating sceneFileContent");
+    const container = sceneFileContent;
+    //get the new data
+    //create the div for the new data
+    constructDiv(newData);
+    //append the new div to the sceneFileContent
+    if (container) {
+        container.appendChild(constructDiv(newData));
+    }
+    toggleCollapsible();
+    clickToggle();
+});
+
 function createSceneFile(uiContent, newData) {
     const container = sceneFileContent;
     if (container) {
@@ -136,16 +150,17 @@ function toggleCollapsible() {
 
     for (i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if(content.class != "assets-outputs") {
-            content = content.nextElementSibling;
-        }
-        if (content.style.display === "block") {
-            content.style.display = "none";
-        } else {
-            content.style.display = "block";
-        }
+            this.classList.toggle("active");
+            var parent = this.parentElement;
+            var content = parent.querySelector(".assets-outputs");
+            if (!content) {
+                content = parent.nextElementSibling;
+            }
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
         });
     }
 }
@@ -219,3 +234,52 @@ function createSingleDivTemplate(uiContent, newData) {
         return ""; // Return empty string in case of error
     }
 }
+
+function constructDiv(newData) {
+    try {
+        const container = document.createElement('div');
+        container.className = 'scene-file-entry';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+
+        // Button container
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.flexWrap = 'nowrap';
+
+        const collapsibleButton = document.createElement('button');
+        collapsibleButton.className = 'collapsible';
+        collapsibleButton.textContent = newData.file_name;
+        buttonContainer.appendChild(collapsibleButton);
+
+        const toggleButton = document.createElement('button');
+        toggleButton.className = 'toggle-button';
+        toggleButton.id = newData.id;
+        toggleButton.textContent = 'X';
+        buttonContainer.appendChild(toggleButton);
+
+        container.appendChild(buttonContainer);
+
+        const assetsOutputsDiv = document.createElement('div');
+        assetsOutputsDiv.className = 'assets-outputs';
+        container.appendChild(assetsOutputsDiv);
+
+        const assetsList = document.createElement('ul');
+        if (newData.assets) {
+            newData.assets.forEach(asset => {
+                const li = document.createElement('li');
+                li.textContent = pathBasename(asset.file_path);
+                assetsList.appendChild(li);
+            });
+        }
+        assetsOutputsDiv.appendChild(assetsList);
+
+        // Similar construction for outputs
+
+        return container;
+    } catch (error) {
+        console.error("Error occurred while creating div template:", error);
+        return document.createElement('div'); // Return empty div in case of error
+    }
+}
+

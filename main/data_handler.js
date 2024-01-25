@@ -4,10 +4,281 @@ const os = require("os");
 
 const { v4: uuidv4 } = require('uuid'); //generating unique id's for each datapoint
 
-const { app } = require("electron");
+const { app, ipcMain } = require("electron");
 
 var appPath = app.getAppPath();
 var appDataPath = app.getPath('userData');
+
+let projectManager;
+
+// I'm going to try to refactor this stuff to use classes, methods, and objects instead of whatever the hell this is
+// I'm thinking about how to use inheritance to make nodes more easily updatable.
+
+/* const nodeProperties = {
+  id: nodeId++,
+  UUID: uniqueID,
+  label: fileName,
+  title: fileName, //testing div element as title
+  group: "projectfile",
+  controlNodes: true, // control nodes hidden option
+  clusterInOut: false,
+  color: "#67676710",
+  shape: "image",
+  physics: false,
+  x: Math.floor(Math.random() * 500) - 200,
+  y: fileTypePositions[fileType],
+  image: imgDIR + fileTypeIcons[fileType], // Set the image based on the file type
+}; */
+
+class Project{
+
+  constructor(jsonData){
+    this.id = uuidv4();
+    this.file_path = jsonData.file_path || this.file_path;
+    this.name = jsonData.file_name || (this.file_path ? path.basename(this.file_path) : undefined);
+    this.type = jsonData.type || "generic";
+    this.dateModified = jsonData.date_modified;
+    this.user = jsonData.user || "";
+    this.projectInfo = jsonData.project_info;
+    this.assets = jsonData.assets;
+    this.outputs = jsonData.outputs;
+  }
+
+
+  //methods
+  //static methods can be called without having to create a new instance of project
+
+  // Method to update project data
+  updateProjectData(newData) {
+    // Update project properties as needed
+  }
+
+  // Example method to get project details
+  getProjectDetails() {
+    return {
+      id: this.id,
+      file_path: this.file_path,
+      file_name: this.file_name,
+      name: this.name,
+      type: this.type,
+      dateModified: this.dateModified,
+      user: this.user,
+      projectInfo: this.projectInfo,
+      assets: this.assets,
+      outputs: this.outputs,
+    };
+}
+
+}
+
+class NukeProject extends Project{
+  constructor(filePath){
+    super({}); // Call the parent constructor with an empty object
+    this.file_path = filePath;
+    this.loadNukeFile();
+  }
+
+  extractReadNodes() {
+    let content = fs.readFileSync(this.file_path, "utf8");
+    let readNodePattern = /Read\s*\{[^}]*\}/g;
+    let readNodesRaw = content.match(readNodePattern) || [];
+    let readNodes = [];
+  
+    for (let readNodeRaw of readNodesRaw) {
+      let filePattern = /\bfile\s+([\S\s]*?)\n/;
+      let fileMatch = filePattern.exec(readNodeRaw);
+  
+      if (fileMatch) {
+        let file_path = fileMatch[1].trim();
+        file_path = file_path.replace(/%04d/, "0000");
+        file_path = file_path.replace(/####/, "0000");
+        readNodes.push(file_path);
+      }
+    }
+    return readNodes;
+  }
+
+  extractWriteNodes() {
+    let content = fs.readFileSync(this.file_path, "utf8");
+    let writeNodePattern = /Write\s*\{[^}]*\}/g;
+    let writeNodesRaw = content.match(writeNodePattern) || [];
+    let writeNodes = [];
+  
+    for (let writeNodeRaw of writeNodesRaw) {
+      let filePattern = /\bfile\s+([\S\s]*?)\n/;
+      let fileMatch = filePattern.exec(writeNodeRaw);
+      if (fileMatch) {
+        writeNodes.push(fileMatch[1].trim());
+      }
+    }
+    return writeNodes;
+  }
+
+  loadNukeFile() {
+    if (this.file_path) {
+  
+      const readNodes = this.extractReadNodes();
+      const writeNodes = this.extractWriteNodes();
+  
+      const nukeScriptName = path.basename(this.file_path);
+      const date = new Date().toISOString().substring(0, 10);
+
+      this.file_name = nukeScriptName;
+      this.dateModified = date;
+      this.name = nukeScriptName;
+      
+      this.assets = readNodes.map((file_path) => ({ type: "read", file_path }));
+      this.outputs = writeNodes.map((file_path) => ({ type: "write", file_path }));
+
+    }
+  }
+  
+}
+
+
+class ProjectManager {
+  constructor(appDataPath) {
+    this.appDataPath = appDataPath;
+    this.databasePath = path.join(appDataPath, "data", "database.json");
+    this.dataList = this.loadData();
+  }
+
+  loadData() {
+    if (fs.existsSync(this.databasePath)) {
+        return JSON.parse(fs.readFileSync(this.databasePath, "utf8"));
+    }
+    return { timestamp: this.getCurrentTimestamp(), data: [], uiContent: [] };
+  }
+
+  getCurrentTimestamp() {
+    return new Date().toISOString().replace("T", " ").substring(0, 19);
+  }
+
+  updateDatabase(newData) {
+    let duplicateEntry = false;
+    let uiContent = {};
+
+    const projectIndex = this.dataList.data.findIndex(project => project.file_name === newData.file_name);
+    if (projectIndex !== -1) {
+        const existingId = this.dataList.data[projectIndex].id;
+        this.dataList.data[projectIndex] = { ...newData, id: existingId };
+        duplicateEntry = true;
+    } else {
+        newData.id = uuidv4();
+        this.dataList.data.push(newData);
+    }
+
+    uiContent = {
+        file_name: newData.file_name,
+        id: newData.id,
+        deployed: false,
+        key2: 'value2',
+    };
+
+    if (duplicateEntry) {
+        const uiIndex = this.dataList.uiContent.findIndex(ui => ui.id === newData.id);
+        if (uiIndex !== -1) {
+            this.dataList.uiContent[uiIndex] = uiContent;
+        }
+    } else {
+        this.dataList.uiContent.push(uiContent);
+    }
+
+    this.saveData();
+
+    return { newData: newData, uiContent: uiContent, duplicate: duplicateEntry };
+  }
+
+  saveData() {
+    try {
+        fs.writeFileSync(this.databasePath, JSON.stringify(this.dataList, null, 4), "utf8");
+    } catch (error) {
+        if (error.code === "ENOENT") {
+            fs.mkdirSync(path.dirname(this.databasePath), { recursive: true });
+            fs.writeFileSync(this.databasePath, JSON.stringify(this.dataList, null, 4), "utf8");
+        } else {
+            throw error;
+        }
+    }
+  }
+
+  addProject(project) {
+      if (!this.projects.has(project.id)) {
+          this.projects.set(project.id, project);
+      }
+  }
+
+  removeProject(projectId) {
+      this.projects.delete(projectId);
+  }
+
+  updateProject(projectId, newProjectData) {
+      if (this.projects.has(projectId)) {
+          // Assuming Project class has an update method
+          this.projects.get(projectId).updateProjectData(newProjectData);
+      }
+  }
+
+  getProject(projectId) {
+      return this.projects.get(projectId);
+  }
+
+  // Additional methods for managing projects, like file watching, can be added here
+}
+
+class Node{
+  constructor(options = {}){
+    this.id = options.id;
+    this.label = options.label;
+    this.title = options.title;
+    this.group = options.group || "none";
+    this.controlNodes = options.controlNodes || false;
+    this.clusterInOut = options.clusterInOut || false;
+    this.color = options.color || "#67676710";
+    this.shape = options.shape || "circle";
+    this.physics = options.physics || true;
+    this.x = options.x || Math.floor(Math.random() * 500) - 200;
+    this.y = options.y || Math.floor(Math.random() * 500) - 200;
+    this.image = options.image || "";
+  }
+
+  //methods
+  updateNodeData(newData) {
+    // Update node properties as needed
+    this.id = newData.id || this.id;
+    this.label = newData.label || this.label;
+    this.title = newData.title || this.title;
+    this.group = newData.group || this.group;
+    this.controlNodes = newData.controlNodes || this.controlNodes;
+    this.clusterInOut = newData.clusterInOut || this.clusterInOut;
+    this.color = newData.color || this.color;
+    this.shape = newData.shape || this.shape;
+    this.physics = newData.physics || this.physics;
+    this.x = newData.x || this.x;
+    this.y = newData.y || this.y;
+    this.image = newData.image || this.image;
+  }
+}
+
+/* app.whenReady().then(() => {
+  console.log("data handler saying App ready");
+  projectManager = new ProjectManager(appDataPath);
+});
+
+
+ipcMain.on("loadNukeFile", (event, filePath) => {
+  console.log("loadNukeFile received");
+  const project = new NukeProject(filePath);
+  const output = project.getProjectDetails();
+  if (output) {
+    const result = projectManager.updateDatabase(output);
+    console.log("Finished processing Nuke file.");
+    console.log(result);
+    //event.reply("loadNukeFileReply", result); could be a cool way to link back and forth cleanly
+    mainWindow.webContents.send("newProjectFile", result.newData);
+    //ipcRenderer.send("newProjectFile", result.newData);
+  }
+}); */
 
 async function loadDatabase(){
   const jsonDataPath = path.join(appDataPath, "data", "database.json");
@@ -104,8 +375,6 @@ function extractReadNodes(filePath) {
     return readNodes;
   }
   
-  
-
 function extractWriteNodes(filePath) {
     let content = fs.readFileSync(filePath, "utf8");
     let writeNodePattern = /Write\s*\{[^}]*\}/g;
@@ -122,7 +391,6 @@ function extractWriteNodes(filePath) {
     return writeNodes;
   }
   
-
 function loadNukeFile(filePath) {
   if (filePath) {
     console.log("Processing Nuke file...");
@@ -238,6 +506,10 @@ module.exports = {
     readJsonData,
     updateDatabase,
     loadDatabase,
-    clearDatabase
+    clearDatabase,
+    Project,
+    ProjectManager,
+    NukeProject,
+    Node,
   };
   

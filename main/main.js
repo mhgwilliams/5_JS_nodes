@@ -12,7 +12,7 @@ const Fuse = require('fuse.js');
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
-const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase } = require("./data_handler");
+const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
 var appPath = app.getAppPath();
@@ -20,6 +20,7 @@ var appDataPath = app.getPath('userData');
 
 let mainWindow;
 let jsonDatabase;
+let projectManager;
 
 
 function createWindow() {
@@ -55,6 +56,13 @@ app.whenReady().then(async () => {
     console.log("database loaded");
   } catch (error) {
     console.error("Error loading database:", error);
+  }
+
+  try {
+    projectManager = new ProjectManager(appDataPath);
+    console.log("project manager created");
+  } catch (error) {
+    console.error("Error creating project manager:", error);
   }
 
 });
@@ -95,7 +103,6 @@ ipcMain.on('network-data-response', (event, data) => {
 });
 
 ipcMain.on('request-network-data', async (event) => {
-  console.log("request for network config received");
   const networkDataPath = path.join(appDataPath, 'network_data.json');
 
   // Read the file's content
@@ -111,7 +118,6 @@ ipcMain.on('request-network-data', async (event) => {
 
   // If the content is empty (or whitespace), bypass the JSON parsing
   if (!networkData) {
-    console.log("saved network config NOT found 1");
     if (jsonDatabase){
       mainWindow.webContents.send('process-json-data', jsonDatabase);
     }
@@ -124,7 +130,6 @@ ipcMain.on('request-network-data', async (event) => {
     jsonContent = JSON.parse(networkData);
   } catch (error) {
     console.error('Error parsing network data:', error);
-    console.log("saved network config NOT found 2");
     if (jsonDatabase){
       mainWindow.webContents.send('process-json-data', jsonDatabase);
     }
@@ -136,7 +141,6 @@ ipcMain.on('request-network-data', async (event) => {
     console.log("saved network config found");
     mainWindow.webContents.send('load-network-data', jsonContent);
   } else {
-    console.log("saved network config NOT found 3");
     if (jsonDatabase){
       mainWindow.webContents.send('process-json-data', jsonDatabase);
     }
@@ -186,15 +190,6 @@ ipcMain.on('clear-database', (event) => {
   });
 });
 
-function checkVersion(){
-  //function to periodically check the locations of the previous json files for new versions
-  //if a new version is found, highlight the node in the network
-  //if the user wants to update, update the database
-
-  
-
-}
-
 // node network interaction
 ipcMain.on("nodeContext", (event, node) => {
 
@@ -205,13 +200,26 @@ ipcMain.on("nodeContext", (event, node) => {
 
 // Buttons for loading files
 
+ipcMain.on("loadNukeFile", (event, filePath) => {
+  console.log("loadNukeFile received");
+  const project = new NukeProject(filePath);
+  const output = project.getProjectDetails();
+  if (output) {
+    const result = projectManager.updateDatabase(output);
+    console.log("Finished processing Nuke file.");
+    console.log(result);
+
+    mainWindow.webContents.send("newProjectFile", result.newData);
+  }
+});
+
 ipcMain.on("toggleButton", (event, uuid) => {
   console.log("toggle button received in main");
   console.log(uuid);
   mainWindow.webContents.send('toggleButton', uuid);
 });
 
-ipcMain.on("loadNukeFile", (event, file) => {
+/* ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");
   console.log(file);
   const nukeContent = loadNukeFile(file);
@@ -228,7 +236,7 @@ ipcMain.on("loadNukeFile", (event, file) => {
     });
     console.log("duplicate entry");
   }
-});
+}); */
 
 ipcMain.on("loadHouJson", (event) => {
   dialog
