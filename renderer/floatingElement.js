@@ -95,42 +95,24 @@ ipcRenderer.on('search-results', (event, results) => {
 
   // populate the sceneFileContent div with the content of the database
   
-ipcRenderer.on('database-updated', (event, newData, uiContent) => {
+/* ipcRenderer.on('database-updated', (event, newData, uiContent) => {
     console.log("database updated, populating sceneFileContent");
     createSceneFile(uiContent, newData);
-    toggleCollapsible();
-    clickToggle();
-});
+}); */
 
 ipcRenderer.on('database-loaded', (event, databaseContent) => {
     console.log("database loaded, populating sceneFileContent");
     populateSceneFileContent(databaseContent);
-    toggleCollapsible();
-    clickToggle();
 });
 
 ipcRenderer.on('newProjectFile', (event, newData) => {
     console.log("new project file, populating sceneFileContent");
     const container = sceneFileContent;
-    //get the new data
-    //create the div for the new data
-    constructDiv(newData);
-    //append the new div to the sceneFileContent
+
     if (container) {
         container.appendChild(constructDiv(newData));
     }
-    toggleCollapsible();
-    clickToggle();
 });
-
-function createSceneFile(uiContent, newData) {
-    const container = sceneFileContent;
-    if (container) {
-        //container.innerHTML = ''; // Clear existing content
-        const entryDiv = createSingleDivTemplate(uiContent, newData);
-        container.innerHTML += entryDiv;
-    }
-}
 
 function populateSceneFileContent(databaseData) {
     const container = sceneFileContent;
@@ -138,101 +120,43 @@ function populateSceneFileContent(databaseData) {
         container.innerHTML = ''; // Clear existing content
 
         databaseData.data.forEach(entry => {
-            const entryDiv = createDivTemplate(entry);
-            container.innerHTML += entryDiv;
+            container.appendChild(constructDiv(entry));
         });
     }
 }
 
-function toggleCollapsible() {
-    const coll = document.getElementsByClassName("collapsible");
-    let i;
+function toggleCollapsible(element) {
+    const coll = element;
 
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var parent = this.parentElement;
-            var content = parent.querySelector(".assets-outputs");
-            if (!content) {
-                content = parent.nextElementSibling;
-            }
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
-        });
-    }
+    coll.addEventListener("click", function() {
+        this.classList.toggle("active");
+        var parent = this.parentElement;
+        var content = parent.querySelector(".assets-outputs");
+        if (!content) {
+            content = parent.nextElementSibling;
+        }
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    });
 }
 
-function createDivTemplate(entry) {
-    try {
-
-        const assets = entry.assets ? entry.assets.map(asset => `<li>${pathBasename(asset.file_path)}</li>`).join('') : '';
-        const outputs = entry.outputs ? entry.outputs.map(output => `<li>${pathBasename(output.file_path)}</li>`).join('') : '';
-
-        return `
-            <div class="scene-file-entry" style="display:flex">
-                <button class="collapsible">
-                ${entry.file_name}</button>
-                <button class="toggle-button" id="${entry.id}">X</button>
-                <div class="assets-outputs">
-                    <h4>Assets:</h4>
-                    <ul>
-                        <div>${assets}</div>
-                    </ul>
-                    <h4>Outputs:</h4>
-                    <ul>
-                        <div>${outputs}</div>
-                    </ul>
-                </div>
-            </div>
-        `;
-    } catch (error) {
-        console.error("Error occurred while creating div template:", error);
-        return ""; // Return empty string in case of error
-    }
+function clickToggle(element) {
+    const toggleButton = element;
+    toggleButton.addEventListener("click", function() {
+        console.log("toggle button clicked");
+        window.ipcRenderer.send("toggleButton", this.id);
+    });
 }
 
-function clickToggle() {
-    const toggleButton = document.getElementsByClassName("toggle-button");
-    let i;
-
-    for (i = 0; i < toggleButton.length; i++) {
-        toggleButton[i].addEventListener("click", function() {
-            console.log("toggle button clicked");
-            window.ipcRenderer.send("toggleButton", this.id);
-        });
-    }
-}
-
-function createSingleDivTemplate(uiContent, newData) {
-    try {
-
-        const assets = newData.assets ? newData.assets.map(asset => `<li>${pathBasename(asset.file_path)}</li>`).join('') : '';
-        const outputs = newData.outputs ? newData.outputs.map(output => `<li>${pathBasename(output.file_path)}</li>`).join('') : '';
-
-        return `
-            <div class="scene-file-entry" style="display:flex">
-                <button class="collapsible">
-                ${newData.file_name}</button>
-                <button class="toggle-button" id="${newData.id}">X</button>
-                <div class="assets-outputs">
-                    <h4>Assets:</h4>
-                    <ul>
-                        <div>${assets}</div>
-                    </ul>
-                    <h4>Outputs:</h4>
-                    <ul>
-                        <div>${outputs}</div>
-                    </ul>
-                </div>
-            </div>
-        `;
-    } catch (error) {
-        console.error("Error occurred while creating div template:", error);
-        return ""; // Return empty string in case of error
-    }
+function clickAdd(element) {
+    const addButton = element;
+    addButton.addEventListener("click", function() {
+        console.log("add button clicked");
+        window.ipcRenderer.send("addButton", this.id);
+    });
 }
 
 function constructDiv(newData) {
@@ -251,12 +175,21 @@ function constructDiv(newData) {
         collapsibleButton.className = 'collapsible';
         collapsibleButton.textContent = newData.file_name;
         buttonContainer.appendChild(collapsibleButton);
+        toggleCollapsible(collapsibleButton);
 
         const toggleButton = document.createElement('button');
         toggleButton.className = 'toggle-button';
         toggleButton.id = newData.id;
         toggleButton.textContent = 'X';
         buttonContainer.appendChild(toggleButton);
+        clickToggle(toggleButton);
+
+        const addButton = document.createElement('button');
+        addButton.className = 'add-button';
+        addButton.id = newData.id;
+        addButton.textContent = '+';
+        buttonContainer.appendChild(addButton);
+        clickAdd(addButton);
 
         container.appendChild(buttonContainer);
 

@@ -20,6 +20,92 @@ let serializedState;
 let contextMenuElement = null;
 let selectedNode = null;
 
+const fileTypeIcons = {
+  c4d: "c4d.png",
+  nk: "nuke.png",
+  hip: "hou.png",
+  // Add more file types here
+};
+
+const fileTypePositions = {
+  c4d: -200,
+  nk: 200,
+  hip: 0,
+};
+
+
+
+class ControlNode {
+  constructor(id, title, parent) {
+      this.id = id;
+      this.hidden = true,
+      this.physics = false,
+      this.group = "controlNodes",
+      this.color = "rgba(255,255,255,0.1)",
+      this.title = title;
+      this.parentProjectFileId = parent.id;
+      this.parentUUID = [parent.UUID];
+      this.x = parent.x;
+      this.y = title === "AssetControl" ? parent.y - 100 : title === "OutputControl" ? parent.y + 100 : parent.y;
+  }
+
+  createEdgeToParent(edgeId) {
+      return {
+          id: edgeId,
+          from: this.parentProjectFileId,
+          to: this.id,
+          length: 20,
+          hidden: true,
+          physics: false,
+          color: "red",
+      };
+  }
+
+}
+
+class NodeFormatter {
+  constructor() {
+      this.defaultSize = 10;
+      this.assetTypeMappings = {
+          "Texture": { group: "Texture", size: this.defaultSize },
+          "Geometry": { group: "Geometry", size: this.defaultSize },
+          "read": { group: "read", size: 15 },
+          "write": { group: "write", size: 15 },
+          "Render": { group: "Render" },
+          "alembic_rop": { group: "Geometry" },
+          "filecache": { group: "file_cache" }
+      };
+  }
+
+  format(asset, id, parent) {
+      const assetFileName = pathBasename(asset.file_path);
+      const node = {
+          id,
+          label: assetFileName,
+          title: assetFileName,
+          parentUUID: [parent.UUID],
+          ...this.getAssetTypeProperties(asset.type)
+      };
+
+      // Set default properties for unknown asset types
+      if (!node.group) {
+          node.color = "#fb8500";
+          node.shape = "hexagon";
+      }
+
+      return node;
+  }
+
+  getAssetTypeProperties(type) {
+      if (type.includes("alembic") && !type.includes("alembic_rop")) {
+          return { group: "Geometry" };
+      }
+
+      return this.assetTypeMappings[type] || {};
+  }
+}
+
+
 function showPopupMenu(params) {
   selectedNode = network.getNodeAt(params.pointer.DOM);
 
@@ -122,7 +208,7 @@ function removeContextMenu() {
 async function receiveJsonDataAndDraw(jsonData) {
   try {
     console.log("JSON Data is ", jsonData.data);
-    loadFromDatabase(jsonData.data);
+    addNewNodesAndEdges(jsonData.data);
   } catch (err) {
     console.log("Error reading file or parsing JSON:", err);
   }
@@ -165,25 +251,16 @@ function formatNode(asset, id) {
   return node;
 }
 
-function loadFromDatabase(jsonData) {
+function addNewNodesAndEdges(jsonDataInput) {
+  //Ensure jsonData is always an array
+  const jsonDataArray = Array.isArray(jsonDataInput) ? jsonDataInput : [jsonDataInput];
 
-  const fileTypeIcons = {
-    c4d: "c4d.png",
-    nk: "nuke.png",
-    hip: "hou.png",
-    // Add more file types here
-  };
+  jsonDataArray.forEach((jsonData) => {
+    const NodeFormatterInstance = new NodeFormatter();
 
-  const fileTypePositions = {
-    c4d: -200,
-    nk: 200,
-    hip: 0,
-  };
+    let nodeId;
+    let edgeId;
 
-  let nodeId;
-  let edgeId;
-
-  jsonData.forEach((item) => {
     const existingNodeObjects = nodes.get();
     const existingEdgeObjects = edges.get();
 
@@ -211,23 +288,24 @@ function loadFromDatabase(jsonData) {
       edgeId = 1;
     }
 
-    const fileExtension = item.file_name.split('.').pop().toLowerCase();
+    const fileExtension = jsonData.file_name.split('.').pop().toLowerCase();
     const fileType = fileExtension in fileTypeIcons ? fileExtension : null;
 
-    const fileName = item.file_name;
-    const uniqueID = item.id;
+    const fileName = jsonData.file_name;
+    const uniqueID = jsonData.id;
 
 
     if (!uniqueScenes[fileName]) {
       uniqueScenes[fileName] = {
         id: nodeId++,
         UUID: uniqueID,
+        parentUUID: [],
         label: fileName,
         title: fileName, //testing div element as title
         group: "projectfile",
         controlNodes: true, // control nodes hidden option
         clusterInOut: false,
-        color: "#67676710",
+        color: "grey",
         shape: "image",
         physics: false,
         x: Math.floor(Math.random() * 500) - 200,
@@ -238,295 +316,90 @@ function loadFromDatabase(jsonData) {
 
     }
 
-    // Create a hidden node for the project file node to control the textures
-    nodes.add({
-      id: nodeId++,
-      hidden: true,
-      physics: false,
-      group: "controlNodes",
-      color: "rgba(255,255,255,0.1)",
-      title: "AssetControl",
-      x: uniqueScenes[fileName].x,
-      y: uniqueScenes[fileName].y - 100,
-      parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
-    });
+    const AssetControlNode = new ControlNode(nodeId++, "AssetControl", uniqueScenes[fileName]);
+    const OutputControlNode = new ControlNode(nodeId++, "OutputControl", uniqueScenes[fileName]);
 
-    // Create a hidden node for the project file node to control the renders
-    nodes.add({
-      id: nodeId++,
-      hidden: true,
-      physics: false,
-      group: "controlNodes",
-      color: "rgba(255,255,255,0.1)",
-      title: "OutputControl",
-      x: uniqueScenes[fileName].x,
-      y: uniqueScenes[fileName].y + 100,
-      parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
-    });
+    nodes.add(AssetControlNode);
+    nodes.add(OutputControlNode);
 
-    // Create an edge between the hidden node and the project file node
-    edges.add({
-      id: edgeId++,
-      from: uniqueScenes[fileName].id,
-      to: nodeId - 1,
-      length: 20,
-      physics: false,
-      color: "red",
-      hidden: true,
-    });
+    const assetControlEdge = AssetControlNode.createEdgeToParent(edgeId++);
+    const outputControlEdge = OutputControlNode.createEdgeToParent(edgeId++);
 
-    // Create an edge between the hidden node and the project file node
-    edges.add({
-      id: edgeId++,
-      from: uniqueScenes[fileName].id,
-      to: nodeId - 2,
-      length: 20,
-      physics: false,
-      color: "red",
-      hidden: true,
-    });
+    edges.add(assetControlEdge);
+    edges.add(outputControlEdge);
 
-    item.assets.forEach((asset) => {
-      const assetFileName = pathBasename(asset.file_path);
+    // BEGIN: be15d9bcejpp
+    if (jsonData.assets && jsonData.assets.length > 0) {
+      console.time('looping assets');
+      jsonData.assets.forEach((asset) => {
+        
+        // WARNING: This just checks the file name which makes the assets link together, but if they're in different places
+        // the asset could TECHNICALLY be different. Right now it doesn't care, it just links them even if the project is
+        // actually pulling the asset from a different path. 
 
-      if (!uniqueAssets[assetFileName]) {
-        uniqueAssets[assetFileName] = formatNode(asset, nodeId++);
-        nodes.add(uniqueAssets[assetFileName]);
-      }
+        const assetFileName = pathBasename(asset.file_path);
 
-      edges.add({
-        id: edgeId++,
-        to: uniqueScenes[fileName].id,
-        from: uniqueAssets[assetFileName].id,
-        arrows: "to", // Add an arrow to the edge
-      });
-
-      // Connect hidden nodes to their texture nodes
-      const AssetControlNode = nodes.get().find(
-        (item) =>
-          item.parentProjectFileId === uniqueScenes[fileName].id &&
-          item.title === "AssetControl"
-      );
-
-      edges.add({
-        id: edgeId++,
-        to: AssetControlNode.id,
-        from: uniqueAssets[assetFileName].id,
-        length: 20,
-        hidden: true,
-      });
-  });
-
-  // Process the outputs if they exist
-    if (item.outputs) {
-      
-      item.outputs.forEach((output) => {
-        const outputFileName = pathBasename(output.file_path);
-
-        if (!uniqueAssets[outputFileName]) {
-          uniqueAssets[outputFileName] = formatNode(output, nodeId++);
-          nodes.add(uniqueAssets[outputFileName]);
+        if (!uniqueAssets[assetFileName]) {
+          uniqueAssets[assetFileName] = NodeFormatterInstance.format(asset, nodeId++, uniqueScenes[fileName]);
+          nodes.add(uniqueAssets[assetFileName]);
+        } else {
+          uniqueAssets[assetFileName].parentUUID.push(uniqueScenes[fileName].UUID);
+          nodes.update(uniqueAssets[assetFileName]);
         }
 
         edges.add({
           id: edgeId++,
+          parentUUID: [uniqueScenes[fileName].UUID],
+          to: uniqueScenes[fileName].id,
+          from: uniqueAssets[assetFileName].id,
+          arrows: "to", // Add an arrow to the edge
+        });
+
+        edges.add({
+          id: edgeId++,
+          parentUUID: [uniqueScenes[fileName].UUID],
+          to: AssetControlNode.id,
+          from: uniqueAssets[assetFileName].id,
+          length: 20,
+        });
+      });
+      console.timeEnd('looping assets');
+    }
+    // END: be15d9bcejpp
+
+  // Process the outputs if they exist
+    if (jsonData.outputs) {
+      
+      jsonData.outputs.forEach((output) => {
+        const outputFileName = pathBasename(output.file_path);
+
+        if (!uniqueAssets[outputFileName]) {
+          uniqueAssets[outputFileName] = NodeFormatterInstance.format(output, nodeId++, uniqueScenes[fileName]);
+          nodes.add(uniqueAssets[outputFileName]);
+        } else {
+          uniqueAssets[outputFileName].parentUUID.push(uniqueScenes[fileName].UUID);
+          nodes.update(uniqueAssets[outputFileName]);
+        }
+
+        edges.add({
+          id: edgeId++,
+          parentUUID: [uniqueScenes[fileName].UUID],
           from: uniqueScenes[fileName].id,
           to: uniqueAssets[outputFileName].id,
           arrows: "to", // Add an arrow to the edge
         });
 
-        const OutputControlNode = nodes.get().find(
-          (item) =>
-            item.parentProjectFileId === uniqueScenes[fileName].id &&
-            item.title === "OutputControl"
-        );
-
         edges.add({
           id: edgeId++,
+          parentUUID: [uniqueScenes[fileName].UUID],
           to: OutputControlNode.id,
           from: uniqueAssets[outputFileName].id,
           length: 20,
           hidden: true,
         });
       });
-  }
-});
-}
-
-function addNewNodesAndEdges(jsonData) {
-
-  const fileTypeIcons = {
-    c4d: "c4d.png",
-    nk: "nuke.png",
-    hip: "hou.png",
-    // Add more file types here
-  };
-
-  let nodeId;
-  let edgeId;
-
-  const existingNodeObjects = nodes.get();
-  const existingEdgeObjects = edges.get();
-
-  // Check if there are any nodes and get the id of the last node
-  if (existingNodeObjects.length > 0) {
-    const lastNodeId = existingNodeObjects[existingNodeObjects.length - 1].id;
-    if (typeof lastNodeId !== 'undefined') {
-        nodeId = lastNodeId + 1;
-    } else {
-        nodeId = 1;
     }
-  } else {
-    nodeId = 1;
-  }
-
-  // Check if there are any edges and get the id of the last edge
-  if (existingEdgeObjects.length > 0) {
-    const lastEdgeId = existingEdgeObjects[existingEdgeObjects.length - 1].id;
-    if (typeof lastEdgeId !== 'undefined') {
-        edgeId = lastEdgeId + 1;
-    } else {
-        edgeId = 1;
-    }
-  } else {
-    edgeId = 1;
-  }
-
-  const fileExtension = jsonData.file_name.split('.').pop().toLowerCase();
-  const fileType = fileExtension in fileTypeIcons ? fileExtension : null;
-
-  const fileName = jsonData.file_name;
-  const uniqueID = jsonData.id;
-
-
-  if (!uniqueScenes[fileName]) {
-    uniqueScenes[fileName] = {
-      id: nodeId++,
-      UUID: uniqueID,
-      label: fileName,
-      title: fileName, //testing div element as title
-      group: "projectfile",
-      controlNodes: true, // control nodes hidden option
-      clusterInOut: false,
-      color: "grey",
-      outline: "yellow",
-      shape: "image",
-      physics: false,
-      image: imgDIR + fileTypeIcons[fileType], // Set the image based on the file type
-    };
-    nodes.add(uniqueScenes[fileName]);
-
-  }
-
-  // Create a hidden node for the project file node to control the textures
-  nodes.add({
-    id: nodeId++,
-    hidden: true,
-    physics: false,
-    group: "controlNodes",
-    color: "rgba(255,255,255,0.1)",
-    title: "AssetControl",
-    parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
   });
-
-  // Create a hidden node for the project file node to control the renders
-  nodes.add({
-    id: nodeId++,
-    hidden: true,
-    physics: false,
-    group: "controlNodes",
-    color: "rgba(255,255,255,0.1)",
-    title: "OutputControl",
-    parentProjectFileId: uniqueScenes[fileName].id, // Add this custom property to store the id of the project file node
-  });
-
-  // Create an edge between the hidden node and the project file node
-  edges.add({
-    id: edgeId++,
-    from: uniqueScenes[fileName].id,
-    to: nodeId - 1,
-    length: 20,
-    physics: false,
-    color: "red",
-    hidden: true,
-  });
-
-  // Create an edge between the hidden node and the project file node
-  edges.add({
-    id: edgeId++,
-    from: uniqueScenes[fileName].id,
-    to: nodeId - 2,
-    length: 20,
-    physics: false,
-    color: "red",
-    hidden: true,
-  });
-
-  jsonData.assets.forEach((asset) => {
-    const assetFileName = pathBasename(asset.file_path);
-
-    if (!uniqueAssets[assetFileName]) {
-      uniqueAssets[assetFileName] = formatNode(asset, nodeId++);
-      nodes.add(uniqueAssets[assetFileName]);
-    }
-
-    edges.add({
-      id: edgeId++,
-      to: uniqueScenes[fileName].id,
-      from: uniqueAssets[assetFileName].id,
-      arrows: "to", // Add an arrow to the edge
-    });
-
-    // Connect hidden nodes to their texture nodes
-    const AssetControlNode = nodes.get().find(
-      (item) =>
-        item.parentProjectFileId === uniqueScenes[fileName].id &&
-        item.title === "AssetControl"
-    );
-
-    edges.add({
-      id: edgeId++,
-      to: AssetControlNode.id,
-      from: uniqueAssets[assetFileName].id,
-      length: 20,
-      hidden: true,
-    });
-});
-
-// Process the outputs if they exist
-  if (jsonData.outputs) {
-    console.log("outputs exist");
-    
-    jsonData.outputs.forEach((output) => {
-      const outputFileName = pathBasename(output.file_path);
-
-      if (!uniqueAssets[outputFileName]) {
-        uniqueAssets[outputFileName] = formatNode(output, nodeId++);
-        nodes.add(uniqueAssets[outputFileName]);
-      }
-
-      edges.add({
-        id: edgeId++,
-        from: uniqueScenes[fileName].id,
-        to: uniqueAssets[outputFileName].id,
-        arrows: "to", // Add an arrow to the edge
-      });
-
-      const OutputControlNode = nodes.get().find(
-        (item) =>
-          item.parentProjectFileId === uniqueScenes[fileName].id &&
-          item.title === "OutputControl"
-      );
-
-      edges.add({
-        id: edgeId++,
-        to: OutputControlNode.id,
-        from: uniqueAssets[outputFileName].id,
-        length: 20,
-        hidden: true,
-      });
-    });
-  }
 }
 
 function initNetwork() {
@@ -846,18 +719,62 @@ function restoreNetwork(savedNetwork){
 };
 
 function removeNodes(uuid){
+// currently it isn't working as expected because it's deleting all nodes connected to a project file
+// which causes issues with shared assets. It needs to leave the nodes that are connected to other projects
   const existingNodeObjects = nodes.get();
+  const existingEdgeObjects = edges.get();
+  console.log("removeNodes", uuid);
+
+  const nodesToRemove = [];
+  const edgesToRemove = [];
+  const uniqueScenesToRemove = [];
+  const uniqueAssetsToRemove = [];
+
   for (const node of existingNodeObjects) {
-    if (node.UUID === uuid) {
-      const connectedNodes = network.getConnectedNodes(node.id);
-      nodes.remove(node);
-      nodes.remove(connectedNodes);
-      break;
+    // for every node in the network
+    if (node.UUID === uuid || (node.parentUUID && node.parentUUID.includes(uuid))) {
+      // check if the node is the project file or if it's a child of the project file
+      if ( node.parentUUID.length > 1 ) {
+        // check if the node has more than one parent
+        // if it does, remove the parentUUID from the node
+        node.parentUUID = node.parentUUID.filter((parentUUID) => parentUUID !== uuid);
+        nodes.update(node);
+      } else {
+        // if it only has one parent, add it to the list of nodes to remove
+        nodesToRemove.push(node);
+        if (node.group === "projectfile") {
+          // if it's a project file, add it to the list of uniqueScenes to remove
+          uniqueScenesToRemove.push(node.label);
+        } else if(node.group !== "controlNodes" && node.group !== "projectfile") {
+          // if it's not a control node or a project file, add it to the list of uniqueAssets to remove
+          uniqueAssetsToRemove.push(node.label);
+        }
+      }
     }
   }
+  for (const edge of existingEdgeObjects) {
+    if (edge.parentUUID && edge.parentUUID.includes(uuid)) {
+      edgesToRemove.push(edge);
+      //edges.remove(edge.id);
+    }
+  }
+  console.log("nodesToRemove", nodesToRemove);
+  nodes.remove(nodesToRemove);
+
+  console.log("uniqueScenesToRemove", uniqueScenesToRemove);
+  console.log("uniqueAssetsToRemove", uniqueAssetsToRemove);
+  for (const scene of uniqueScenesToRemove) {
+    delete uniqueScenes[scene];
+  }
+  for (const asset of uniqueAssetsToRemove) {
+    delete uniqueAssets[asset];
+  }
+
+  edges.remove(edgesToRemove);
 };
 
-// ipc event listeners
+
+// #region ipc event listeners
 ipcRenderer.on("toggle-pin", () => {
   console.log("nodenet: toggle-pin received");
   togglePin(selectedNode);
@@ -870,7 +787,6 @@ ipcRenderer.on("save-network-data", (event) => {
 });
 
 ipcRenderer.on("process-json-data", (event, jsonData) => {
-  //on startup only
   console.log("nodenet: starting up, processing json data from database");
   receiveJsonDataAndDraw(jsonData)
   initNetwork();
@@ -886,9 +802,19 @@ ipcRenderer.on("toggle-cluster", (event, node, checkValue) => {
   toggleCluster(node, checkValue);
 });
 
+// Scene Manager
+
 ipcRenderer.on("toggleButton", (event, uuid) => {
   console.log("nodenet: toggleButton received");
   removeNodes(uuid);
+});
+
+ipcRenderer.on("addButton_2", (event, projectData) => {
+  console.log("nodenet: addButton_2 received");
+  //addNodes(projectData);
+  console.time('add new nodes');
+  addNewNodesAndEdges(projectData);
+  console.timeEnd('add new nodes');
 });
 
 // This is so stupid it's just to get the right click menu to also open the node details view GODDAMNIT
@@ -911,6 +837,8 @@ ipcRenderer.on('load-network-data', (event, networkData) => {
   
   initNetwork();
 });
+
+// #endregion
 
 window.addEventListener("load", () => {
   console.log("window loaded");

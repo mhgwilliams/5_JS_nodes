@@ -82,7 +82,7 @@ class NukeProject extends Project{
     let content = fs.readFileSync(this.file_path, "utf8");
     let readNodePattern = /Read\s*\{[^}]*\}/g;
     let readNodesRaw = content.match(readNodePattern) || [];
-    let readNodes = [];
+    let readNodes = new Set(); // Change this to a Set
   
     for (let readNodeRaw of readNodesRaw) {
       let filePattern = /\bfile\s+([\S\s]*?)\n/;
@@ -92,26 +92,26 @@ class NukeProject extends Project{
         let file_path = fileMatch[1].trim();
         file_path = file_path.replace(/%04d/, "0000");
         file_path = file_path.replace(/####/, "0000");
-        readNodes.push(file_path);
+        readNodes.add(file_path); // Use the add method instead of push
       }
     }
-    return readNodes;
+    return Array.from(readNodes); // Convert the Set back to an Array before returning
   }
 
   extractWriteNodes() {
     let content = fs.readFileSync(this.file_path, "utf8");
     let writeNodePattern = /Write\s*\{[^}]*\}/g;
     let writeNodesRaw = content.match(writeNodePattern) || [];
-    let writeNodes = [];
+    let writeNodes = new Set(); // Change this to a Set
   
     for (let writeNodeRaw of writeNodesRaw) {
       let filePattern = /\bfile\s+([\S\s]*?)\n/;
       let fileMatch = filePattern.exec(writeNodeRaw);
       if (fileMatch) {
-        writeNodes.push(fileMatch[1].trim());
+        writeNodes.add(fileMatch[1].trim()); // Use the add method instead of push
       }
     }
-    return writeNodes;
+    return Array.from(writeNodes); // Convert the Set back to an Array before returning
   }
 
   loadNukeFile() {
@@ -202,6 +202,11 @@ class ProjectManager {
     }
   }
 
+  retrieveDataFromDatabase(uuid) {
+    const data = this.dataList.data.find(item => item.id === uuid);
+    return data;
+  }
+
   addProject(project) {
       if (!this.projects.has(project.id)) {
           this.projects.set(project.id, project);
@@ -259,6 +264,8 @@ class Node{
     this.image = newData.image || this.image;
   }
 }
+
+
 
 /* app.whenReady().then(() => {
   console.log("data handler saying App ready");

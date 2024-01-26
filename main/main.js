@@ -54,15 +54,16 @@ app.whenReady().then(async () => {
     jsonDatabase = await loadDatabase();
     mainWindow.webContents.send('database-loaded', jsonDatabase);
     console.log("database loaded");
+
+    try {
+      projectManager = new ProjectManager(appDataPath);
+      console.log("project manager created");
+    } catch (error) {
+      console.error("Error creating project manager:", error);
+    }
+    
   } catch (error) {
     console.error("Error loading database:", error);
-  }
-
-  try {
-    projectManager = new ProjectManager(appDataPath);
-    console.log("project manager created");
-  } catch (error) {
-    console.error("Error creating project manager:", error);
   }
 
 });
@@ -217,6 +218,12 @@ ipcMain.on("toggleButton", (event, uuid) => {
   console.log("toggle button received in main");
   console.log(uuid);
   mainWindow.webContents.send('toggleButton', uuid);
+});
+
+ipcMain.on("addButton", (event, uuid) => {
+  console.log("add button received in main, finding data");
+  const projectData = projectManager.retrieveDataFromDatabase(uuid);
+  mainWindow.webContents.send('addButton_2', projectData);
 });
 
 /* ipcMain.on("loadNukeFile", (event, file) => {
