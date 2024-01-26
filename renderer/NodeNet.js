@@ -1,4 +1,5 @@
 const pathBasename = window.electronAPI.basename;
+var nodenetStartTime = performance.now();
 
 const jsonDataPath = "../data/database.json";
 
@@ -293,7 +294,6 @@ function addNewNodesAndEdges(jsonDataInput) {
     edges.add(outputControlEdge);
 
     if (jsonData.assets && jsonData.assets.length > 0) {
-      console.time('looping assets');
       jsonData.assets.forEach((asset) => {
 
         // WARNING: This just checks the file name which makes the assets link together, but if they're in different places
@@ -326,7 +326,6 @@ function addNewNodesAndEdges(jsonDataInput) {
           length: 20,
         });
       });
-      console.timeEnd('looping assets');
     }
 
   // Process the outputs if they exist
@@ -366,7 +365,7 @@ function addNewNodesAndEdges(jsonDataInput) {
 
 function initNetwork() {
 
-  console.log("network initialized");
+  console.log("network initializing at ", performance.now() - nodenetStartTime, "ms");
 
   var container = document.getElementById("mynetwork");
 
@@ -534,6 +533,8 @@ function initNetwork() {
     });
 
   networkInteraction();
+
+  console.log("network ready", performance.now() - nodenetStartTime, "ms");
 
 }
 
@@ -780,8 +781,6 @@ ipcRenderer.on("toggleButton", (event, uuid, state, projectData) => {
 });
 
 ipcRenderer.on("addButton_2", (event, projectData) => {
-  console.log("nodenet: addButton_2 received");
-  //addNodes(projectData);
   console.time('add new nodes');
   addNewNodesAndEdges(projectData);
   console.timeEnd('add new nodes');
@@ -811,6 +810,7 @@ ipcRenderer.on('load-network-data', (event, networkData) => {
 // #endregion
 
 window.addEventListener("load", () => {
-  console.log("window loaded");
+  nodenetStartTime = performance.now();
+  console.log(`window loaded in Nodenet.js at ${performance.now()}`);
   ipcRenderer.send('request-network-data');
 });

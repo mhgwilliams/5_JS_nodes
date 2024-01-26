@@ -11,6 +11,7 @@ const clearDbBtn = document.getElementById("clear_DB_button");
 
 const openConfigBtn = document.getElementById("toggleConfigBtn");
 
+
 loadNukeFileBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the nukefilebutton
   loadNukeFileInput.click();

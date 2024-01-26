@@ -114,14 +114,6 @@ ipcRenderer.on('search-results', (event, results) => {
     const container = sceneFileContent;
 });
 
-
-  // populate the sceneFileContent div with the content of the database
-  
-/* ipcRenderer.on('database-updated', (event, newData, uiContent) => {
-    console.log("database updated, populating sceneFileContent");
-    createSceneFile(uiContent, newData);
-}); */
-
 ipcRenderer.on('load-ui', (event, databaseContent) => {
     console.log("database loaded, populating sceneFileContent");
     populateSceneFileContent(databaseContent);

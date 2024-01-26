@@ -9,6 +9,8 @@ const { readFile } = require('fs/promises');
 
 const Fuse = require('fuse.js');
 
+const appStartTime = performance.now();
+
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
@@ -48,16 +50,16 @@ function createWindow() {
 }
 
 app.whenReady().then(async () => {
+  console.log(`App started in ${performance.now() - appStartTime}ms`);
   createWindow();
 
   try {
     jsonDatabase = await loadDatabase();
     mainWindow.webContents.send('database-loaded', jsonDatabase);
-    console.log("database loaded");
+    console.log(`Database loaded in ${performance.now() - appStartTime}ms`);
 
     try {
       projectManager = new ProjectManager(appDataPath);
-      console.log("project manager created");
       console.log("forcing ui content to read as deployed, fix this later");
       projectManager.updateUI();
       mainWindow.webContents.send('load-ui', jsonDatabase);
