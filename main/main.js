@@ -12,7 +12,7 @@ const Fuse = require('fuse.js');
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
-const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node } = require("./data_handler");
+const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node, C4DProject } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
 var appPath = app.getAppPath();
@@ -58,10 +58,13 @@ app.whenReady().then(async () => {
     try {
       projectManager = new ProjectManager(appDataPath);
       console.log("project manager created");
+      console.log("forcing ui content to read as deployed, fix this later");
+      projectManager.updateUI();
+      mainWindow.webContents.send('load-ui', jsonDatabase);
     } catch (error) {
       console.error("Error creating project manager:", error);
     }
-    
+
   } catch (error) {
     console.error("Error loading database:", error);
   }
@@ -214,10 +217,47 @@ ipcMain.on("loadNukeFile", (event, filePath) => {
   }
 });
 
-ipcMain.on("toggleButton", (event, uuid) => {
+ipcMain.on("loadC4DJson", (event) => {
+  console.log("loadC4DJson received");
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ extensions: ["json"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
+        
+        const project = new C4DProject(filePath);
+        const output = project.getProjectDetails();
+
+        if (output) {
+          const result = projectManager.updateDatabase(output);
+          console.log("Finished processing C4D file.");
+          console.log(result);
+
+          if (!result.duplicate){
+            mainWindow.webContents.send("newProjectFile", result.newData);
+        } else {
+          dialog.showMessageBox(mainWindow, {
+            type: 'warning',
+            title: 'Duplicate Entry',
+            message: 'This file has already been added to the network.',
+            buttons: ['OK']
+          });
+        }
+      }
+    }
+  });
+});
+
+
+ipcMain.on("toggleButton", (event, uuid, state) => {
   console.log("toggle button received in main");
   console.log(uuid);
-  mainWindow.webContents.send('toggleButton', uuid);
+  const projectData = projectManager.retrieveDataFromDatabase(uuid);
+  mainWindow.webContents.send('toggleButton', uuid, state, projectData);
 });
 
 ipcMain.on("addButton", (event, uuid) => {
@@ -225,6 +265,8 @@ ipcMain.on("addButton", (event, uuid) => {
   const projectData = projectManager.retrieveDataFromDatabase(uuid);
   mainWindow.webContents.send('addButton_2', projectData);
 });
+
+
 
 /* ipcMain.on("loadNukeFile", (event, file) => {
   console.log("file path received in main");
@@ -276,7 +318,7 @@ ipcMain.on("loadHouJson", (event) => {
     });
 });
 
-ipcMain.on("loadC4DJson", (event) => {
+/* ipcMain.on("loadC4DJson", (event) => {
   dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
@@ -305,7 +347,7 @@ ipcMain.on("loadC4DJson", (event) => {
       console.log(err);
     });
 });
-
+ */
 
 ipcMain.on("searchDirectory", (event) => {
   dialog

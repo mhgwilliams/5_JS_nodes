@@ -207,48 +207,12 @@ function removeContextMenu() {
 
 async function receiveJsonDataAndDraw(jsonData) {
   try {
-    console.log("JSON Data is ", jsonData.data);
+    console.time('reading database and adding nodes');
     addNewNodesAndEdges(jsonData.data);
+    console.timeEnd('reading database and adding nodes');
   } catch (err) {
     console.log("Error reading file or parsing JSON:", err);
   }
-}
-
-function formatNode(asset, id) {
-  const assetFileName = pathBasename(asset.file_path);
-
-  const node = {
-    id,
-    label: assetFileName,
-    title: assetFileName,
-  };
-
-  if (asset.type === "Texture") {
-    node.size = 10;
-    node.group = "Texture";
-  } else if (asset.type === "Geometry") {
-    node.size = 10;
-    node.group = "Geometry";
-  } else if (asset.type === "read") {
-    node.size = 15;
-    node.group = "read";
-  } else if (asset.type === "write") {
-    node.size = 15;
-    node.group = "write";
-  } else if (asset.type === "Render") {
-    node.group = "Render";
-  } else if (asset.type === "alembic_rop") {
-    node.group = "Geometry";
-  } else if (asset.type.includes("alembic") && !asset.type.includes("alembic_rop")) {
-    node.group = "Geometry";
-  } else if (asset.type.includes("filecache")) {
-    node.group = "file_cache";
-  } else {
-    node.color = "#fb8500";
-    node.shape = "hexagon";
-  }
-
-  return node;
 }
 
 function addNewNodesAndEdges(jsonDataInput) {
@@ -328,11 +292,10 @@ function addNewNodesAndEdges(jsonDataInput) {
     edges.add(assetControlEdge);
     edges.add(outputControlEdge);
 
-    // BEGIN: be15d9bcejpp
     if (jsonData.assets && jsonData.assets.length > 0) {
       console.time('looping assets');
       jsonData.assets.forEach((asset) => {
-        
+
         // WARNING: This just checks the file name which makes the assets link together, but if they're in different places
         // the asset could TECHNICALLY be different. Right now it doesn't care, it just links them even if the project is
         // actually pulling the asset from a different path. 
@@ -365,7 +328,6 @@ function addNewNodesAndEdges(jsonDataInput) {
       });
       console.timeEnd('looping assets');
     }
-    // END: be15d9bcejpp
 
   // Process the outputs if they exist
     if (jsonData.outputs) {
@@ -719,11 +681,10 @@ function restoreNetwork(savedNetwork){
 };
 
 function removeNodes(uuid){
-// currently it isn't working as expected because it's deleting all nodes connected to a project file
-// which causes issues with shared assets. It needs to leave the nodes that are connected to other projects
+
   const existingNodeObjects = nodes.get();
   const existingEdgeObjects = edges.get();
-  console.log("removeNodes", uuid);
+  //console.log("removeNodes", uuid);
 
   const nodesToRemove = [];
   const edgesToRemove = [];
@@ -758,11 +719,11 @@ function removeNodes(uuid){
       //edges.remove(edge.id);
     }
   }
-  console.log("nodesToRemove", nodesToRemove);
+  //console.log("nodesToRemove", nodesToRemove);
   nodes.remove(nodesToRemove);
 
-  console.log("uniqueScenesToRemove", uniqueScenesToRemove);
-  console.log("uniqueAssetsToRemove", uniqueAssetsToRemove);
+  //console.log("uniqueScenesToRemove", uniqueScenesToRemove);
+  //console.log("uniqueAssetsToRemove", uniqueAssetsToRemove);
   for (const scene of uniqueScenesToRemove) {
     delete uniqueScenes[scene];
   }
@@ -804,9 +765,18 @@ ipcRenderer.on("toggle-cluster", (event, node, checkValue) => {
 
 // Scene Manager
 
-ipcRenderer.on("toggleButton", (event, uuid) => {
-  console.log("nodenet: toggleButton received");
-  removeNodes(uuid);
+ipcRenderer.on("toggleButton", (event, uuid, state, projectData) => {
+  console.log(state);
+  if (state === "add") {
+    console.log("nodenet: toggleButton received, adding");
+    console.time('add new nodes');
+    addNewNodesAndEdges(projectData);
+    console.timeEnd('add new nodes');
+  } else if (state === "remove"){
+    console.log("nodenet: toggleButton received, removing");
+    removeNodes(uuid);
+  }
+  
 });
 
 ipcRenderer.on("addButton_2", (event, projectData) => {

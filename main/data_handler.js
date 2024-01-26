@@ -135,6 +135,26 @@ class NukeProject extends Project{
   
 }
 
+class C4DProject extends Project{
+  constructor(filePath){
+    super({}); // Call the parent constructor with an empty object
+    this.loadC4DFile(filePath);
+  }
+
+  loadC4DFile(filePath) {
+    let JSONData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+    if (JSONData) {
+      this.file_name = JSONData.file_name;
+      this.name = JSONData.name;
+      this.file_path = JSONData.file_path;
+      this.dateModified = JSONData.date_modified;
+      this.assets = JSONData.assets;
+      this.outputs = JSONData.outputs;
+    }
+    
+  }
+}
 
 class ProjectManager {
   constructor(appDataPath) {
@@ -152,6 +172,17 @@ class ProjectManager {
 
   getCurrentTimestamp() {
     return new Date().toISOString().replace("T", " ").substring(0, 19);
+  }
+
+  
+
+  updateUI() {
+    // Change all values in the database under uicontent.deployed to true
+    console.log("Updating UI, all nodes deployed");
+    this.dataList.uiContent.forEach(ui => {
+      ui.deployed = true;
+    });
+    this.saveData();
   }
 
   updateDatabase(newData) {
@@ -517,6 +548,7 @@ module.exports = {
     Project,
     ProjectManager,
     NukeProject,
+    C4DProject,
     Node,
   };
   
