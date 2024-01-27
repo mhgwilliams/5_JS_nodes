@@ -1,5 +1,4 @@
 const { ipcRenderer } = require('electron');
-const jsonview = require('@pgrabovets/json-view');
 
 /* ipcRenderer.on('node-data', (event, nodeInfo) => {
   // Assuming you have an element with id 'nodeInfoContainer' in your HTML

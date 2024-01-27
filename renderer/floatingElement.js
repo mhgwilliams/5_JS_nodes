@@ -114,6 +114,12 @@ ipcRenderer.on('search-results', (event, results) => {
     const container = sceneFileContent;
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Your DOM manipulation code here
+    console.log("DOM loaded in floatingElement.js");
+});
+
+
 ipcRenderer.on('load-ui', (event, databaseContent) => {
     console.log("database loaded, populating sceneFileContent");
     populateSceneFileContent(databaseContent);
