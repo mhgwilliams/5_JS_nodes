@@ -208,9 +208,9 @@ function removeContextMenu() {
 
 async function receiveJsonDataAndDraw(jsonData) {
   try {
-    console.time('reading database and adding nodes');
+    console.time('NodeNet: reading database and adding nodes');
     addNewNodesAndEdges(jsonData.data);
-    console.timeEnd('reading database and adding nodes');
+    console.timeEnd('NodeNet: reading database and adding nodes');
   } catch (err) {
     console.log("Error reading file or parsing JSON:", err);
   }
@@ -365,7 +365,7 @@ function addNewNodesAndEdges(jsonDataInput) {
 
 function initNetwork() {
 
-  console.log("network initializing at ", performance.now() - nodenetStartTime, "ms");
+  console.log("NodeNet: network initializing at ", performance.now() - nodenetStartTime, "ms");
 
   var container = document.getElementById("mynetwork");
 
@@ -534,7 +534,7 @@ function initNetwork() {
 
   networkInteraction();
 
-  console.log("network ready", performance.now() - nodenetStartTime, "ms");
+  console.log("NodeNet: network ready", performance.now() - nodenetStartTime, "ms");
 
 }
 
@@ -811,6 +811,6 @@ ipcRenderer.on('load-network-data', (event, networkData) => {
 
 window.addEventListener("load", () => {
   nodenetStartTime = performance.now();
-  console.log(`window loaded in Nodenet.js at ${performance.now()}`);
+  console.log(`NodeNet: window loaded at ${performance.now()}`);
   ipcRenderer.send('request-network-data');
 });
