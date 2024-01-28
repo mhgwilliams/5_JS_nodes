@@ -78,23 +78,26 @@ class NodeFormatter {
       };
   }
 
-  format(asset, id, parent) {
-      const assetFileName = pathBasename(asset.file_path);
-      const node = {
-          id,
-          label: assetFileName,
-          title: assetFileName,
-          parentUUID: new Set([parent.UUID]),
-          ...this.getAssetTypeProperties(asset.type)
-      };
+  format(asset, id, parent, type) {
+    const assetFileName = pathBasename(asset.file_path);
+    const node = {
+      id,
+      label: assetFileName,
+      title: assetFileName,
+      type: type,
+      parentUUID: new Set([parent.UUID]),
+      x: parent.x,
+      y: type === "asset" ? parent.y - 100 : parent.y,
+      ...this.getAssetTypeProperties(asset.type)
+    };
 
-      // Set default properties for unknown asset types
-      if (!node.group) {
-          node.color = "#fb8500";
-          node.shape = "hexagon";
-      }
+    // Set default properties for unknown asset types
+    if (!node.group) {
+      node.color = "#fb8500";
+      node.shape = "hexagon";
+    }
 
-      return node;
+    return node;
   }
 
   getAssetTypeProperties(type) {
@@ -166,25 +169,32 @@ function controlVis(nodeId, checkValue) {
 function toggleCluster(node, checkValue) {
 
   console.log("toggleCluster", node, checkValue);
+  // this function is broken, it's not clustering the nodes correctly
+  // need to decide what the cluster should really be, what nodes should be included, what would make it feel nice.
 
   if (node) {
     //const node = nodes.get(nodeId);
     const currentCheckVal = node.clusterInOut;
     const nodeId = node.id;
+    const uuid = node.UUID;
 
-    // Check if the clicked node is a cluster
     // Cluster the nodes directly connected to the clicked node
     const connectedNodes = network.getConnectedNodes(nodeId);
 
     const clusterOptions = {
       joinCondition: function (nodeOptions) {
-        const isConnected = connectedNodes.indexOf(nodeOptions.id) !== -1;
+        for (const connectedNode of connectedNodes) {
+          if (connectedNode.parentUUID && connectedNode.parentUUID.has(uuid) && connectedNode.parentUUID.size < 1) {
+            return true;
+          }
+        }
         const hasSingleConnection =
           network.getConnectedNodes(nodeOptions.id).length === 1;
-        return isConnected && hasSingleConnection;
+        return isChild && hasSingleConnection;
       },
       clusterNodeProperties: {
         label: `Cluster of ${nodeId}`,
+        uuid: uuid,
         borderWidth: 3,
         shape: "database",
         size: 20,
@@ -303,7 +313,7 @@ function addNewNodesAndEdges(jsonDataInput) {
         const assetFileName = pathBasename(asset.file_path);
 
         if (!uniqueAssets[assetFileName]) {
-          uniqueAssets[assetFileName] = NodeFormatterInstance.format(asset, nodeId++, uniqueScenes[fileName]);
+          uniqueAssets[assetFileName] = NodeFormatterInstance.format(asset, nodeId++, uniqueScenes[fileName], "asset");
           nodes.add(uniqueAssets[assetFileName]);
         } else {
           uniqueAssets[assetFileName].parentUUID.add(uniqueScenes[fileName].UUID);
@@ -335,7 +345,7 @@ function addNewNodesAndEdges(jsonDataInput) {
         const outputFileName = pathBasename(output.file_path);
 
         if (!uniqueAssets[outputFileName]) {
-          uniqueAssets[outputFileName] = NodeFormatterInstance.format(output, nodeId++, uniqueScenes[fileName]);
+          uniqueAssets[outputFileName] = NodeFormatterInstance.format(output, nodeId++, uniqueScenes[fileName], "output");
           nodes.add(uniqueAssets[outputFileName]);
         } else {
           uniqueAssets[outputFileName].parentUUID.add(uniqueScenes[fileName].UUID);
