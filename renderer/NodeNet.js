@@ -45,7 +45,7 @@ class ControlNode {
       this.color = "rgba(255,255,255,0.1)",
       this.title = title;
       this.parentProjectFileId = parent.id;
-      this.parentUUID = [parent.UUID];
+      this.parentUUID = new Set([parent.UUID]);
       this.x = parent.x;
       this.y = title === "AssetControl" ? parent.y - 100 : title === "OutputControl" ? parent.y + 100 : parent.y;
   }
@@ -84,7 +84,7 @@ class NodeFormatter {
           id,
           label: assetFileName,
           title: assetFileName,
-          parentUUID: [parent.UUID],
+          parentUUID: new Set([parent.UUID]),
           ...this.getAssetTypeProperties(asset.type)
       };
 
@@ -264,7 +264,7 @@ function addNewNodesAndEdges(jsonDataInput) {
       uniqueScenes[fileName] = {
         id: nodeId++,
         UUID: uniqueID,
-        parentUUID: [],
+        parentUUID: new Set([]),
         label: fileName,
         title: fileName, //testing div element as title
         group: "projectfile",
@@ -306,13 +306,13 @@ function addNewNodesAndEdges(jsonDataInput) {
           uniqueAssets[assetFileName] = NodeFormatterInstance.format(asset, nodeId++, uniqueScenes[fileName]);
           nodes.add(uniqueAssets[assetFileName]);
         } else {
-          uniqueAssets[assetFileName].parentUUID.push(uniqueScenes[fileName].UUID);
+          uniqueAssets[assetFileName].parentUUID.add(uniqueScenes[fileName].UUID);
           nodes.update(uniqueAssets[assetFileName]);
         }
 
         edges.add({
           id: edgeId++,
-          parentUUID: [uniqueScenes[fileName].UUID],
+          parentUUID: new Set([uniqueScenes[fileName].UUID]),
           to: uniqueScenes[fileName].id,
           from: uniqueAssets[assetFileName].id,
           arrows: "to", // Add an arrow to the edge
@@ -320,7 +320,7 @@ function addNewNodesAndEdges(jsonDataInput) {
 
         edges.add({
           id: edgeId++,
-          parentUUID: [uniqueScenes[fileName].UUID],
+          parentUUID: new Set([uniqueScenes[fileName].UUID]),
           to: AssetControlNode.id,
           from: uniqueAssets[assetFileName].id,
           length: 20,
@@ -338,13 +338,13 @@ function addNewNodesAndEdges(jsonDataInput) {
           uniqueAssets[outputFileName] = NodeFormatterInstance.format(output, nodeId++, uniqueScenes[fileName]);
           nodes.add(uniqueAssets[outputFileName]);
         } else {
-          uniqueAssets[outputFileName].parentUUID.push(uniqueScenes[fileName].UUID);
+          uniqueAssets[outputFileName].parentUUID.add(uniqueScenes[fileName].UUID);
           nodes.update(uniqueAssets[outputFileName]);
         }
 
         edges.add({
           id: edgeId++,
-          parentUUID: [uniqueScenes[fileName].UUID],
+          parentUUID: new Set([uniqueScenes[fileName].UUID]),
           from: uniqueScenes[fileName].id,
           to: uniqueAssets[outputFileName].id,
           arrows: "to", // Add an arrow to the edge
@@ -352,7 +352,7 @@ function addNewNodesAndEdges(jsonDataInput) {
 
         edges.add({
           id: edgeId++,
-          parentUUID: [uniqueScenes[fileName].UUID],
+          parentUUID: new Set([uniqueScenes[fileName].UUID]),
           to: OutputControlNode.id,
           from: uniqueAssets[outputFileName].id,
           length: 20,
@@ -694,12 +694,12 @@ function removeNodes(uuid){
 
   for (const node of existingNodeObjects) {
     // for every node in the network
-    if (node.UUID === uuid || (node.parentUUID && node.parentUUID.includes(uuid))) {
+    if (node.UUID === uuid || (node.parentUUID && node.parentUUID.has(uuid))) {
       // check if the node is the project file or if it's a child of the project file
-      if ( node.parentUUID.length > 1 ) {
+      if ( node.parentUUID.size > 1 ) {
         // check if the node has more than one parent
         // if it does, remove the parentUUID from the node
-        node.parentUUID = node.parentUUID.filter((parentUUID) => parentUUID !== uuid);
+        node.parentUUID.delete(uuid);
         nodes.update(node);
       } else {
         // if it only has one parent, add it to the list of nodes to remove
@@ -715,7 +715,7 @@ function removeNodes(uuid){
     }
   }
   for (const edge of existingEdgeObjects) {
-    if (edge.parentUUID && edge.parentUUID.includes(uuid)) {
+    if (edge.parentUUID && edge.parentUUID.has(uuid)) {
       edgesToRemove.push(edge);
       //edges.remove(edge.id);
     }
@@ -778,6 +778,11 @@ ipcRenderer.on("toggleButton", (event, uuid, state, projectData) => {
     removeNodes(uuid);
   }
   
+});
+
+ipcRenderer.on("delButton", (event, uuid) => {
+  console.log("nodenet: delButton received");
+  removeNodes(uuid);
 });
 
 ipcRenderer.on("addButton_2", (event, projectData) => {

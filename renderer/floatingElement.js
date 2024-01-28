@@ -5,6 +5,8 @@ const sceneFileContent = document.getElementById("sceneFileContent");
 const element = document.getElementById("floatingElement");
 const header = document.querySelector(".header");
 
+const appStartTime = performance.now();
+
 let isDragging = false;
 let offsetX, offsetY;
 
@@ -116,21 +118,23 @@ ipcRenderer.on('search-results', (event, results) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Your DOM manipulation code here
-    console.log("DOM loaded in floatingElement.js");
+    console.log(`floatingElement: dom loaded at ${performance.now()}`);
 });
 
 
-ipcRenderer.on('load-ui', (event, databaseContent) => {
+ipcRenderer.on('database-loaded', (event, databaseContent) => {
     console.log("database loaded, populating sceneFileContent");
     populateSceneFileContent(databaseContent);
 });
 
-ipcRenderer.on('newProjectFile', (event, newData) => {
+ipcRenderer.send('getDatabase');
+
+ipcRenderer.on('newProjectFile', (event, newData, uiContent) => {
     console.log("new project file, populating sceneFileContent");
     const container = sceneFileContent;
 
     if (container) {
-        container.appendChild(constructDiv(newData));
+        container.appendChild(constructDiv(newData, uiContent));
     }
 });
 
@@ -184,11 +188,27 @@ function clickToggle(element) {
     });
 }
 
+function clickAsset(element) {
+    const assetElement = element;
+    assetElement.addEventListener("mouseover", function() {
+        window.ipcRenderer.send("assetHovered", this.textContent);
+    });
+    assetElement.addEventListener("mouseout", function() {
+        window.ipcRenderer.send("assetHovered", "");
+    });
+    assetElement.addEventListener("click", function() {
+        this.classList.toggle("active");
+        console.log("asset clicked");
+        window.ipcRenderer.send("assetClicked", this.textContent);
+    });
+}
+
 function clickDel(element) {
     const delButton = element;
     delButton.addEventListener("click", function() {
         console.log("del button clicked");
         window.ipcRenderer.send("delButton", this.id);
+        element.parentElement.parentElement.remove();
     });
 }
 
@@ -198,6 +218,7 @@ function constructDiv(newData, uiContent) {
         container.className = 'scene-file-entry';
         container.style.display = 'flex';
         container.style.flexDirection = 'column';
+        container.id = newData.id;
 
         // Button container
         const buttonContainer = document.createElement('div');
@@ -223,6 +244,7 @@ function constructDiv(newData, uiContent) {
         toggleButton.id = newData.id;
         toggleButton.style.backgroundColor = 'transparent';
         toggleButton.style.display = 'contents';
+        toggleButton.title = 'Toggle nodes';
         buttonContainer.appendChild(toggleButton);
         clickToggle(toggleButton);
 
@@ -231,6 +253,7 @@ function constructDiv(newData, uiContent) {
         delButton.id = newData.id;
         delButton.style.backgroundColor = 'transparent';
         delButton.style.display = 'contents';
+        delButton.title = 'Delete project entry';
         delButton.innerHTML = trashIcon;
         buttonContainer.appendChild(delButton);
         clickDel(delButton);
@@ -241,15 +264,15 @@ function constructDiv(newData, uiContent) {
         assetsOutputsDiv.className = 'assets-outputs';
         container.appendChild(assetsOutputsDiv);
 
-        const assetsList = document.createElement('ul');
         if (newData.assets) {
             newData.assets.forEach(asset => {
-                const li = document.createElement('li');
-                li.textContent = pathBasename(asset.file_path);
-                assetsList.appendChild(li);
+                const assetElement = document.createElement('div');
+                assetElement.textContent = pathBasename(asset.file_path);
+                assetElement.className = 'asset';
+                assetsOutputsDiv.appendChild(assetElement);
+                clickAsset(assetElement);
             });
         }
-        assetsOutputsDiv.appendChild(assetsList);
 
         // Similar construction for outputs
 

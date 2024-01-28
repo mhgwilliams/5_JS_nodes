@@ -174,8 +174,6 @@ class ProjectManager {
     return new Date().toISOString().replace("T", " ").substring(0, 19);
   }
 
-  
-
   updateUI() {
     // Change all values in the database under uicontent.deployed to true
     console.log("Updating UI, all nodes deployed");
@@ -238,14 +236,24 @@ class ProjectManager {
     return data;
   }
 
+  deleteProject(uuid) {
+    const projectIndex = this.dataList.data.findIndex(project => project.id === uuid);
+    if (projectIndex !== -1) {
+        this.dataList.data.splice(projectIndex, 1);
+    }
+
+    const uiIndex = this.dataList.uiContent.findIndex(ui => ui.id === uuid);
+    if (uiIndex !== -1) {
+        this.dataList.uiContent.splice(uiIndex, 1);
+    }
+
+    this.saveData();
+  }
+
   addProject(project) {
       if (!this.projects.has(project.id)) {
           this.projects.set(project.id, project);
       }
-  }
-
-  removeProject(projectId) {
-      this.projects.delete(projectId);
   }
 
   updateProject(projectId, newProjectData) {
@@ -341,7 +349,10 @@ async function loadDatabase(){
     console.log("Created empty JSON file");
   }
 
+  console.log(`data_handler: DB loaded at ${performance.now()}`);
+
   return jsonData;
+  
 }
 
 function clearDatabase() {

@@ -62,7 +62,6 @@ app.whenReady().then(async () => {
       projectManager = new ProjectManager(appDataPath);
       console.log("forcing ui content to read as deployed, fix this later");
       projectManager.updateUI();
-      mainWindow.webContents.send('load-ui', jsonDatabase);
     } catch (error) {
       console.error("Error creating project manager:", error);
     }
@@ -72,6 +71,17 @@ app.whenReady().then(async () => {
   }
 
 });
+
+ipcMain.on('getDatabase', (event) => {
+  if (jsonDatabase) {
+    event.reply('database-loaded', jsonDatabase);
+  } else {
+    mainWindow.webContents.once('database-loaded', () => {
+      event.reply('database-loaded', jsonDatabase);
+    });
+  }
+});
+
 
 // search functionality
 function searchDatabase(searchTerm) {
@@ -215,7 +225,7 @@ ipcMain.on("loadNukeFile", (event, filePath) => {
     console.log("Finished processing Nuke file.");
     console.log(result);
 
-    mainWindow.webContents.send("newProjectFile", result.newData);
+    mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
   }
 });
 
@@ -240,7 +250,7 @@ ipcMain.on("loadC4DJson", (event) => {
           console.log(result);
 
           if (!result.duplicate){
-            mainWindow.webContents.send("newProjectFile", result.newData);
+            mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
         } else {
           dialog.showMessageBox(mainWindow, {
             type: 'warning',
@@ -268,6 +278,11 @@ ipcMain.on("addButton", (event, uuid) => {
   mainWindow.webContents.send('addButton_2', projectData);
 });
 
+ipcMain.on("delButton", (event, uuid) => {
+  console.log("del button received in main, deleting id: ", uuid);
+  projectManager.deleteProject(uuid);
+  mainWindow.webContents.send('delButton', uuid);
+});
 
 
 /* ipcMain.on("loadNukeFile", (event, file) => {
