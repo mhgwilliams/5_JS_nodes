@@ -755,6 +755,7 @@ ipcRenderer.on("toggle-pin", () => {
 ipcRenderer.on("save-network-data", (event) => {
   console.log("nodenet: save-network-data received from main");
   exportNetwork();
+  //ipcRenderer.send('network-data-response', serializedState);
   ipcRenderer.send('network-data-response', serializedState);
 });
 

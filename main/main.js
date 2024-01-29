@@ -2,7 +2,7 @@
 // Renderer processes run in a Chromium environment, which provides access to the DOM and web APIs,
 // but it is more restricted in terms of Node.js APIs due to security reasons.
 
-const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, Menu, shell, net } = require("electron");
 const path = require('path');
 const fs = require('fs');
 const { readFile } = require('fs/promises');
@@ -19,6 +19,8 @@ const { buildPopupMenu } = require("./menumaker");
 
 var appPath = app.getAppPath();
 var appDataPath = app.getPath('userData');
+
+var savePath =  '';
 
 let mainWindow;
 let jsonDatabase;
@@ -113,9 +115,88 @@ ipcMain.on('save-network', (event) => {
   mainWindow.webContents.send('save-network-data');
 });
 
-ipcMain.on('network-data-response', (event, data) => {
-  const filePath = path.join(appDataPath, 'network_data.json');
-  fs.writeFileSync(filePath, data, 'utf8');
+ipcMain.on('save-session-as', (event) => {
+  mainWindow.webContents.send('save-network-data');
+  ipcMain.once('network-data-response', (event, data) => {
+    const combinedData = {
+      data: data,
+      jsonDatabase: jsonDatabase
+    };
+
+    dialog.showSaveDialog(mainWindow, {
+      title: 'Save session',
+      defaultPath: 'session.FloV',
+      filters: [
+        { name: 'FloV', extensions: ['FloV'] }
+      ]
+    }).then((result) => {
+      if (!result.canceled && result.filePath) {
+        const filePath = result.filePath;
+        fs.writeFileSync(filePath, JSON.stringify(combinedData), 'utf8');
+        savePath = filePath;
+        console.log("Session saved to", filePath);
+      }
+    }).catch((err) => {
+      console.error('Error saving session:', err);
+    });
+  });
+  
+});
+
+ipcMain.on("save-session", (event) => {
+  mainWindow.webContents.send("save-network-data");
+  ipcMain.once("network-data-response", (event, data) => {
+    const combinedData = {
+      data: data,
+      jsonDatabase: jsonDatabase,
+    };
+    if (savePath) {
+      fs.writeFileSync(savePath, JSON.stringify(combinedData), "utf8");
+      console.log("Session saved to", savePath);
+    } else {
+      dialog
+        .showSaveDialog(mainWindow, {
+          title: "Save session",
+          defaultPath: "session.FloV",
+          filters: [{ name: "FloV", extensions: ["FloV"] }],
+        })
+        .then((result) => {
+          if (!result.canceled && result.filePath) {
+            const filePath = result.filePath;
+            fs.writeFileSync(filePath, JSON.stringify(combinedData), "utf8");
+            savePath = filePath;
+            console.log("Session saved to", filePath);
+          }
+        })
+        .catch((err) => {
+          console.error("Error saving session:", err);
+        });
+    }
+  });
+});
+
+ipcMain.on('open-session', (event) => {
+  dialog.showOpenDialog(mainWindow, {
+    title: 'Open session',
+    filters: [
+      { name: 'FloV', extensions: ['FloV'] }
+    ]
+  }).then((result) => {
+    if (!result.canceled && result.filePaths.length > 0) {
+      const filePath = result.filePaths[0];
+      console.log("Selected file:", filePath);
+      
+      const data = fs.readFileSync(filePath, 'utf8');
+      const combinedData = JSON.parse(data);
+      jsonDatabase = combinedData.jsonDatabase;
+      const networkData = JSON.parse(combinedData.data);
+      savePath = filePath;
+      mainWindow.webContents.send('database-loaded', jsonDatabase);
+      mainWindow.webContents.send('load-network-data', networkData);
+    }
+  }).catch((err) => {
+    console.error('Error opening session:', err);
+  });
 });
 
 ipcMain.on('request-network-data', async (event) => {

@@ -5,7 +5,9 @@ const loadHouJsonBtn = document.getElementById("loadHouJson");
 const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 
 const saveNetworkBtn = document.getElementById("save_button");
+const saveAsBtn = document.getElementById("saveAs_button");
 const clearNetworkBtn = document.getElementById("clear_button");
+const openSession = document.getElementById("open_button");
 
 const clearDbBtn = document.getElementById("clear_DB_button");
 
@@ -41,14 +43,26 @@ loadC4DJsonBtn.addEventListener("click", () => {
 
 saveNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button
-  console.log("save network clicked");
-  window.ipcRenderer.send("save-network");
+  console.log("save clicked");
+  window.ipcRenderer.send("save-session");
+});
+
+saveAsBtn.addEventListener("click", () => {
+  // Send a message to the main process to execute the save button
+  console.log("save as clicked");
+  window.ipcRenderer.send("save-session-as");
 });
 
 clearNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the clear button
   console.log("clear network clicked");
   window.ipcRenderer.send("clear-network");
+});
+
+openSession.addEventListener("click", () => {
+  // Send a message to the main process to execute the open button
+  console.log("open session clicked");
+  window.ipcRenderer.send("open-session");
 });
 
 clearDbBtn.addEventListener("click", () => {
