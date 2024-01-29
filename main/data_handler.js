@@ -48,11 +48,6 @@ class Project{
   //methods
   //static methods can be called without having to create a new instance of project
 
-  // Method to update project data
-  updateProjectData(newData) {
-    // Update project properties as needed
-  }
-
   // Example method to get project details
   getProjectDetails() {
     return {
@@ -326,7 +321,7 @@ ipcMain.on("loadNukeFile", (event, filePath) => {
   }
 }); */
 
-async function loadDatabase(){
+async function loadDatabaseBACKUP(){
   const jsonDataPath = path.join(appDataPath, "data", "database.json");
   console.log("Loading database...", jsonDataPath);
   let jsonData = {
@@ -349,6 +344,21 @@ async function loadDatabase(){
     console.log("Created empty JSON file");
   }
 
+  console.log(`data_handler: DB loaded at ${performance.now()}`);
+
+  return jsonData;
+  
+}
+
+async function loadDatabase(){
+  const jsonDataPath = path.join(appDataPath, "data", "database.json");
+  console.log("making database...", jsonDataPath);
+  let jsonData = {
+    timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
+    data: [],
+    uiContent: [],
+  };
+  
   console.log(`data_handler: DB loaded at ${performance.now()}`);
 
   return jsonData;

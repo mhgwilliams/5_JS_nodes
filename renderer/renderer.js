@@ -1,7 +1,7 @@
 const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
 const loadNukeFileInput = document.getElementById("loadNukeFileInput");
 const searchDirectoryBtn = document.getElementById("searchDirectoryBtn");
-const loadHouJsonBtn = document.getElementById("loadHouJson");
+//const loadHouJsonBtn = document.getElementById("loadHouJson");
 const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 
 const saveNetworkBtn = document.getElementById("save_button");
@@ -16,25 +16,26 @@ const openConfigBtn = document.getElementById("toggleConfigBtn");
 
 loadNukeFileBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the nukefilebutton
-  loadNukeFileInput.click();
+  //loadNukeFileInput.click();
+  window.ipcRenderer.send("loadNukeFile");
 });
 
-loadNukeFileInput.addEventListener("change", (e) => {
+/* loadNukeFileInput.addEventListener("change", (e) => {
   const file = e.target.files[0];
   window.ipcRenderer.send("loadNukeFile", file.path);
   console.log(file.path);
   console.log("success");
 });
-
+ */
 searchDirectoryBtn.addEventListener("click", () => {
   // Send a message to the main process to open the directory
   window.ipcRenderer.send("searchDirectory");
 });
 
-loadHouJsonBtn.addEventListener("click", () => {
+/* loadHouJsonBtn.addEventListener("click", () => {
   // Send a message to the main process to open the file
   window.ipcRenderer.send("loadHouJson");
-});
+}); */
 
 loadC4DJsonBtn.addEventListener("click", () => {
   // Send a message to the main process to open the file

@@ -21,7 +21,7 @@ function buildPopupMenu(mainWindow, node) {
                     click: (item) => {
                         const checkValue = item.checked;
                         console.log("cluster in/out", checkValue);
-                        toggleCluster(checkValue);
+                        //toggleCluster(checkValue);
                     }
                 },
                 {
@@ -31,7 +31,7 @@ function buildPopupMenu(mainWindow, node) {
                     click: (item) => {
                         const checkValue = item.checked;
                         //console.log("control nodes", checkValue);
-                        controlVis(node, checkValue);
+                        //controlVis(node, checkValue);
                     }
                 }
             ]

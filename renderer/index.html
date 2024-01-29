@@ -52,12 +52,6 @@
         flex-grow: 1;
         width: 100%;
       }
-      #config-container {
-        display: none;
-        flex-direction: column;
-        padding: 10px;
-        width: 400px;
-      }
       .floating-div {
         position: fixed;
         bottom: 10px;
@@ -80,13 +74,20 @@
   </head>
   <body>
     <style>
+      :root {
+        --primary-color: #bebebe;
+        --accent-color: #50cb8c;
+        --hover-remove: #cb5850;
+        --background-dark: #404040;
+        --header-background: rgba(80, 80, 80, 0.85);
+      }
       .floating-element {
         position: absolute;
         top: 50px;
         left: 50px;
         height: 50%;
         background-color: rgba(24, 24, 24, 0.85);
-        border: 1px solid #50cb8c;
+        border: 1px solid var(--accent-color);
         border-radius: 5px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.33);
         z-index: 1000; /* Ensures it stays on top */
@@ -101,34 +102,34 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: #bebebe;
+        color: var(--primary-color);
         background-color: #505050d5;
         cursor: move; /* Indicates the element is draggable */
-        border-bottom: 1px solid #50cb8c;
+        border-bottom: 1px solid var(--accent-color);
       }
       
       .floating-element .content {
         padding: 15px;
-        color:#bebebe;
+        color:var(--primary-color);
       }
 
       .floating-element .content svg {
         width: 20px;
         height: 20px;
-        fill: #bebebe;
+        fill: var(--primary-color);
         align-self: center;
       }
 
       .floating-element .content .add-icon:hover {
-        fill: #50cb8c;
+        fill: var(--accent-color);
       }
 
       .floating-element .content .remove-icon:hover {
-        fill: #cb5850;
+        fill: var(--hover-remove);
       }
 
       .floating-element .content .trash-icon:hover {
-        fill: #cb5850;
+        fill: var(--hover-remove);
       }
 
       .floating-element .header .title {
@@ -138,16 +139,16 @@
       #searchBox {
         padding: 5px;
         margin-bottom: 10px;
-        border: 1px solid #50cb8c;
+        border: 1px solid var(--accent-color);
         border-radius: 3px;
         flex-grow: 2;
         background-color: transparent;
-        color: #bebebe;
+        color: var(--primary-color);
       }
       
       .collapse-button {
         float: right;
-        color:#50cb8c;
+        color:var(--accent-color);
         font-weight: bold;
         border: none;
         background: none;
@@ -167,7 +168,7 @@
       
       .collapsible {
         background-color: #404040;
-        color: #bebebe;
+        color: var(--primary-color);
         cursor: pointer;
         padding: 6px;
         margin: 2px;
@@ -176,6 +177,10 @@
         text-align: left;
         outline: none;
         border-radius: 5px;
+      }
+
+      .search-highlight {
+        outline: var(--hover-remove) solid 1px;
       }
 
       .active, .collapsible:hover {
@@ -190,7 +195,7 @@
 
       .asset {
         background-color: #404040;
-        color: #bebebe;
+        color: var(--primary-color);
         cursor: pointer;
         padding: 2px;
         margin: 2px;
@@ -201,12 +206,16 @@
       }
 
       .active, .asset:hover {
-        outline: #50cb8c solid 1px;
+        outline: var(--accent-color) solid 1px;
       }
 
     </style>
+
     <div id="mynetwork"></div>
-    <div id="floatingElement" class="floating-element">
+
+    <script type="text/javascript" src="./NodeNet.js"></script>
+
+    <div id="projectManager" class="floating-element">
       <div class="header">
           <span class="title">Scenefile Manager</span>
           <button class="collapse-button"></button>
@@ -220,12 +229,25 @@
       </div>
       <div class="resize-handle"></div>
     </div>
-  
+
+    <div class="floating-element" id="configuration" style="display:none">
+      <div class="header">
+          <span class="title">Config</span>
+          <button class="collapse-button"></button>
+      </div>
+      <div class="content">
+        <div id="config-container">
+          <div id="config"></div>
+          <p id="selection"></p>
+        </div>
+      </div>
+      <div class="resize-handle"></div>
+    </div>
 
     <div class="floating-div">
       <button id="loadC4DJson">Load C4D Json</button>
       <button id="loadNukeFileBtn">Load Nuke File</button>
-      <button id="loadHouJson">Load Houdini Json</button>
+      <!-- <button id="loadHouJson">Load Houdini Json</button> -->
       <button id="save_button">Save Session</button>
       <button id="saveAs_button">Save Session As</button>
       <button id="open_button">Open Session</button>
@@ -240,36 +262,6 @@
             style="display: none"
           />
 
-    <!-- <button id="toggleConfigBtn">Toggle Config</button> -->
-    <div id="config-container">
-      <script type="text/javascript" src="./NodeNet.js"></script>
-      <div id="config"></div>
-      <p id="selection"></p>
-      <div
-        id="context-menu"
-        style="
-          display: none;
-          position: absolute;
-          z-index: 1000;
-          background-color: white;
-          border: 1px solid black;
-          padding: 5px;
-        "
-      >
-        Toggle Cluster
-      </div>
-      
-    </div>
-<!--    <script>
-      document.getElementById('toggleConfigBtn').addEventListener('click', function () {
-        const configContainer = document.getElementById('config-container');
-        if (configContainer.style.display === 'none') {
-          configContainer.style.display = 'flex';
-        } else {
-          configContainer.style.display = 'none';
-        }
-      });
-    </script> -->
     <script src="./renderer.js" ></script>
     <script type="text/javascript" src="./floatingElement.js"></script>
   </body>

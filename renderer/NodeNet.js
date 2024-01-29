@@ -172,40 +172,41 @@ function toggleCluster(node, checkValue) {
   // this function is broken, it's not clustering the nodes correctly
   // need to decide what the cluster should really be, what nodes should be included, what would make it feel nice.
 
-  if (node) {
+  /* if (node) {
     //const node = nodes.get(nodeId);
     const currentCheckVal = node.clusterInOut;
     const nodeId = node.id;
     const uuid = node.UUID;
-
-    // Cluster the nodes directly connected to the clicked node
-    const connectedNodes = network.getConnectedNodes(nodeId);
-
-    const clusterOptions = {
-      joinCondition: function (nodeOptions) {
-        for (const connectedNode of connectedNodes) {
-          if (connectedNode.parentUUID && connectedNode.parentUUID.has(uuid) && connectedNode.parentUUID.size < 1) {
-            return true;
-          }
-        }
-        const hasSingleConnection =
-          network.getConnectedNodes(nodeOptions.id).length === 1;
-        return isChild && hasSingleConnection;
+    
+    const clusterOptions2 = {
+      joinCondition: function (childOptions) {
+        return (
+          childOptions.UUID === uuid ||
+          (childOptions.parentUUID.has(uuid) &&
+            childOptions.parentUUID.size < 2)
+        );
       },
       clusterNodeProperties: {
-        label: `Cluster of ${nodeId}`,
-        uuid: uuid,
+        label: `Cluster of ${node.file_name}`,
         borderWidth: 3,
         shape: "database",
         size: 20,
+        clusterInOut: true,
       },
     };
+
     if (!currentCheckVal) {
       console.log("clustering");
-      network.clusterByConnection(nodeId);
       nodes.update({ id: nodeId, clusterInOut: !currentCheckVal });
+      //network.clusterByConnection(nodeId);
+      network.cluster(clusterOptions2);
+      console.log(network.getNodesInCluster(nodeId));
+    } else {
+      console.log("unclustering");
+      nodes.update({ id: nodeId, clusterInOut: !currentCheckVal });
+      network.openCluster(nodeId);
     }
-  }
+  } */
 }
 
 function removeContextMenu() {
@@ -517,18 +518,6 @@ function initNetwork() {
       maxVelocity: 28,
       minVelocity: 0.49,
     },
-    configure: {
-      filter: function (option, path) {
-        if (path.indexOf("physics") !== -1) {
-          return true;
-        }
-        if (path.indexOf("smooth") !== -1 || option === "smooth") {
-          return true;
-        }
-        return false;
-      },
-      container: document.getElementById("config"),
-    },
   };
 
   data = {
@@ -542,7 +531,25 @@ function initNetwork() {
       container.style.height = "99vh";
     });
 
+  const config_options = {
+    configure: {
+      filter: function (option, path) {
+        if (path.indexOf("physics") !== -1) {
+          return true;
+        }
+        if (path.indexOf("smooth") !== -1 || option === "smooth") {
+          return true;
+        }
+        return false;
+      },
+      enabled: true,
+      showButton: false,
+      container: document.getElementById("config"),
+    }
+  };
+
   networkInteraction();
+  network.setOptions(config_options);
 
   console.log("NodeNet: network ready", performance.now() - nodenetStartTime, "ms");
 
@@ -571,7 +578,7 @@ function networkInteraction(){
     // this is weird and messing up clustering
     if (params.nodes.length == 1) {
       if (network.isCluster(params.nodes[0]) == true) {
-        network.openCluster(params.nodes[0]);
+        //network.openCluster(params.nodes[0]);
       } else {
         const nodeId = params.nodes[0];
         const node = nodes.get(nodeId);
@@ -616,7 +623,6 @@ function networkInteraction(){
     }
   });
 
-  // this event listener handles clustering. Should consider changing cluster functionality
   network.on("doubleClick", function (params) {
     if (params.nodes.length == 1) {
       const clickedNodeId = params.nodes[0];
@@ -628,25 +634,6 @@ function networkInteraction(){
       //to send a message to main.js because I have to load content from the json file.
 
       ipcRenderer.send('open-node-details', nodeData.UUID);
-
-      // Check if the clicked node is a cluster
-      // Cluster the nodes directly connected to the clicked node
-      const connectedNodes = network.getConnectedNodes(clickedNodeId);
-      const clusterOptions = {
-        joinCondition: function (nodeOptions) {
-          const isConnected = connectedNodes.indexOf(nodeOptions.id) !== -1;
-          const hasSingleConnection =
-            network.getConnectedNodes(nodeOptions.id).length === 1;
-          return isConnected && hasSingleConnection;
-        },
-        clusterNodeProperties: {
-          label: `Cluster of ${clickedNodeId}`,
-          borderWidth: 3,
-          shape: "database",
-          size: 20,
-        },
-      };
-      network.cluster(clusterOptions);
     }
   });
 

@@ -89,23 +89,23 @@ ipcMain.on('getDatabase', (event) => {
 function searchDatabase(searchTerm) {
   console.log("searching database for", searchTerm);
   const options = {
+    threshold: 0.3,
     includeScore: true,
     keys: ['file_name', 'file_path']
   }
   const fuse = new Fuse(jsonDatabase.data, options);
   const result = fuse.search(searchTerm);
+  console.log(result);
 
   return result;
-  //console.log(result);
   //mainWindow.webContents.send('search-results', result);
 }
 
 ipcMain.on('searchBox', (event, searchTerm) => {
   const results = searchDatabase(searchTerm);
   const fileNames = results.map(result => result.item.file_name); // Get the file_name for each result
-  mainWindow.webContents.send('search-results', fileNames);
-  
-  console.log(fileNames);
+  const uuids = results.map(result => result.item.id); // Get the uuid for each result
+  mainWindow.webContents.send('search-results', fileNames, uuids);
 });
 
 // node network config save/load
@@ -279,7 +279,7 @@ ipcMain.on('clear-database', (event) => {
     if (response.response === 0) {
       // Continue with clearing the database
       clearDatabase();
-      //jsonDatabase = loadDatabase();
+      jsonDatabase = loadDatabase();
     } else {
       // User clicked on a button other than OK
       console.log("Database clearing cancelled");
@@ -297,17 +297,43 @@ ipcMain.on("nodeContext", (event, node) => {
 
 // Buttons for loading files
 
-ipcMain.on("loadNukeFile", (event, filePath) => {
+ipcMain.on("loadNukeFile", (event) => {
   console.log("loadNukeFile received");
-  const project = new NukeProject(filePath);
-  const output = project.getProjectDetails();
-  if (output) {
-    const result = projectManager.updateDatabase(output);
-    console.log("Finished processing Nuke file.");
-    console.log(result);
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ name: 'NK File', extensions: ["nk"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
 
-    mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
-  }
+        const project = new NukeProject(filePath);
+        const output = project.getProjectDetails();
+
+        if (output) {
+          const result = projectManager.updateDatabase(output);
+          console.log("Finished processing Nuke file.");
+          console.log(result);
+
+          if (!result.duplicate) {
+            mainWindow.webContents.send(
+              "newProjectFile",
+              result.newData,
+              result.uiContent
+            );
+          } else {
+            dialog.showMessageBox(mainWindow, {
+              type: "warning",
+              title: "Duplicate Entry",
+              message: "This file has already been added to the network.",
+              buttons: ["OK"],
+            });
+          }
+        }
+      }
+    });
 });
 
 ipcMain.on("loadC4DJson", (event) => {
@@ -315,7 +341,7 @@ ipcMain.on("loadC4DJson", (event) => {
   dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
-      filters: [{ extensions: ["json"] }],
+      filters: [{ name: 'JSON File', extensions: ["json"] }],
     })
     .then((result) => {
       if (!result.canceled && result.filePaths.length > 0) {
@@ -556,6 +582,7 @@ function openNodeDetails_Menu(uuid) {
 };
 
 app.on("window-all-closed", () => {
+  jsonDatabase = null;
   if (process.platform !== "darwin") {
     app.quit();
   }
