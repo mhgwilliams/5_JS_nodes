@@ -3,7 +3,7 @@ const searchBox = document.getElementById("searchBox");
 const sceneFileContent = document.getElementById("sceneFileContent");
 
 // Make the element draggable
-const element = document.getElementById("floatingElement");
+const element = document.getElementById("projectManager");
 const header = document.querySelector(".header");
 
 const appStartTime = performance.now();
@@ -61,7 +61,7 @@ function onDragMouseUp() {
 
 // Collapse functionality
 const collapseButton = document.querySelector(".collapse-button");
-const content = document.querySelector("#floatingElement .content");
+const content = document.querySelector("#projectManager .content");
 
 collapseButton.textContent = '-'; 
 

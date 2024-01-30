@@ -1,5 +1,4 @@
 const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
-const loadNukeFileInput = document.getElementById("loadNukeFileInput");
 const searchDirectoryBtn = document.getElementById("searchDirectoryBtn");
 //const loadHouJsonBtn = document.getElementById("loadHouJson");
 const loadC4DJsonBtn = document.getElementById("loadC4DJson");

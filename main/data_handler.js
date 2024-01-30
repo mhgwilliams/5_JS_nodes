@@ -152,17 +152,10 @@ class C4DProject extends Project{
 }
 
 class ProjectManager {
-  constructor(appDataPath) {
+  constructor(appDataPath, jsonDatabase) {
     this.appDataPath = appDataPath;
     this.databasePath = path.join(appDataPath, "data", "database.json");
-    this.dataList = this.loadData();
-  }
-
-  loadData() {
-    if (fs.existsSync(this.databasePath)) {
-        return JSON.parse(fs.readFileSync(this.databasePath, "utf8"));
-    }
-    return { timestamp: this.getCurrentTimestamp(), data: [], uiContent: [] };
+    this.dataList = jsonDatabase;
   }
 
   getCurrentTimestamp() {
@@ -358,8 +351,9 @@ async function loadDatabase(){
     data: [],
     uiContent: [],
   };
-  
+
   console.log(`data_handler: DB loaded at ${performance.now()}`);
+  console.log("database contents: ", jsonData);
 
   return jsonData;
   

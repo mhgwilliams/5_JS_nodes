@@ -59,9 +59,10 @@ app.whenReady().then(async () => {
     jsonDatabase = await loadDatabase();
     mainWindow.webContents.send('database-loaded', jsonDatabase);
     console.log(`Database loaded in ${performance.now() - appStartTime}ms`);
+    console.log(jsonDatabase);
 
     try {
-      projectManager = new ProjectManager(appDataPath);
+      projectManager = new ProjectManager(appDataPath, jsonDatabase);
       console.log("forcing ui content to read as deployed, fix this later");
       projectManager.updateUI();
     } catch (error) {
@@ -582,7 +583,10 @@ function openNodeDetails_Menu(uuid) {
 };
 
 app.on("window-all-closed", () => {
-  jsonDatabase = null;
+  if (jsonDatabase) {
+    // Flush jsonDatabase here
+    jsonDatabase = null;
+  }
   if (process.platform !== "darwin") {
     app.quit();
   }

@@ -213,8 +213,6 @@
 
     <div id="mynetwork"></div>
 
-    <script type="text/javascript" src="./NodeNet.js"></script>
-
     <div id="projectManager" class="floating-element">
       <div class="header">
           <span class="title">Scenefile Manager</span>
@@ -230,19 +228,12 @@
       <div class="resize-handle"></div>
     </div>
 
-    <div class="floating-element" id="configuration" style="display:none">
-      <div class="header">
-          <span class="title">Config</span>
-          <button class="collapse-button"></button>
-      </div>
-      <div class="content">
-        <div id="config-container">
-          <div id="config"></div>
-          <p id="selection"></p>
-        </div>
-      </div>
-      <div class="resize-handle"></div>
+    <div id="config-container" style="display: none" >
+      <div id="config"></div>
+      <p id="selection"></p>
     </div>
+
+    <script type="text/javascript" src="./NodeNet.js"></script>
 
     <div class="floating-div">
       <button id="loadC4DJson">Load C4D Json</button>
@@ -255,12 +246,6 @@
       <button id="clear_DB_button">Clear Database</button>
       <button id="searchDirectoryBtn">Search Directory for JSON</button>
     </div>
-    <input
-            type="file"
-            id="loadNukeFileInput"
-            accept=".nk"
-            style="display: none"
-          />
 
     <script src="./renderer.js" ></script>
     <script type="text/javascript" src="./floatingElement.js"></script>
