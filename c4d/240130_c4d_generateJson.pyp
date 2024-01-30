@@ -4,9 +4,6 @@ import os
 from datetime import datetime
 import re
 from collections import defaultdict
-import c4d.gui
-
-#240130_c4d_generateJson_prompt
 
 def collect_geometry(obj, assets):
     if obj is None:
@@ -128,10 +125,8 @@ def main():
 
     # Check if the JSON file already exists
     if os.path.exists(json_file_path):
-        # Popup dialog asking if the user wants to update the existing JSON file
-        result = c4d.gui.QuestionDialog('JSON file already exists. Update?')
-        if not result:
-            return  # If the user chooses not to update, exit the script
+        print("JSON file already generated")
+        return
 
     # Collect additional data points
     additional_data = {
@@ -202,9 +197,6 @@ def main():
                    [{"type": "Geometry", "file_path": geo} for geo in assets['geometry']]
 
     export_assets_to_json(formatted_assets, c4d_file_path, c4d_file_name, unique_image_sequences, additional_data)
-
-    # Popup dialog to confirm successful export
-    c4d.gui.MessageDialog('Successfully exported JSON.')
 
 if __name__ == '__main__':
     main()
