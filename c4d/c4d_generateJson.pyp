@@ -46,7 +46,7 @@ def find_image_sequences(parent_dir):
     for (_, _, _), (first_file, count) in image_sequences.items():
         sequence_info = {
             "type": "Render",
-            "path": os.path.normpath(first_file),
+            "file_path": os.path.normpath(first_file),
             "frames": count
         }
         unique_sequences.append(sequence_info)
