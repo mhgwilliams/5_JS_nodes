@@ -22,22 +22,44 @@ function addCommentAndBuildNumToFiles(buildNumber) {
     files.forEach(file => {
         try {
             let data = fs.readFileSync(file, 'utf8');
-            const comment = `# Build number: ${buildNumber}\n`;
-            const buildNumString = `buildNum = "${buildNumber}"\n`;
-            // Check if the file already contains the buildNum variable to avoid duplication
-            if (!data.includes(`buildNum = "`)) {
-                // Prepend the buildNum string and the comment
-                data = comment + buildNumString + data;
+            const newComment = `# Build number: ${buildNumber}\n`;
+            const newBuildNumString = `buildNum = "${buildNumber}"\n`;
+
+            const commentRegex = /# Build number: .*\n/;
+            const buildNumRegex = /buildNum = ".*"\n/;
+
+            let updated = false;
+
+            // Update the comment if it exists
+            if (commentRegex.test(data)) {
+                data = data.replace(commentRegex, newComment);
+                updated = true;
+            }
+
+            // Update the buildNum variable if it exists
+            if (buildNumRegex.test(data)) {
+                data = data.replace(buildNumRegex, newBuildNumString);
+                updated = true;
+            }
+
+            // If neither existed, prepend both
+            if (!commentRegex.test(data) && !buildNumRegex.test(data)) {
+                data = newComment + newBuildNumString + data;
+                updated = true;
+            }
+
+            if (updated) {
                 fs.writeFileSync(file, data, 'utf8');
-                console.log(`Updated ${file} with build number and buildNum string.`);
+                console.log(`Updated ${file} with new build number and buildNum string.`);
             } else {
-                console.log(`${file} already contains a buildNum variable. Skipping update.`);
+                console.log(`${file} is already up to date with the current build number. Skipping.`);
             }
         } catch (error) {
             console.error(`Error updating ${file}:`, error);
         }
     });
 }
+
 
 function generateBuildNumber() {
     const version = packageJson.version;
