@@ -93,6 +93,7 @@ function searchDatabase(searchTerm) {
   const options = {
     threshold: 0.3,
     includeScore: true,
+    useExtendedSearch: true,
     keys: ['file_name', 'file_path']
   }
   const fuse = new Fuse(jsonDatabase.data, options);
@@ -358,7 +359,7 @@ ipcMain.on("loadC4DJson", (event) => {
             title: 'Invalid Project File',
             message: `The selected project file is not valid and cannot be processed.\n
             Error: ${project.validationErrors[0].message}.\n Does the .json file contain the build number: ${buildNumber}?`,
-            
+
             buttons: ['OK']
           });
           return;
