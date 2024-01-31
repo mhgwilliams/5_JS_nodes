@@ -73,7 +73,7 @@ def get_paths():
             continue
         elif not os.path.exists(path) or not os.path.isfile(path):
             msg = "IOError: Non-existing or non-file path received: {}"
-            print msg.format(path)
+            print (msg.format(path))
             return None
 
     if paths["out"] is None:
@@ -100,7 +100,7 @@ def run_script(script_path, in_path):
         thread=None)
     if doc is None:
         msg = "IOError: Could not load Cinema 4D document at: {}."
-        print msg.format(in_path)
+        print (msg.format(in_path))
         return
 
     c4d.documents.SetActiveDocument(doc)
@@ -113,8 +113,8 @@ def run_script(script_path, in_path):
         run_name="__main__")
 
     msg = "Executed '{}' on '{}' and saved the result to '{}'."
-    print msg.format(os.path.split(script_path)[1],
-                     os.path.split(in_path)[1])
+    print (msg.format(os.path.split(script_path)[1],
+                     os.path.split(in_path)[1]))
 
 
 def main():
