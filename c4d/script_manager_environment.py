@@ -79,7 +79,7 @@ def get_paths():
     if paths["out"] is None:
         paths["out"] = paths["in"]
 
-    return paths["script"], paths["in"], paths["out"],
+    return paths["script"], paths["in"]
 
 
 def run_script(script_path, in_path):
