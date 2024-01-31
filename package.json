@@ -30,6 +30,7 @@
   "author": "Hogan Williams",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^6.12.6",
     "fuse.js": "^7.0.0",
     "mica-electron": "^1.5.3",
     "tippy.js": "^6.3.7",

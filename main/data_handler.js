@@ -6,10 +6,64 @@ const { v4: uuidv4 } = require('uuid'); //generating unique id's for each datapo
 
 const { app, ipcMain } = require("electron");
 
+const Ajv = require("ajv");
+const ajv = new Ajv();
+
 var appPath = app.getAppPath();
 var appDataPath = app.getPath('userData');
 
 let projectManager;
+
+const schema = {
+  type: "object",
+  properties: {
+    file_name: { type: "string" },
+    file_path: { type: "string" },
+    date_modified: { type: "string" },  // You might want to further validate the date format
+    project_info: {
+      type: "object",
+      properties: {
+        fps: { type: "number" },
+        min_time: { type: "number" },
+        max_time: { type: "number" },
+        color_management: { type: "number" },
+        ocio_preset: { type: "number" },
+        ocio_config: { type: "string" },
+        ocio_render_colorspace: { type: "number" },
+        program_creator_name: { type: "string" },
+        program_writer_name: { type: "string" },
+      },
+      required: []
+    },
+    assets: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          type: { type: "string" },
+          file_path: { type: "string" },
+          frames: { type: "number" },
+        },
+        required: ["type", "file_path"]
+      }
+    },
+    outputs: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          type: { type: "string" },
+          file_path: { type: "string" },
+          frames: { type: "number" },
+        },
+        required: ["type", "file_path"]
+      }}  // Define further if your outputs have a specific structure
+  },
+  required: ["file_name", "file_path"]
+};
+
+const validate = ajv.compile(schema);
+
 
 // I'm going to try to refactor this stuff to use classes, methods, and objects instead of whatever the hell this is
 // I'm thinking about how to use inheritance to make nodes more easily updatable.
@@ -136,20 +190,36 @@ class C4DProject extends Project{
     this.loadC4DFile(filePath);
   }
 
+  validateC4DData(JSONData) {
+    const valid = validate(JSONData);
+    if (!valid) {
+      console.log(validate.errors);
+      return { isValid: false, errors: validate.errors };
+    } else {
+      return { isValid: true };
+    }
+  }
+
   loadC4DFile(filePath) {
     let JSONData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    const validation = this.validateC4DData(JSONData);
 
-    if (JSONData) {
-      this.file_name = JSONData.file_name;
-      this.name = JSONData.name;
-      this.file_path = JSONData.file_path;
-      this.dateModified = JSONData.date_modified;
-      this.assets = JSONData.assets;
-      this.outputs = JSONData.outputs;
+    if (!validation.isValid) {
+      // Handle invalid JSON data here, e.g., return null or throw an error
+      console.error("JSON validation failed:", validation.errors);
+      return null;
     }
-    
+
+    console.log("JSON data is valid.");
+    this.file_name = JSONData.file_name;
+    this.name = JSONData.name;
+    this.file_path = JSONData.file_path;
+    this.dateModified = JSONData.date_modified;
+    this.assets = JSONData.assets;
+    this.outputs = JSONData.outputs;
+    }
   }
-}
+
 
 class ProjectManager {
   constructor(appDataPath, jsonDatabase) {

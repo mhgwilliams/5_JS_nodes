@@ -359,11 +359,18 @@ ipcMain.on("loadC4DJson", (event) => {
 
           if (!result.duplicate){
             mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
-        } else {
+        } if (result.duplicate) {
           dialog.showMessageBox(mainWindow, {
             type: 'warning',
             title: 'Duplicate Entry',
             message: 'This file has already been added to the network.',
+            buttons: ['OK']
+          });
+        } else {
+          dialog.showMessageBox(mainWindow, {
+            type: 'error',
+            title: 'Invalid Project File',
+            message: 'The selected project file is not valid and cannot be processed.',
             buttons: ['OK']
           });
         }
