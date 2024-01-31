@@ -82,7 +82,7 @@ def get_paths():
     return paths["script"], paths["in"], paths["out"],
 
 
-def run_script(script_path, in_path, out_path):
+def run_script(script_path, in_path):
     """Runs a Python script on a Cinema document and saves the modified document.
 
     Args:
@@ -112,20 +112,9 @@ def run_script(script_path, in_path, out_path):
         init_globals={"doc": doc, "op": op, "tp": tp},
         run_name="__main__")
 
-    # Save the modified state.
-    result = c4d.documents.SaveDocument(doc=doc,
-                                        name=out_path,
-                                        saveflags=c4d.SAVEDOCUMENTFLAGS_NONE,
-                                        format=c4d.FORMAT_C4DEXPORT)
-    if not result:
-        msg = "IOError: Could not write to file path: {}."
-        print msg.format(file_path)
-        return
-
     msg = "Executed '{}' on '{}' and saved the result to '{}'."
     print msg.format(os.path.split(script_path)[1],
-                     os.path.split(in_path)[1],
-                     out_path)
+                     os.path.split(in_path)[1])
 
 
 def main():
