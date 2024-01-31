@@ -352,7 +352,7 @@ ipcMain.on("loadC4DJson", (event) => {
         const project = new C4DProject(filePath);
         const output = project.getProjectDetails();
 
-        if (output) {
+        if (output && output.file_name && output.file_path) {
           const result = projectManager.updateDatabase(output);
           console.log("Finished processing C4D file.");
           console.log(result);

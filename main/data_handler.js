@@ -193,7 +193,6 @@ class C4DProject extends Project{
   validateC4DData(JSONData) {
     const valid = validate(JSONData);
     if (!valid) {
-      console.log(validate.errors);
       return { isValid: false, errors: validate.errors };
     } else {
       return { isValid: true };
