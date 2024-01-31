@@ -1,9 +1,13 @@
+# Build number: 0.2.2-b6ad8eb
+buildNum = "0.2.2-b6ad8eb"
+
 import c4d
 import json
 import os
 from datetime import datetime
 import re
 from collections import defaultdict
+import c4d.gui
 
 def collect_geometry(obj, assets):
     if obj is None:
@@ -68,6 +72,7 @@ def export_assets_to_json(assets, c4d_file_path, c4d_file_name, unique_image_seq
         "file_name": c4d_file_name,
         "file_path": os.path.normpath(c4d_file_path),
         "date_modified": str(datetime.now()),
+        "build_number": buildNum,  # This is the build number of the script
         "project_info": additional_data,
         "assets": assets,
         "outputs": unique_image_sequences
@@ -125,8 +130,10 @@ def main():
 
     # Check if the JSON file already exists
     if os.path.exists(json_file_path):
-        print("JSON file already generated")
-        return
+        # Popup dialog asking if the user wants to update the existing JSON file
+        result = c4d.gui.QuestionDialog('JSON file already exists. Update?')
+        if not result:
+            return  # If the user chooses not to update, exit the script
 
     # Collect additional data points
     additional_data = {
@@ -197,6 +204,9 @@ def main():
                    [{"type": "Geometry", "file_path": geo} for geo in assets['geometry']]
 
     export_assets_to_json(formatted_assets, c4d_file_path, c4d_file_name, unique_image_sequences, additional_data)
+
+    # Popup dialog to confirm successful export
+    c4d.gui.MessageDialog('Successfully exported JSON.')
 
 if __name__ == '__main__':
     main()
