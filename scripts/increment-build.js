@@ -22,43 +22,46 @@ function addCommentAndBuildNumToFiles(buildNumber) {
     files.forEach(file => {
         try {
             let data = fs.readFileSync(file, 'utf8');
-            const newComment = `# Build number: ${buildNumber}\n`;
-            const newBuildNumString = `buildNum = "${buildNumber}"\n`;
+            const commentPrefix = "# Build number:";
+            const buildNumPrefix = "buildNum =";
 
-            const commentRegex = /# Build number: .*\n/;
-            const buildNumRegex = /buildNum = ".*"\n/;
+            let newContent = [];
+            let foundComment = false;
+            let foundBuildNum = false;
 
-            let updated = false;
+            // Split the data by new lines and process each line
+            const lines = data.split('\n');
+            lines.forEach(line => {
+                if (line.startsWith(commentPrefix)) {
+                    newContent.push(`${commentPrefix} ${buildNumber}`);
+                    foundComment = true;
+                } else if (line.startsWith(buildNumPrefix)) {
+                    newContent.push(`buildNum = "${buildNumber}"`);
+                    foundBuildNum = true;
+                } else {
+                    newContent.push(line);
+                }
+            });
 
-            // Update the comment if it exists
-            if (commentRegex.test(data)) {
-                data = data.replace(commentRegex, newComment);
-                updated = true;
+            // Prepend the comment and buildNum if they weren't found
+            if (!foundComment) {
+                newContent.unshift(`${commentPrefix} ${buildNumber}`);
+            }
+            if (!foundBuildNum) {
+                newContent.unshift(`buildNum = "${buildNumber}"`);
             }
 
-            // Update the buildNum variable if it exists
-            if (buildNumRegex.test(data)) {
-                data = data.replace(buildNumRegex, newBuildNumString);
-                updated = true;
-            }
+            // Join the content back together and write to the file
+            const updatedData = newContent.join('\n');
+            fs.writeFileSync(file, updatedData, 'utf8');
+            console.log(`Updated ${file} with build number and buildNum string.`);
 
-            // If neither existed, prepend both
-            if (!commentRegex.test(data) && !buildNumRegex.test(data)) {
-                data = newComment + newBuildNumString + data;
-                updated = true;
-            }
-
-            if (updated) {
-                fs.writeFileSync(file, data, 'utf8');
-                console.log(`Updated ${file} with new build number and buildNum string.`);
-            } else {
-                console.log(`${file} is already up to date with the current build number. Skipping.`);
-            }
         } catch (error) {
             console.error(`Error updating ${file}:`, error);
         }
     });
 }
+
 
 
 function generateBuildNumber() {
