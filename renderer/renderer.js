@@ -1,7 +1,6 @@
-const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
+
 //const searchDirectoryBtn = document.getElementById("searchDirectoryBtn");
 //const loadHouJsonBtn = document.getElementById("loadHouJson");
-const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 
 const saveNetworkBtn = document.getElementById("save_button");
 const saveAsBtn = document.getElementById("saveAs_button");
@@ -11,13 +10,6 @@ const openSession = document.getElementById("open_button");
 const clearDbBtn = document.getElementById("clear_DB_button");
 
 const openConfigBtn = document.getElementById("toggleConfigBtn");
-
-
-loadNukeFileBtn.addEventListener("click", () => {
-  // Send a message to the main process to execute the nukefilebutton
-  //loadNukeFileInput.click();
-  window.ipcRenderer.send("loadNukeFile");
-});
 
 /* searchDirectoryBtn.addEventListener("click", () => {
   // Send a message to the main process to open the directory
@@ -29,10 +21,6 @@ loadNukeFileBtn.addEventListener("click", () => {
   window.ipcRenderer.send("loadHouJson");
 }); */
 
-loadC4DJsonBtn.addEventListener("click", () => {
-  // Send a message to the main process to open the file
-  window.ipcRenderer.send("loadC4DJson");
-});
 
 saveNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button

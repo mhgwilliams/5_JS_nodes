@@ -95,6 +95,27 @@
         overflow-x: auto; /* Keeps content inside the bounds of the div */
         overflow-y: scroll; /* Keeps content inside the bounds of the div */
         backdrop-filter: blur(5px);
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: small;
+      }
+
+      #config-container {
+        top: 50px;
+        left: 280px;
+        height: 30px;
+        width: 170px;
+        resize: none;
+        overflow-y: hidden;
+      }
+
+      div.vis-configuration.vis-config-item.vis-config-s3{
+        background: transparent;
+        background-color:transparent;
+      }
+
+      div.vis-configuration.vis-config-item.vis-config-s2{
+        background: transparent;
+        background-color:transparent;
       }
       
       .floating-element .header {
@@ -135,6 +156,28 @@
       .floating-element .header .title {
         flex-grow: 1;
       }
+      .button-container {
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        justify-content: space-between;
+        padding: 5px;
+        border-top: 1px solid var(--accent-color);
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: small;
+      }
+      .button-container button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: var(--background-dark);
+        color: var(--primary-color);
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: small;
+      }
 
       #searchBox {
         padding: 5px;
@@ -155,17 +198,6 @@
         cursor: pointer;
       }
 
-      .resize-handle {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 10px;
-        height: 10px;
-        background-color: #cccccc00;
-        cursor: nwse-resize; /* Diagonal resize cursor */
-        z-index: 1001; /* Ensure it's above other content */
-      }
-      
       .collapsible {
         background-color: #404040;
         color: var(--primary-color);
@@ -243,19 +275,29 @@
           
           </div>
       </div>
+      <div class="button-container">
+        <button type="button" id="loadC4DJson">C4D JSON</button>
+        <button type="button" id="loadNukeFileBtn">Nuke</button>
+        <button type="button">Button 3</button>
+      </div>
       <div class="resize-handle"></div>
     </div>
 
-    <div id="config-container" style="display: none" >
-      <div id="config"></div>
-      <p id="selection"></p>
+    <div id="config-container" class="floating-element">
+      <div class="header">
+        <span class="title">Network Config</span>
+        <button class="collapse-button"></button>
+      </div>
+      <div class="content" style="display:none">
+        <div id="config"></div>
+        <p id="selection"></p>
+      </div>
+      <div class="resize-handle"></div>
     </div>
 
     <script type="text/javascript" src="./NodeNet.js"></script>
 
     <div class="floating-div">
-      <button id="loadC4DJson">Load C4D Json</button>
-      <button id="loadNukeFileBtn">Load Nuke File</button>
       <!-- <button id="loadHouJson">Load Houdini Json</button> -->
       <button id="save_button">Save Session</button>
       <button id="saveAs_button">Save Session As</button>
@@ -280,9 +322,8 @@
         });
     </script>
 
-    
-
     <script src="./renderer.js" ></script>
     <script type="text/javascript" src="./floatingElement.js"></script>
+    <script type="text/javascript" src="./floatingConfig.js"></script>
   </body>
 </html>

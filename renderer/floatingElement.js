@@ -1,10 +1,18 @@
-
 const searchBox = document.getElementById("searchBox");
 const sceneFileContent = document.getElementById("sceneFileContent");
 
-// Make the element draggable
+const loadC4DJsonBtn = document.getElementById("loadC4DJson");
+const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
+
 const element = document.getElementById("projectManager");
-const header = document.querySelector(".header");
+const header = document.querySelector("#projectManager .header");
+const collapseButton = document.querySelector("#projectManager .collapse-button");
+const content = document.querySelector("#projectManager .content");
+const resizeHandle = document.querySelector("#projectManager .resize-handle");
+const buttonContainer = document.querySelector("#projectManager .button-container");
+
+collapseButton.textContent = '-'; 
+
 
 const appStartTime = performance.now();
 
@@ -59,22 +67,25 @@ function onDragMouseUp() {
     element.style.userSelect = "";
 }
 
-// Collapse functionality
-const collapseButton = document.querySelector(".collapse-button");
-const content = document.querySelector("#projectManager .content");
-
-collapseButton.textContent = '-'; 
-
 collapseButton.addEventListener("click", () => {
     const isCollapsed = content.style.display === "none";
-    element.style.height = isCollapsed ? "450px" : "30px";
-    element.style.width = isCollapsed ? "auto" : "170px";
+
+    if (isCollapsed) {
+        element.style.height = "450px";
+        element.style.width = "auto";
+        element.style.resize = "both";
+        element.style.overflowY = "scroll";
+    } else {
+        element.style.height = "30px";
+        element.style.width = "170px";
+        element.style.resize = "none";
+        element.style.overflowY = "hidden";
+    }
+
     content.style.display = isCollapsed ? "" : "none";
+    buttonContainer.style.display = isCollapsed ? "" : "none";
     collapseButton.textContent = isCollapsed ? '-' : '+';
 });
-
-// Make the element resizable
-const resizeHandle = document.querySelector(".resize-handle");
 
 let isResizing = false;
 let startX, startY, startWidth, startHeight;
@@ -148,6 +159,15 @@ ipcRenderer.on('newProjectFile', (event, newData, uiContent) => {
     if (container) {
         container.appendChild(constructDiv(newData, uiContent));
     }
+});
+
+loadC4DJsonBtn.addEventListener("click", () => {
+  // Send a message to the main process to open the file
+  window.ipcRenderer.send("loadC4DJson");
+});
+
+loadNukeFileBtn.addEventListener("click", () => {
+  window.ipcRenderer.send("loadNukeFile");
 });
 
 function populateSceneFileContent(databaseData) {

@@ -540,6 +540,9 @@ function initNetwork() {
         if (path.indexOf("smooth") !== -1 || option === "smooth") {
           return true;
         }
+        if (path.indexOf("edges") !== -1 && option === "opacity") {
+          return true;
+        }
         return false;
       },
       enabled: true,
