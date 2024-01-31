@@ -208,6 +208,24 @@
       .active, .asset:hover {
         outline: var(--accent-color) solid 1px;
       }
+      #build-number-container {
+        position: fixed;
+        bottom: 10px; /* Adjust this value to change the distance from the bottom */
+        right: 10px; /* Adjust this value to change the distance from the right */
+        background-color: rgba(0, 0, 0, 00); /* Semi-transparent black background */
+        color: var(--primary-color);
+        padding: 5px 10px;
+        border-radius: 5px;
+        z-index: 9999; /* Ensures it's above everything else */
+        font-family: Arial, sans-serif;
+        font-size: 0.9em;
+        opacity: 0.5; /* Adjust transparency (1 for fully opaque, 0 for fully transparent) */
+        }
+
+        #build-number {
+            font-weight: bold;
+        }
+
 
     </style>
 
@@ -246,6 +264,23 @@
       <button id="clear_DB_button">Clear Database</button>
       <button id="searchDirectoryBtn">Search Directory for JSON</button>
     </div>
+
+    <div id="build-number-container">
+          Build: <span id="build-number"></span>
+        </div>
+
+    <script>
+      fetch('../build-number.txt')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('build-number').textContent = data;
+        })
+        .catch(error => {
+          console.error('Error loading build number:', error);
+        });
+    </script>
+
+    
 
     <script src="./renderer.js" ></script>
     <script type="text/javascript" src="./floatingElement.js"></script>
