@@ -19,7 +19,8 @@ const schema = {
   properties: {
     file_name: { type: "string" },
     file_path: { type: "string" },
-    date_modified: { type: "string" },  // You might want to further validate the date format
+    date_modified: { type: "string" },
+    build_number: {type: "string" },
     project_info: {
       type: "object",
       properties: {
@@ -92,6 +93,7 @@ class Project{
     this.name = jsonData.file_name || (this.file_path ? path.basename(this.file_path) : undefined);
     this.type = jsonData.type || "generic";
     this.dateModified = jsonData.date_modified;
+    this.buildNum = jsonData.build_number;
     this.user = jsonData.user || "";
     this.projectInfo = jsonData.project_info;
     this.assets = jsonData.assets;
@@ -111,6 +113,7 @@ class Project{
       name: this.name,
       type: this.type,
       dateModified: this.dateModified,
+      buildNum: this.buildNum,
       user: this.user,
       projectInfo: this.projectInfo,
       assets: this.assets,
@@ -187,6 +190,8 @@ class NukeProject extends Project{
 class C4DProject extends Project{
   constructor(filePath){
     super({}); // Call the parent constructor with an empty object
+    this.isValid = true; // Default to true
+    this.validationErrors = [];
     this.loadC4DFile(filePath);
   }
 
@@ -204,9 +209,10 @@ class C4DProject extends Project{
     const validation = this.validateC4DData(JSONData);
 
     if (!validation.isValid) {
-      // Handle invalid JSON data here, e.g., return null or throw an error
+      this.isValid = false;
+      this.validationErrors = validate.errors;
       console.error("JSON validation failed:", validation.errors);
-      return null;
+      return;
     }
 
     console.log("JSON data is valid.");
@@ -214,6 +220,7 @@ class C4DProject extends Project{
     this.name = JSONData.name;
     this.file_path = JSONData.file_path;
     this.dateModified = JSONData.date_modified;
+    this.buildNum = JSONData.build_number;
     this.assets = JSONData.assets;
     this.outputs = JSONData.outputs;
     }
@@ -229,15 +236,6 @@ class ProjectManager {
 
   getCurrentTimestamp() {
     return new Date().toISOString().replace("T", " ").substring(0, 19);
-  }
-
-  updateUI() {
-    // Change all values in the database under uicontent.deployed to true
-    console.log("Updating UI, all nodes deployed");
-    this.dataList.uiContent.forEach(ui => {
-      ui.deployed = true;
-    });
-    this.saveData();
   }
 
   updateDatabase(newData) {
@@ -361,57 +359,6 @@ class Node{
   }
 }
 
-
-
-/* app.whenReady().then(() => {
-  console.log("data handler saying App ready");
-  projectManager = new ProjectManager(appDataPath);
-});
-
-
-ipcMain.on("loadNukeFile", (event, filePath) => {
-  console.log("loadNukeFile received");
-  const project = new NukeProject(filePath);
-  const output = project.getProjectDetails();
-  if (output) {
-    const result = projectManager.updateDatabase(output);
-    console.log("Finished processing Nuke file.");
-    console.log(result);
-    //event.reply("loadNukeFileReply", result); could be a cool way to link back and forth cleanly
-    mainWindow.webContents.send("newProjectFile", result.newData);
-    //ipcRenderer.send("newProjectFile", result.newData);
-  }
-}); */
-
-async function loadDatabaseBACKUP(){
-  const jsonDataPath = path.join(appDataPath, "data", "database.json");
-  console.log("Loading database...", jsonDataPath);
-  let jsonData = {
-    timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
-    data: [],
-    uiContent: [],
-  };
-
-  try {
-    if (fs.existsSync(jsonDataPath)) {
-      const fileData = fs.readFileSync(jsonDataPath, 'utf8');
-      jsonData = JSON.parse(fileData);
-    } else {
-      throw new Error('File does not exist');
-    }
-  } catch (err) {
-    console.error("Error reading file or parsing JSON:", err);
-    // Create an empty JSON file if it doesn't exist or there was a parsing error
-    fs.writeFileSync(jsonDataPath, JSON.stringify(jsonData, null, 4), 'utf8');
-    console.log("Created empty JSON file");
-  }
-
-  console.log(`data_handler: DB loaded at ${performance.now()}`);
-
-  return jsonData;
-  
-}
-
 async function loadDatabase(){
   const jsonDataPath = path.join(appDataPath, "data", "database.json");
   console.log("making database...", jsonDataPath);
@@ -473,72 +420,6 @@ function readJsonData(jsonFiles) {
   }
 
   return data_list;
-}
-
-// Nuke functions
-
-function extractReadNodes(filePath) {
-    let content = fs.readFileSync(filePath, "utf8");
-    let readNodePattern = /Read\s*\{[^}]*\}/g;
-    let readNodesRaw = content.match(readNodePattern) || [];
-    let readNodes = [];
-  
-    for (let readNodeRaw of readNodesRaw) {
-      let filePattern = /\bfile\s+([\S\s]*?)\n/;
-      let fileMatch = filePattern.exec(readNodeRaw);
-  
-      if (fileMatch) {
-        let filePath = fileMatch[1].trim();
-        filePath = filePath.replace(/%04d/, "0000");
-        filePath = filePath.replace(/####/, "0000");
-        readNodes.push(filePath);
-      }
-    }
-    return readNodes;
-  }
-  
-function extractWriteNodes(filePath) {
-    let content = fs.readFileSync(filePath, "utf8");
-    let writeNodePattern = /Write\s*\{[^}]*\}/g;
-    let writeNodesRaw = content.match(writeNodePattern) || [];
-    let writeNodes = [];
-  
-    for (let writeNodeRaw of writeNodesRaw) {
-      let filePattern = /\bfile\s+([\S\s]*?)\n/;
-      let fileMatch = filePattern.exec(writeNodeRaw);
-      if (fileMatch) {
-        writeNodes.push(fileMatch[1].trim());
-      }
-    }
-    return writeNodes;
-  }
-  
-function loadNukeFile(filePath) {
-  if (filePath) {
-    console.log("Processing Nuke file...");
-
-    const readNodes = extractReadNodes(filePath);
-    const writeNodes = extractWriteNodes(filePath);
-
-    const nukeScriptName = path.basename(filePath);
-    const date = new Date().toISOString().substring(0, 10);
-
-    const assets = readNodes.map((file_path) => ({ type: "read", file_path }));
-    const outputs = writeNodes.map((file_path) => ({ type: "write", file_path }));
-
-    const output = {
-      file_name: nukeScriptName,
-      date,
-      assets,
-      outputs,
-    };
-
-    return output;
-
-    //updateDatabase(output);
-    //console.log("Finished processing Nuke file.");
-    //console.log("JSON data appended to 'database.json'.");
-  }
 }
 
 function updateDatabase(newData) {
@@ -623,7 +504,6 @@ function updateDatabase(newData) {
 }
 
 module.exports = {
-    loadNukeFile,
     findJsonFiles,
     readJsonData,
     updateDatabase,

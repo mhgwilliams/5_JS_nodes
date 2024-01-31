@@ -783,12 +783,6 @@ ipcRenderer.on("delButton", (event, uuid) => {
   removeNodes(uuid);
 });
 
-ipcRenderer.on("addButton_2", (event, projectData) => {
-  console.time('add new nodes');
-  addNewNodesAndEdges(projectData);
-  console.timeEnd('add new nodes');
-});
-
 // This is so stupid it's just to get the right click menu to also open the node details view GODDAMNIT
 ipcRenderer.on("open-details", (event, UUID) => {
   ipcRenderer.send('open-node-details', UUID);

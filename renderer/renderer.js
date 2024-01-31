@@ -1,5 +1,5 @@
 const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
-const searchDirectoryBtn = document.getElementById("searchDirectoryBtn");
+//const searchDirectoryBtn = document.getElementById("searchDirectoryBtn");
 //const loadHouJsonBtn = document.getElementById("loadHouJson");
 const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 
@@ -19,17 +19,10 @@ loadNukeFileBtn.addEventListener("click", () => {
   window.ipcRenderer.send("loadNukeFile");
 });
 
-/* loadNukeFileInput.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  window.ipcRenderer.send("loadNukeFile", file.path);
-  console.log(file.path);
-  console.log("success");
-});
- */
-searchDirectoryBtn.addEventListener("click", () => {
+/* searchDirectoryBtn.addEventListener("click", () => {
   // Send a message to the main process to open the directory
   window.ipcRenderer.send("searchDirectory");
-});
+}); */
 
 /* loadHouJsonBtn.addEventListener("click", () => {
   // Send a message to the main process to open the file

@@ -14,11 +14,14 @@ const appStartTime = performance.now();
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
-const { loadNukeFile, findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node, C4DProject } = require("./data_handler");
+const { findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node, C4DProject } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
 var appPath = app.getAppPath();
 var appDataPath = app.getPath('userData');
+
+const buildNumberPath = path.join(__dirname, '../build-number.txt');
+const buildNumber = fs.readFileSync(buildNumberPath, 'utf8');
 
 var savePath =  '';
 
@@ -63,8 +66,6 @@ app.whenReady().then(async () => {
 
     try {
       projectManager = new ProjectManager(appDataPath, jsonDatabase);
-      console.log("forcing ui content to read as deployed, fix this later");
-      projectManager.updateUI();
     } catch (error) {
       console.error("Error creating project manager:", error);
     }
@@ -348,33 +349,40 @@ ipcMain.on("loadC4DJson", (event) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
-        
+
         const project = new C4DProject(filePath);
-        const output = project.getProjectDetails();
 
-        if (output && output.file_name && output.file_path) {
-          const result = projectManager.updateDatabase(output);
-          console.log("Finished processing C4D file.");
-          console.log(result);
-
-          if (!result.duplicate){
-            mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
-        } if (result.duplicate) {
-          dialog.showMessageBox(mainWindow, {
-            type: 'warning',
-            title: 'Duplicate Entry',
-            message: 'This file has already been added to the network.',
-            buttons: ['OK']
-          });
-        } else {
+        if(!project.isValid){
           dialog.showMessageBox(mainWindow, {
             type: 'error',
             title: 'Invalid Project File',
-            message: 'The selected project file is not valid and cannot be processed.',
+            message: `The selected project file is not valid and cannot be processed.\n
+            Error: ${project.validationErrors[0].message}.\n Does the .json file contain the build number: ${buildNumber}?`,
+            
             buttons: ['OK']
           });
+          return;
+        } else{
+
+          const output = project.getProjectDetails();
+
+          if (output) {
+            const result = projectManager.updateDatabase(output);
+            console.log("Finished processing C4D file.");
+            console.log(result);
+
+            if (!result.duplicate){
+              mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
+            } if (result.duplicate) {
+            dialog.showMessageBox(mainWindow, {
+              type: 'warning',
+              title: 'Duplicate Entry',
+              message: 'This file has already been added to the network.',
+              buttons: ['OK']
+            });
+            }
+          }
         }
-      }
     }
   });
 });
@@ -387,37 +395,11 @@ ipcMain.on("toggleButton", (event, uuid, state) => {
   mainWindow.webContents.send('toggleButton', uuid, state, projectData);
 });
 
-ipcMain.on("addButton", (event, uuid) => {
-  console.log("add button received in main, finding data");
-  const projectData = projectManager.retrieveDataFromDatabase(uuid);
-  mainWindow.webContents.send('addButton_2', projectData);
-});
-
 ipcMain.on("delButton", (event, uuid) => {
   console.log("del button received in main, deleting id: ", uuid);
   projectManager.deleteProject(uuid);
   mainWindow.webContents.send('delButton', uuid);
 });
-
-
-/* ipcMain.on("loadNukeFile", (event, file) => {
-  console.log("file path received in main");
-  console.log(file);
-  const nukeContent = loadNukeFile(file);
-
-  const updatedData = updateDatabase(nukeContent);
-  if (!updatedData.duplicate) {
-    mainWindow.webContents.send('database-updated', updatedData.newData);
-  } else {
-    dialog.showMessageBox(mainWindow, {
-      type: 'warning',
-      title: 'Duplicate Entry',
-      message: 'This file has already been added to the network.',
-      buttons: ['OK']
-    });
-    console.log("duplicate entry");
-  }
-}); */
 
 ipcMain.on("loadHouJson", (event) => {
   dialog
@@ -449,37 +431,6 @@ ipcMain.on("loadHouJson", (event) => {
       console.log(err);
     });
 });
-
-/* ipcMain.on("loadC4DJson", (event) => {
-  dialog
-    .showOpenDialog(mainWindow, {
-      properties: ["openFile"],
-      filters: [{ extensions: ["json"] }],
-    })
-    .then((result) => {
-      if (!result.canceled && result.filePaths.length > 0) {
-        const filePath = result.filePaths[0];
-        console.log("Selected file:", filePath);
-        
-        const data = fs.readFileSync(filePath, 'utf8');
-        const updatedData = updateDatabase(JSON.parse(data));
-        if (!updatedData.duplicate){
-          mainWindow.webContents.send('database-updated', updatedData.newData, updatedData.uiContent);
-        } else {
-          dialog.showMessageBox(mainWindow, {
-            type: 'warning',
-            title: 'Duplicate Entry',
-            message: 'This file has already been added to the network.',
-            buttons: ['OK']
-          });
-        }
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
- */
 
 ipcMain.on("searchDirectory", (event) => {
   dialog
