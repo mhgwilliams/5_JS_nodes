@@ -392,8 +392,13 @@ ipcMain.on("loadC4DJson", (event) => {
 });
 
 function runC4D(filePath) {
+  const quotePath = (path) => `"${path}"`;
+  filePath = quotePath(filePath);
+
   const scriptENV = path.join(process.resourcesPath, 'c4d/script_manager_environment.py');
   const scriptPath = path.join(process.resourcesPath, 'c4d/c4d_generateJson.py');
+
+  filePath = filePath.replace(/\\/g, "/");
   
   let directory = path.dirname(filePath);
   let filenameWithoutExt = path.basename(filePath, path.extname(filePath));
