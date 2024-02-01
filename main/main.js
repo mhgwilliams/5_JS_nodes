@@ -35,50 +35,47 @@ function runC4D(filePath) {
   const scriptPath = path.join(appDataPath, 'c4d_gnerateJson.py');
 
   const { spawn } = require('child_process');
-  // Prepare your command and arguments
+
   const command = '"C:\\Program Files\\Maxon Cinema 4D 2023\\c4dpy.exe"';
   const args = ['-g_licenseServerRLM=licmaxon.buck.local:5053', scriptENV, '-script', scriptPath, '-in', filePath];
+  //['cd', 'C:\\Program Files\\Maxon Cinema 4D 2023', '&&', 'c4dpy.exe', '-g_licenseServerRLM=licmaxon.buck.local:5053', scriptENV, '-script', scriptPath, '-in', filePath]
 
-  dialog.showMessageBox(mainWindow, {
-    type: 'info',
-    title: 'C4D Processing',
-    message: `${command} ${args.join(' ')}`,
-    buttons: ['OK']
-  });
-
-  // Spawn a new process without additional arguments
-  const childProcess = spawn(command, args, {
+  const options = {
+    shell: true,
     detached: true,
-    stdio: 'inherit',
-    shell: true // Opens in a new command prompt window on Windows
-  });
+    stdio: ['pipe', 'pipe', 'pipe'],
+  }
+  const childProcess = spawn(command, options);
 
-  let outputData = '';
-  let errorData = '';
-
+  // Setting a timeout for the process
+  const timeoutMilliseconds = 30000; // For example, 30 seconds
+  setTimeout(() => {
+    childProcess.kill(); // Attempt to kill the process
+    console.log('Process was killed due to timeout.');
+  }, timeoutMilliseconds);
 
   childProcess.stdout.on('data', (data) => {
-    outputData += data.toString();
+    console.log(`stdout: ${data}`);
   });
 
   childProcess.stderr.on('data', (data) => {
-    errorData += data.toString();
+    console.log(`stderr: ${data}`);
+  });
+
+  childProcess.on('close', (code) => {
+    console.log(`Child process exited with code ${code}`);
   });
 
   childProcess.on('error', (err) => {
     console.error(`Failed to start subprocess: ${err}`);
   });
 
-  childProcess.on('close', (code) => {
-    console.log(`Child process exited with code ${code}`);
-    if (code === 0) {
-      console.log('Output:', outputData);
-    } else {
-      console.error('Error Output:', errorData);
-    }
-  });
+  childProcess.on('exit', (code, signal) => {
+    if (code) console.log(`Child process exited with code ${code}`);
+    if (signal) console.log(`Child process killed with signal ${signal}`);
+    console.log(`Done 🙌`);
+    });
 
-  return outputData;
 }
 
 function runTest(){
@@ -106,7 +103,8 @@ function runTest(){
 
 ipcMain.on('loadC4DFile', (event) => {
   console.log("loadC4DFile received");
-  dialog
+  runC4D();
+  /* dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
       filters: [{ name: '', extensions: ["c4d"] }],
@@ -115,15 +113,10 @@ ipcMain.on('loadC4DFile', (event) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
+
         var test = runC4D(filePath);
-        dialog.showMessageBox(mainWindow, {
-          type: 'info',
-          title: 'C4D Processing',
-          message: test,
-          buttons: ['OK']
-        });
       }
-    });
+    }); */
 });
 
 
