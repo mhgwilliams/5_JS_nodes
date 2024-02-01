@@ -1,0 +1,123 @@
+[
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\ACEScg_Labels_ColorChecker2014.exr",
+       "assetname":"\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\ACEScg_Labels_ColorChecker2014.exr",
+       "channelId":-1,
+       "netRequestOnDemand":true,
+       "owner":<c4d.modules.graphview.GvNode object called ACEScg_Labels_ColorChecker2014/RS Shader with ID 1001101 at 2455046726208>,
+       "exists":true,
+       "paramId":-1,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_gm_lut_shaper_to_linear_v01.spi1d",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_gm_lut_shaper_to_linear_v01.spi1d",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454875498624>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_RGC_33.cube",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#aces_RGC_33.cube",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454875499392>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#LMT_Soft_v9_cct_33.cube",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#LMT_Soft_v9_cct_33.cube",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454875495168>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Log2_48_nits_Shaper_to_linear.spi1d",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Log2_48_nits_Shaper_to_linear.spi1d",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454864912832>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Show_LMT_cct.cube",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Show_LMT_cct.cube",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454864882112>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#softRolloff_v03_ocioLogLin_linLog_1Dlog.cube",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#softRolloff_v03_ocioLogLin_linLog_1Dlog.cube",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454864895168>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Unity_neutral_viewtransform.ctf",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\LUTs\\c4d#ociolut#LUTs#Unity_neutral_viewtransform.ctf",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454864883648>,
+       "exists":false,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\config.ocio",
+       "assetname":"\\\\caddy\\GlobalPrefs\\SHARED\\OCIO\\ocio2-aces1.2-BUCK\\config.ocio",
+       "channelId":-1,
+       "netRequestOnDemand":false,
+       "owner":<c4d.documents.BaseDocument object called  with ID 110059 at 2454864897472>,
+       "exists":true,
+       "paramId":50030,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"asset:///file_ac9de763f1c7041c~.exr",
+       "assetname":"assetdb:///HDRIs/jhdri-v1_ext_sunny_vangsmjosa_acescg.exr",
+       "channelId":-1,
+       "netRequestOnDemand":true,
+       "owner":<c4d.BaseObject object called RS Dome Light/RS Light with ID 1036751 at 2455046784704>,
+       "exists":true,
+       "paramId":-1,
+       "nodePath":"",
+       "nodeSpace":""
+    },
+    {
+       "filename":"\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\sRGB_Labels_ColorChecker2014.exr",
+       "assetname":"\\\\caddy\\GlobalPrefs\\work.hogan\\dev\\nuke\\colour-nuke-master\\colour_nuke\\resources\\images\\ColorChecker2014\\sRGB_Labels_ColorChecker2014.exr",
+       "channelId":3,
+       "netRequestOnDemand":true,
+       "owner":<c4d.Material object called srgb_no_shading/Mat with ID 5703 at 2455046774720>,
+       "exists":true,
+       "paramId":-1,
+       "nodePath":"texturesampler@aczwr6zvIVWqigZcixXMtA",
+       "nodeSpace":"com.redshift3d.redshift4c4d.class.nodespace"
+    }
+ ]
