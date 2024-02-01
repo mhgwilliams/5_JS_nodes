@@ -39,10 +39,17 @@ function runC4D(filePath) {
   const command = '"C:\\Program Files\\Maxon Cinema 4D 2023\\c4dpy.exe"';
   const args = ['-g_licenseServerRLM=licmaxon.buck.local:5053', scriptENV, '-script', scriptPath, '-in', filePath];
 
+  dialog.showMessageBox(mainWindow, {
+    type: 'info',
+    title: 'C4D Processing',
+    message: `${command} ${args.join(' ')}`,
+    buttons: ['OK']
+  });
+
   // Spawn a new process without additional arguments
   const childProcess = spawn(command, args, {
     detached: true,
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: 'inherit',
     shell: true // Opens in a new command prompt window on Windows
   });
 
@@ -52,7 +59,6 @@ function runC4D(filePath) {
 
   childProcess.stdout.on('data', (data) => {
     outputData += data.toString();
-    console.log(outputData);
   });
 
   childProcess.stderr.on('data', (data) => {
@@ -71,6 +77,8 @@ function runC4D(filePath) {
       console.error('Error Output:', errorData);
     }
   });
+
+  return outputData;
 }
 
 function runTest(){
@@ -107,7 +115,13 @@ ipcMain.on('loadC4DFile', (event) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
-        runC4D(filePath);
+        var test = runC4D(filePath);
+        dialog.showMessageBox(mainWindow, {
+          type: 'info',
+          title: 'C4D Processing',
+          message: test,
+          buttons: ['OK']
+        });
       }
     });
 });

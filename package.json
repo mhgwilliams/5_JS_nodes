@@ -1,6 +1,6 @@
 {
   "name": "flowviewer",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "node view of project assets and renders",
   "electronmon": {
     "patterns": [
@@ -16,7 +16,7 @@
       ]
     },
     "portable": {
-      "artifactName": "FlowViewer_023_port.exe"
+      "artifactName": "FlowViewer_024.exe"
     }
   },
   "main": "./main/main.js",
