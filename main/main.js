@@ -29,6 +29,89 @@ let mainWindow;
 let jsonDatabase;
 let projectManager;
 
+//testing running cmd stuff from javascript
+function runC4D(filePath) {
+  const scriptENV = path.join(appDataPath, 'script_manager_environment.py');
+  const scriptPath = path.join(appDataPath, 'c4d_gnerateJson.py');
+
+  const { spawn } = require('child_process');
+  // Prepare your command and arguments
+  const command = '"C:\\Program Files\\Maxon Cinema 4D 2023\\c4dpy.exe"';
+  const args = ['-g_licenseServerRLM=licmaxon.buck.local:5053', scriptENV, '-script', scriptPath, '-in', filePath];
+
+  // Spawn a new process without additional arguments
+  const childProcess = spawn(command, args, {
+    detached: true,
+    stdio: ['ignore', 'pipe', 'pipe'],
+    shell: true // Opens in a new command prompt window on Windows
+  });
+
+  let outputData = '';
+  let errorData = '';
+
+
+  childProcess.stdout.on('data', (data) => {
+    outputData += data.toString();
+    console.log(outputData);
+  });
+
+  childProcess.stderr.on('data', (data) => {
+    errorData += data.toString();
+  });
+
+  childProcess.on('error', (err) => {
+    console.error(`Failed to start subprocess: ${err}`);
+  });
+
+  childProcess.on('close', (code) => {
+    console.log(`Child process exited with code ${code}`);
+    if (code === 0) {
+      console.log('Output:', outputData);
+    } else {
+      console.error('Error Output:', errorData);
+    }
+  });
+}
+
+function runTest(){
+  const { spawn } = require('child_process');
+
+  // Start a command prompt
+  const cmd = spawn('cmd', {
+    stdio: ['pipe', 'inherit', 'inherit'], // pipe for stdin, inherit stdout and stderr
+    shell: true
+  });
+
+  cmd.on('error', (err) => {
+    console.error(`Failed to start subprocess: ${err}`);
+  });
+
+  // Execute commands in the command prompt
+  cmd.stdin.write('echo Hello World\n');
+  cmd.stdin.write('pause\n');
+
+  // Optional: If you want to do something when the process exits
+  cmd.on('close', (code) => {
+    console.log(`Child process exited with code ${code}`);
+  });
+}
+
+ipcMain.on('loadC4DFile', (event) => {
+  console.log("loadC4DFile received");
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ name: '', extensions: ["c4d"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
+        runC4D(filePath);
+      }
+    });
+});
+
 
 function createWindow() {
     mainWindow = new MicaBrowserWindow({

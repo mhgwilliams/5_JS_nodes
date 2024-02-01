@@ -3,6 +3,7 @@ const sceneFileContent = document.getElementById("sceneFileContent");
 
 const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
+const loadC4DFile = document.getElementById("loadC4DFile");
 
 const element = document.getElementById("projectManager");
 const header = document.querySelector("#projectManager .header");
@@ -168,6 +169,10 @@ loadC4DJsonBtn.addEventListener("click", () => {
 
 loadNukeFileBtn.addEventListener("click", () => {
   window.ipcRenderer.send("loadNukeFile");
+});
+
+loadC4DFile.addEventListener("click", () => {
+  window.ipcRenderer.send("loadC4DFile");
 });
 
 function populateSceneFileContent(databaseData) {
