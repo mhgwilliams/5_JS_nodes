@@ -338,19 +338,8 @@ ipcMain.on("loadNukeFile", (event) => {
     });
 });
 
-ipcMain.on("loadC4DJson", (event) => {
-  console.log("loadC4DJson received");
-  dialog
-    .showOpenDialog(mainWindow, {
-      properties: ["openFile"],
-      filters: [{ name: 'JSON File', extensions: ["json"] }],
-    })
-    .then((result) => {
-      if (!result.canceled && result.filePaths.length > 0) {
-        const filePath = result.filePaths[0];
-        console.log("Selected file:", filePath);
-
-        const project = new C4DProject(filePath);
+function loadC4DJsonAndValidate(filePath) {
+  const project = new C4DProject(filePath);
 
         if(!project.isValid){
           dialog.showMessageBox(mainWindow, {
@@ -383,6 +372,21 @@ ipcMain.on("loadC4DJson", (event) => {
             }
           }
         }
+}
+
+ipcMain.on("loadC4DJson", (event) => {
+  console.log("loadC4DJson received");
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ name: 'JSON File', extensions: ["json"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
+
+        loadC4DJsonAndValidate(filePath);
     }
   });
 });
@@ -390,6 +394,12 @@ ipcMain.on("loadC4DJson", (event) => {
 function runC4D(filePath) {
   const scriptENV = path.join(process.resourcesPath, 'c4d/script_manager_environment.py');
   const scriptPath = path.join(process.resourcesPath, 'c4d/c4d_generateJson.py');
+  
+  let directory = path.dirname(filePath);
+  let filenameWithoutExt = path.basename(filePath, path.extname(filePath));
+
+  // Construct the new path
+  let newPath = path.join(directory, "data", filenameWithoutExt + ".json");
 
   const { spawn } = require('child_process');
 
@@ -419,7 +429,8 @@ function runC4D(filePath) {
   });
 
   childProcess.on('close', (code) => {
-    console.log(`Child process exited with code ${code}`);
+    // this is where the script is saying it's done, so use this message to continue the app shit
+    loadC4DJsonAndValidate(newPath);
   });
 
   childProcess.on('error', (err) => {
@@ -427,11 +438,25 @@ function runC4D(filePath) {
   });
 
   childProcess.on('exit', (code, signal) => {
-    if (code) console.log(`Child process exited with code ${code}`);
-    if (signal) console.log(`Child process killed with signal ${signal}`);
-    console.log(`Done 🙌`);
-    });
-
+    if (code) {
+      dialog
+      .showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'C4D Script',
+        message: `Child process exited with code ${code}`,
+        buttons: ['OK']
+      });
+    }
+    if (signal) {
+      dialog
+      .showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'C4D Script',
+        message: `Child process killed with signal ${signal}`,
+        buttons: ['OK']
+      });
+    };
+  });
 }
 
 ipcMain.on('loadC4DFile', (event) => {
@@ -446,7 +471,8 @@ ipcMain.on('loadC4DFile', (event) => {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
 
-        var test = runC4D(filePath);
+        runC4D(filePath);
+        //loadC4DJsonAndValidate(filePath);
       }
     });
 });
