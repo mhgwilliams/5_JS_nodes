@@ -1,6 +1,6 @@
 {
   "name": "flowviewer",
-  "version": "0.2.4",
+  "version": "0.2.10",
   "description": "node view of project assets and renders",
   "electronmon": {
     "patterns": [
@@ -10,13 +10,17 @@
   },
   "build": {
     "appId": "com.hoganxyz.flowviewer",
+    "extraResources": [
+      "c4d/c4d_generateJson.py",
+      "c4d/script_manager_environment.py"
+    ],
     "win": {
       "target": [
         "portable"
       ]
     },
     "portable": {
-      "artifactName": "FlowViewer_024.exe"
+      "artifactName": "FlowViewer_0210.exe"
     }
   },
   "main": "./main/main.js",

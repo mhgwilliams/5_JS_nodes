@@ -112,9 +112,9 @@ def run_script(script_path, in_path):
         init_globals={"doc": doc, "op": op, "tp": tp},
         run_name="__main__")
 
-    msg = "Executed '{}' on '{}' and saved the result to '{}'."
-    print (msg.format(os.path.split(script_path)[1],
-                     os.path.split(in_path)[1]))
+    msg = "Executed '{}' on '{}'. woo yay hooray it worked."
+    print (msg.format(os.path.split(script_path)[0],
+                     os.path.split(in_path)[0]))
 
 
 def main():
