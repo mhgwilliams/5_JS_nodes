@@ -15,8 +15,8 @@ function getGitCommitHash() {
 
 function addCommentAndBuildNumToFiles(buildNumber) {
     const files = [
-        path.join(__dirname, '..', 'c4d', 'c4d_generateJson.pyp'),
-        path.join(__dirname, '..', 'c4d', 'c4d_autoGenerateJson.pyp')
+        path.join(__dirname, '..', 'c4d', 'c4d_generateJson.py'),
+        path.join(__dirname, '..', 'c4d', 'c4d_autoGenerateJson.py')
     ];
 
     files.forEach(file => {

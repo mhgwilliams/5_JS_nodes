@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "electron": "^24.2.0",
-    "electron-builder": "^24.9.1",
-    "husky": "^9.0.10"
+    "electron-builder": "^24.9.1"
   }
 }
