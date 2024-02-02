@@ -1,0 +1,7 @@
+<xmp:CreateDate>2024-02-02T09:34:31-05:00</xmp:CreateDate>
+         <xmp:MetadataDate>2024-02-02T09:39:09-05:00</xmp:MetadataDate>
+         <xmp:ModifyDate>2024-02-02T09:39:09-05:00</xmp:ModifyDate>
+
+         <xmpMM:DocumentID>xmp.did:70674721-5b71-184f-8c04-ef9ca4ac94bf</xmpMM:DocumentID>
+
+�{"ascendcount_base":1,"ascendcount_target":1,"fullpath":"H:\\5_JS_nodes\\ae\\BBB_test_image.png","platform":1,"server_name":"Hobot","server_volume_name":"GDrive","target_is_folder":false}

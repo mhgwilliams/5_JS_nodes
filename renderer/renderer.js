@@ -11,6 +11,19 @@ const clearDbBtn = document.getElementById("clear_DB_button");
 
 const openConfigBtn = document.getElementById("toggleConfigBtn");
 
+const loadAEbetaBtn = document.getElementById("loadAEbeta");
+
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("openModalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
 /* searchDirectoryBtn.addEventListener("click", () => {
   // Send a message to the main process to open the directory
   window.ipcRenderer.send("searchDirectory");
@@ -26,6 +39,10 @@ saveNetworkBtn.addEventListener("click", () => {
   // Send a message to the main process to execute the save button
   console.log("save clicked");
   window.ipcRenderer.send("save-session");
+});
+
+loadAEbetaBtn.addEventListener("click", () => {
+  window.ipcRenderer.send("load-AE");
 });
 
 saveAsBtn.addEventListener("click", () => {
@@ -57,3 +74,25 @@ clearDbBtn.addEventListener("click", () => {
   console.log("toggle config clicked");
   window.ipcRenderer.send("open-config");
 }); */
+
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+ipcRenderer.on('close-modal', () => {
+  modal.style.display = "none";
+});

@@ -14,7 +14,7 @@ const appStartTime = performance.now();
 const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mica-electron'); //stylization
 
 
-const { findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node, C4DProject } = require("./data_handler");
+const { findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node, C4DProject, AEProject } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
 var appPath = app.getAppPath();
@@ -335,6 +335,7 @@ ipcMain.on("loadNukeFile", (event) => {
           }
         }
       }
+      mainWindow.webContents.send('close-modal');
     });
 });
 
@@ -388,24 +389,24 @@ ipcMain.on("loadC4DJson", (event) => {
 
         loadC4DJsonAndValidate(filePath);
     }
+    mainWindow.webContents.send('close-modal');
   });
 });
 
 function runC4D(filePath) {
-  const quotePath = (path) => `"${path}"`;
-  filePath = quotePath(filePath);
-
-  const scriptENV = path.join(process.resourcesPath, 'c4d/script_manager_environment.py');
-  const scriptPath = path.join(process.resourcesPath, 'c4d/c4d_generateJson.py');
-
-  filePath = filePath.replace(/\\/g, "/");
-  
   let directory = path.dirname(filePath);
   let filenameWithoutExt = path.basename(filePath, path.extname(filePath));
 
   // Construct the new path
   let newPath = path.join(directory, "data", filenameWithoutExt + ".json");
 
+  const quotePath = (path) => `"${path}"`;
+  
+  filePath = quotePath(filePath);
+
+  const scriptENV = path.join(process.resourcesPath, 'c4d/script_manager_environment.py');
+  const scriptPath = path.join(process.resourcesPath, 'c4d/c4d_generateJson.py');
+ 
   const { spawn } = require('child_process');
 
   const command = '"C:\\Program Files\\Maxon Cinema 4D 2024\\c4dpy.exe"';
@@ -479,9 +480,46 @@ ipcMain.on('loadC4DFile', (event) => {
         runC4D(filePath);
         //loadC4DJsonAndValidate(filePath);
       }
+      mainWindow.webContents.send('close-modal');
     });
 });
 
+
+ipcMain.on('load-AE', () => {
+  console.log("load-AE received");
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"],
+      filters: [{ name: 'AE Project', extensions: ["aep"] }],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const filePath = result.filePaths[0];
+        console.log("Selected file:", filePath);
+
+        const project = new AEProject(filePath);
+        const output = project.getProjectDetails();
+
+        if (output) {
+          const result = projectManager.updateDatabase(output);
+          console.log("Finished processing AE file.");
+          console.log(result);
+
+          if (!result.duplicate){
+            mainWindow.webContents.send("newProjectFile", result.newData, result.uiContent);
+          } if (result.duplicate) {
+          dialog.showMessageBox(mainWindow, {
+            type: 'warning',
+            title: 'Duplicate Entry',
+            message: 'This file has already been added to the network.',
+            buttons: ['OK']
+          });
+          }
+        }
+      }
+      mainWindow.webContents.send('close-modal');
+    });
+});
 
 ipcMain.on("toggleButton", (event, uuid, state) => {
   console.log("toggle button received in main");

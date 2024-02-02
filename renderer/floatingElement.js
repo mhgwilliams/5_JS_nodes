@@ -162,24 +162,12 @@ ipcRenderer.on('newProjectFile', (event, newData, uiContent) => {
     }
 });
 
-loadC4DJsonBtn.addEventListener("click", () => {
-  // Send a message to the main process to open the file
-  window.ipcRenderer.send("loadC4DJson");
-});
-
-loadNukeFileBtn.addEventListener("click", () => {
-  window.ipcRenderer.send("loadNukeFile");
-});
-
-loadC4DFile.addEventListener("click", () => {
-  window.ipcRenderer.send("loadC4DFile");
-});
 
 function populateSceneFileContent(databaseData) {
     const container = sceneFileContent;
     if (container) {
         container.innerHTML = ''; // Clear existing content
-
+        
         databaseData.data.forEach((entry, index) => {
             const uiContent = databaseData.uiContent[index];
             container.appendChild(constructDiv(entry, uiContent));
@@ -189,7 +177,7 @@ function populateSceneFileContent(databaseData) {
 
 function toggleCollapsible(element) {
     const coll = element;
-
+    
     coll.addEventListener("click", function() {
         this.classList.toggle("active");
         var parent = this.parentElement;
@@ -256,20 +244,20 @@ function constructDiv(newData, uiContent) {
         container.style.display = 'flex';
         container.style.flexDirection = 'column';
         container.id = newData.id;
-
+        
         // Button container
         const buttonContainer = document.createElement('div');
         buttonContainer.style.display = 'flex';
         buttonContainer.style.flexWrap = 'nowrap';
-
+        
         const collapsibleButton = document.createElement('button');
         collapsibleButton.className = 'collapsible';
         collapsibleButton.textContent = newData.file_name;
         buttonContainer.appendChild(collapsibleButton);
         toggleCollapsible(collapsibleButton);
-
+        
         const toggleButton = document.createElement('button');
-
+        
         if (uiContent.deployed === false) {
             toggleButton.className = 'toggle-button-add';
             toggleButton.innerHTML = addIcon;
@@ -277,14 +265,14 @@ function constructDiv(newData, uiContent) {
             toggleButton.className = 'toggle-button-remove';
             toggleButton.innerHTML = removeIcon;
         }
-
+        
         toggleButton.id = newData.id;
         toggleButton.style.backgroundColor = 'transparent';
         toggleButton.style.display = 'contents';
         toggleButton.title = 'Toggle nodes';
         buttonContainer.appendChild(toggleButton);
         clickToggle(toggleButton);
-
+        
         const delButton = document.createElement('button');
         delButton.className = 'del-button';
         delButton.id = newData.id;
@@ -294,13 +282,13 @@ function constructDiv(newData, uiContent) {
         delButton.innerHTML = trashIcon;
         buttonContainer.appendChild(delButton);
         clickDel(delButton);
-
+        
         container.appendChild(buttonContainer);
-
+        
         const assetsOutputsDiv = document.createElement('div');
         assetsOutputsDiv.className = 'assets-outputs';
         container.appendChild(assetsOutputsDiv);
-
+        
         if (newData.assets) {
             newData.assets.forEach(asset => {
                 const assetElement = document.createElement('div');
@@ -310,9 +298,9 @@ function constructDiv(newData, uiContent) {
                 clickAsset(assetElement);
             });
         }
-
+        
         // Similar construction for outputs
-
+        
         return container;
     } catch (error) {
         console.error("Error occurred while creating div template:", error);
@@ -320,3 +308,15 @@ function constructDiv(newData, uiContent) {
     }
 }
 
+
+loadC4DJsonBtn.addEventListener("click", () => {
+  window.ipcRenderer.send("loadC4DJson");
+});
+
+loadNukeFileBtn.addEventListener("click", () => {
+  window.ipcRenderer.send("loadNukeFile");
+});
+
+loadC4DFile.addEventListener("click", () => {
+  window.ipcRenderer.send("loadC4DFile");
+});

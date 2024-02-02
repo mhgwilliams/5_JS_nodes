@@ -25,6 +25,7 @@ const fileTypeIcons = {
   c4d: "c4d.png",
   nk: "nuke.png",
   hip: "hou.png",
+  aep: "ae_2.png",
   // Add more file types here
 };
 
@@ -32,6 +33,7 @@ const fileTypePositions = {
   c4d: -200,
   nk: 200,
   hip: 0,
+  aep: 400,
 };
 
 
@@ -74,7 +76,8 @@ class NodeFormatter {
           "write": { group: "write", size: 15 },
           "Render": { group: "Render" },
           "alembic_rop": { group: "Geometry" },
-          "filecache": { group: "file_cache" }
+          "filecache": { group: "file_cache" },
+          "aep_import": { group: "AE_import", size: this.defaultSize},
       };
   }
 
@@ -402,8 +405,8 @@ function initNetwork() {
       y:0,
       shape: "dot",
       scaling: {
-        min: 5,
-        max: 10,
+        min: 6,
+        max: 6,
       },
       font: {
         size: 0,
@@ -426,6 +429,19 @@ function initNetwork() {
     },
     groups: {
       Texture: {
+        shape: "diamond",
+        color: {
+          background: colorPalette.grey,
+          border: colorPalette.blue,
+          highlight: {
+            background: "#8ecae6",
+            border: "#d5dee2",
+            },
+        },
+        borderWidth: 1,
+        borderWidthSelected: 2,
+      },
+      AE_import: {
         shape: "diamond",
         color: {
           background: colorPalette.grey,

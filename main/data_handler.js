@@ -168,6 +168,7 @@ class NukeProject extends Project{
 
   loadNukeFile() {
     if (this.file_path) {
+
   
       const readNodes = this.extractReadNodes();
       const writeNodes = this.extractWriteNodes();
@@ -224,7 +225,46 @@ class C4DProject extends Project{
     this.assets = JSONData.assets;
     this.outputs = JSONData.outputs;
     }
+}
+
+class AEProject extends Project{
+  constructor(filePath){
+    super({}); // Call the parent constructor with an empty object
+    this.file_path = filePath;
+    this.loadAEFile(filePath);
   }
+
+  loadAEFile(filePath) {
+    try {
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const regex = /"fullpath":\s*"(.*?)"/g;
+        const matches = fileContent.matchAll(regex);
+
+        // Use a Map to ensure unique file paths with their last occurrence
+        const uniqueAssets = new Map();
+        for (const match of matches) {
+            uniqueAssets.set(match[1], { type: 'aep_import', file_path: match[1] });
+        }
+
+        // Convert the unique values of the Map back into an array
+        const assets = Array.from(uniqueAssets.values());
+
+        const fileStats = fs.statSync(filePath);
+        const fileModified = fileStats.mtime;
+
+        this.assets = assets;
+        this.file_name = filePath.split('\\').pop();
+        this.name = this.file_name;
+        this.date_modified = fileModified;
+
+
+    } catch (error) {
+        console.error('Error opening .aep file:', error);
+        return null;
+    }
+}
+
+}
 
 
 class ProjectManager {
@@ -514,5 +554,6 @@ module.exports = {
     NukeProject,
     C4DProject,
     Node,
+    AEProject
   };
   
