@@ -75,12 +75,12 @@ collapseButton.addEventListener("click", () => {
         element.style.height = "450px";
         element.style.width = "auto";
         element.style.resize = "both";
-        element.style.overflowY = "scroll";
+        //element.style.overflowY = "scroll";
     } else {
         element.style.height = "30px";
         element.style.width = "170px";
         element.style.resize = "none";
-        element.style.overflowY = "hidden";
+        //element.style.overflowY = "hidden";
     }
 
     content.style.display = isCollapsed ? "" : "none";

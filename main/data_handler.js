@@ -220,6 +220,7 @@ class C4DProject extends Project{
     this.file_name = JSONData.file_name;
     this.name = JSONData.name;
     this.file_path = JSONData.file_path;
+    this.projectInfo = JSONData.project_info;
     this.dateModified = JSONData.date_modified;
     this.buildNum = JSONData.build_number;
     this.assets = JSONData.assets;
