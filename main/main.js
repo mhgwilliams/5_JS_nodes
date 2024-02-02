@@ -34,6 +34,9 @@ function createWindow() {
     width: 1200,
     height: 900,
     show: false,
+    titleBarStyle: 'hiddenInset',
+    backgroundColor: '#303030',
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -42,7 +45,7 @@ function createWindow() {
     },
   });
 
-  mainWindow.setCustomEffect(WIN10.BLURBEHIND, '#303030', 0.1); 
+  mainWindow.setCustomEffect(WIN10.BLURBEHIND, '#303030', 0.5); 
 
   mainWindow.loadFile("renderer/index.html");
   //mainWindow.webContents.openDevTools();
@@ -299,19 +302,21 @@ ipcMain.on("nodeContext", (event, node) => {
 
 // Buttons for loading files
 
-ipcMain.on("loadNukeFile", (event) => {
+ipcMain.on("loadNukeFile", async (event) => {
   console.log("loadNukeFile received");
   dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
       filters: [{ name: 'NK File', extensions: ["nk"] }],
     })
-    .then((result) => {
+    .then(async (result) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
 
         const project = new NukeProject(filePath);
+        const owner = await project.getFileOwner();
+
         const output = project.getProjectDetails();
 
         if (output) {
@@ -339,8 +344,9 @@ ipcMain.on("loadNukeFile", (event) => {
     });
 });
 
-function loadC4DJsonAndValidate(filePath) {
+async function loadC4DJsonAndValidate(filePath) {
   const project = new C4DProject(filePath);
+  const owner = await project.getFileOwner();
 
         if(!project.isValid){
           dialog.showMessageBox(mainWindow, {
@@ -375,14 +381,14 @@ function loadC4DJsonAndValidate(filePath) {
         }
 }
 
-ipcMain.on("loadC4DJson", (event) => {
+ipcMain.on("loadC4DJson", async (event) => {
   console.log("loadC4DJson received");
   dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
       filters: [{ name: 'JSON File', extensions: ["json"] }],
     })
-    .then((result) => {
+    .then(async (result) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
@@ -465,14 +471,14 @@ function runC4D(filePath) {
   });
 }
 
-ipcMain.on('loadC4DFile', (event) => {
+ipcMain.on('loadC4DFile', async (event) => {
   console.log("loadC4DFile received");
   dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
       filters: [{ name: '', extensions: ["c4d"] }],
     })
-    .then((result) => {
+    .then(async (result) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
@@ -485,20 +491,21 @@ ipcMain.on('loadC4DFile', (event) => {
 });
 
 
-ipcMain.on('load-AE', () => {
+ipcMain.on('load-AE', async () => {
   console.log("load-AE received");
   dialog
     .showOpenDialog(mainWindow, {
       properties: ["openFile"],
       filters: [{ name: 'AE Project', extensions: ["aep"] }],
     })
-    .then((result) => {
+    .then(async (result) => {
       if (!result.canceled && result.filePaths.length > 0) {
         const filePath = result.filePaths[0];
         console.log("Selected file:", filePath);
 
         const project = new AEProject(filePath);
         const output = project.getProjectDetails();
+        const owner = await project.getFileOwner();
 
         if (output) {
           const result = projectManager.updateDatabase(output);

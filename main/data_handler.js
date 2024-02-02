@@ -5,6 +5,7 @@ const os = require("os");
 const { v4: uuidv4 } = require('uuid'); //generating unique id's for each datapoint
 
 const { app, ipcMain } = require("electron");
+const { exec } = require('child_process');
 
 const Ajv = require("ajv");
 const ajv = new Ajv();
@@ -66,31 +67,13 @@ const schema = {
 const validate = ajv.compile(schema);
 
 
-// I'm going to try to refactor this stuff to use classes, methods, and objects instead of whatever the hell this is
-// I'm thinking about how to use inheritance to make nodes more easily updatable.
-
-/* const nodeProperties = {
-  id: nodeId++,
-  UUID: uniqueID,
-  label: fileName,
-  title: fileName, //testing div element as title
-  group: "projectfile",
-  controlNodes: true, // control nodes hidden option
-  clusterInOut: false,
-  color: "#67676710",
-  shape: "image",
-  physics: false,
-  x: Math.floor(Math.random() * 500) - 200,
-  y: fileTypePositions[fileType],
-  image: imgDIR + fileTypeIcons[fileType], // Set the image based on the file type
-}; */
-
-class Project{
-
-  constructor(jsonData){
+class Project {
+  constructor(jsonData) {
     this.id = uuidv4();
     this.file_path = jsonData.file_path || this.file_path;
-    this.name = jsonData.file_name || (this.file_path ? path.basename(this.file_path) : undefined);
+    this.name =
+      jsonData.file_name ||
+      (this.file_path ? path.basename(this.file_path) : undefined);
     this.type = jsonData.type || "generic";
     this.dateModified = jsonData.date_modified;
     this.buildNum = jsonData.build_number;
@@ -99,7 +82,6 @@ class Project{
     this.assets = jsonData.assets;
     this.outputs = jsonData.outputs;
   }
-
 
   //methods
   //static methods can be called without having to create a new instance of project
@@ -119,8 +101,28 @@ class Project{
       assets: this.assets,
       outputs: this.outputs,
     };
-}
+  }
 
+  getFileOwner() {
+    const filePath = this.file_path;
+    let fileOwner = "";
+    const sanitizedPath = filePath.replace(/\\/g, "\\\\");
+    const command = `powershell -Command "(Get-Item '${sanitizedPath}').GetAccessControl().Owner"`;
+
+    return new Promise((resolve, reject) => {
+      exec(command, (error, stdout, stderr) => {
+        if (error || stderr) {
+          console.error(`Error getting file owner: ${error || stderr}`);
+          resolve("");
+        } else {
+          console.log(`Owner of the file: ${stdout.trim()}`);
+          fileOwner = stdout.trim();
+          this.user = fileOwner;
+          resolve(fileOwner);
+        }
+      });
+    });
+  }
 }
 
 class NukeProject extends Project{

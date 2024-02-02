@@ -1,5 +1,5 @@
-# Build number: 0.3.01-62f72ee
-buildNum = "0.3.01-62f72ee"
+# Build number: 0.3.01-1b7937d
+buildNum = "0.3.01-1b7937d"
 import c4d
 import json
 import os
