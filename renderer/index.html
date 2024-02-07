@@ -72,6 +72,7 @@
         --primary-color: #bebebe;
         --accent-color: #50cb8c;
         --hover-remove: #cb5850;
+        --update-avail: #f0bf20;
         --background-dark: #404040;
         --header-background: rgba(80, 80, 80, 0.85);
       }
@@ -152,6 +153,14 @@
         fill: var(--hover-remove);
       }
 
+      .floating-element .content .watch-proj-icon:hover {
+        fill: var(--accent-color);
+      }
+
+      .floating-element .content .unwatch:hover {
+        fill: var(--hover-remove);
+      }
+
       .floating-element .header .title {
         flex-grow: 1;
       }
@@ -161,7 +170,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 5px;
         border-top: 1px solid var(--accent-color);
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -171,6 +180,7 @@
       .button-container button {
         padding: 5px 10px;
         border: none;
+        margin: 2px;
         border-radius: 3px;
         cursor: pointer;
         background-color: var(--background-dark);
@@ -196,6 +206,34 @@
         color: var(--primary-color);
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         font-size: small;
+      }
+
+      .toggle-button-add {
+        background-color: transparent;
+        display: inherit;
+        border: none;
+        cursor: pointer;
+        padding: 2px;
+      }
+
+      .del-button {
+        background-color: transparent;
+        display: inherit;
+        border: none;
+        cursor: pointer;
+        padding: 2px;
+      }
+
+      .watch-proj-button {
+        background-color: transparent;
+        display: inherit;
+        border: none;
+        cursor: pointer;
+        padding: 2px;
+      }
+      .watching {
+        border: 1px solid var(--accent-color);
+        border-radius: 5px;
       }
 
       #searchBox {
@@ -281,6 +319,20 @@
             font-weight: bold;
       }
 
+      #fileConsole {
+        position: fixed;
+        bottom: 30px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.85);
+        color: var(--primary-color);
+        padding: 5px 10px;
+        border-radius: 5px;
+        z-index: 9999;
+        font-family: Arial, sans-serif;
+        font-size: 0.9em;
+        opacity: 0.5;
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -344,7 +396,6 @@
       </div>
       <div class="content">
         <input type="text" id="searchBox" placeholder="Search..">
-          <!-- Your HTML content goes here -->
           <div id="sceneFileContent">
           
           </div>
@@ -352,6 +403,13 @@
       <div class="button-container">
         
         <button type="button" class="uiButton" id="openModalBtn">+</button>
+        <button type="button" class="uiButton" id="watch">
+          <svg width="15px" height="15px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill = "currentColor" d="M9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z"/>
+            <path fill = "currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 13.6394 2.42496 14.1915 3.27489 15.2957C4.97196 17.5004 7.81811 20 12 20C16.1819 20 19.028 17.5004 20.7251 15.2957C21.575 14.1915 22 13.6394 22 12C22 10.3606 21.575 9.80853 20.7251 8.70433C19.028 6.49956 16.1819 4 12 4C7.81811 4 4.97196 6.49956 3.27489 8.70433C2.42496 9.80853 2 10.3606 2 12ZM12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25Z" />
+          </svg>
+        </button>
+        
         
       </div>
       <div class="resize-handle"></div>
@@ -378,6 +436,11 @@
       <button id="clear_button">Clear Network Config</button>
       <button id="clear_DB_button">Clear Database</button>
       <!-- <button id="searchDirectoryBtn">Search Directory for JSON</button> -->
+    </div>
+
+    <div id="fileConsole">
+      <h4>Console</h4>
+      <ul id="fileConsoleList"></ul>
     </div>
 
     <div id="build-number-container">

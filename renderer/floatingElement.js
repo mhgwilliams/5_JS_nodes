@@ -5,6 +5,8 @@ const loadC4DJsonBtn = document.getElementById("loadC4DJson");
 const loadNukeFileBtn = document.getElementById("loadNukeFileBtn");
 const loadC4DFile = document.getElementById("loadC4DFile");
 
+const watchBtn = document.getElementById("watch");
+
 const element = document.getElementById("projectManager");
 const header = document.querySelector("#projectManager .header");
 const collapseButton = document.querySelector("#projectManager .collapse-button");
@@ -40,6 +42,11 @@ const removeIcon = `<?xml version="1.0" encoding="utf-8"?>
     <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM8.96963 8.96965C9.26252 8.67676 9.73739 8.67676 10.0303 8.96965L12 10.9393L13.9696 8.96967C14.2625 8.67678 14.7374 8.67678 15.0303 8.96967C15.3232 9.26256 15.3232 9.73744 15.0303 10.0303L13.0606 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0303 15.0303C9.73742 15.3232 9.26254 15.3232 8.96965 15.0303C8.67676 14.7374 8.67676 14.2625 8.96965 13.9697L10.9393 12L8.96963 10.0303C8.67673 9.73742 8.67673 9.26254 8.96963 8.96965Z"/>
     </svg>
     `
+
+const watchProjIcon = `<svg width="15px" height="15px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class = "watch-proj-icon">
+<path d="M9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 13.6394 2.42496 14.1915 3.27489 15.2957C4.97196 17.5004 7.81811 20 12 20C16.1819 20 19.028 17.5004 20.7251 15.2957C21.575 14.1915 22 13.6394 22 12C22 10.3606 21.575 9.80853 20.7251 8.70433C19.028 6.49956 16.1819 4 12 4C7.81811 4 4.97196 6.49956 3.27489 8.70433C2.42496 9.80853 2 10.3606 2 12ZM12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25Z" />
+</svg>`
 // #endregion Icons
 
 header.addEventListener("mousedown", (e) => {
@@ -237,6 +244,18 @@ function clickDel(element) {
     });
 }
 
+function clickWatchProj(element) {
+    const watchProjBtn = element;
+    watchProjBtn.addEventListener("click", function() {
+        console.log("watch proj button clicked");
+        window.ipcRenderer.send("watchProjButton", this.id);
+        this.classList.toggle("watching");
+        
+        const childElement = this.querySelector('.watch-proj-icon');
+        childElement.classList.toggle("unwatch");
+    });
+}
+
 function constructDiv(newData, uiContent) {
     try {
         const container = document.createElement('div');
@@ -255,6 +274,14 @@ function constructDiv(newData, uiContent) {
         collapsibleButton.textContent = newData.file_name;
         buttonContainer.appendChild(collapsibleButton);
         toggleCollapsible(collapsibleButton);
+
+        const watchProjBtn = document.createElement('button');
+        watchProjBtn.className = 'watch-proj-button';
+        watchProjBtn.id = newData.id;
+        watchProjBtn.title = 'watch for new versions';
+        watchProjBtn.innerHTML = watchProjIcon;
+        buttonContainer.appendChild(watchProjBtn);
+        clickWatchProj(watchProjBtn);
         
         const toggleButton = document.createElement('button');
         
@@ -267,8 +294,6 @@ function constructDiv(newData, uiContent) {
         }
         
         toggleButton.id = newData.id;
-        toggleButton.style.backgroundColor = 'transparent';
-        toggleButton.style.display = 'contents';
         toggleButton.title = 'Toggle nodes';
         buttonContainer.appendChild(toggleButton);
         clickToggle(toggleButton);
@@ -276,8 +301,6 @@ function constructDiv(newData, uiContent) {
         const delButton = document.createElement('button');
         delButton.className = 'del-button';
         delButton.id = newData.id;
-        delButton.style.backgroundColor = 'transparent';
-        delButton.style.display = 'contents';
         delButton.title = 'Delete project entry';
         delButton.innerHTML = trashIcon;
         buttonContainer.appendChild(delButton);
@@ -319,4 +342,8 @@ loadNukeFileBtn.addEventListener("click", () => {
 
 loadC4DFile.addEventListener("click", () => {
   window.ipcRenderer.send("loadC4DFile");
+});
+
+watchBtn.addEventListener("click", () => {
+  window.ipcRenderer.send("watch");
 });

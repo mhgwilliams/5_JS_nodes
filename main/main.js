@@ -17,6 +17,8 @@ const { PARAMS, VALUE,  MicaBrowserWindow, IS_WINDOWS_11, WIN10 } = require('mic
 const { findJsonFiles, readJsonData, updateDatabase, loadDatabase, clearDatabase, Project, ProjectManager, NukeProject, Node, C4DProject, AEProject } = require("./data_handler");
 const { buildPopupMenu } = require("./menumaker");
 
+const chokidar = require('chokidar');
+
 var appPath = app.getAppPath();
 var appDataPath = app.getPath('userData');
 
@@ -55,6 +57,22 @@ function createWindow() {
   });
   
 }
+
+const watchDir = 'H:\\5_JS_nodes\\ae';
+
+// Initialize the watcher
+const watcher = chokidar.watch('*.json', {
+  ignored: /(^|[\/\\])\../, // ignore dotfiles
+  persistent: true,
+  cwd: watchDir,
+});
+
+// Event: add file
+watcher.on('add', (filePath) => {
+  console.log(`New .json file found: ${filePath}`);
+});
+
+console.log(`Watching for .json files in ${watchDir}`);
 
 app.whenReady().then(async () => {
   console.log(`App started in ${performance.now() - appStartTime}ms`);
@@ -593,6 +611,38 @@ ipcMain.on("searchDirectory", (event) => {
           updateDatabase(data);
         }
 
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+ipcMain.on("watch", (event) => {
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openDirectory"],
+    })
+    .then((result) => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const directoryPath = result.filePaths[0];
+        console.log("Selected directory:", directoryPath);
+        let initialScanComplete = false; // Flag to track if initial scan is complete
+        const watcher = chokidar.watch(directoryPath, {
+          ignored: /(^|[\/\\])\../, // ignore dotfiles
+          persistent: true,
+        });
+
+        watcher.on('add', (filePath) => {
+          if (initialScanComplete) {
+            console.log(`New file found: ${filePath}`);
+            mainWindow.webContents.send('newFile', filePath);
+          }
+        });
+
+        watcher.on('ready', () => {
+          initialScanComplete = true; // Set the flag to true after initial scan is complete
+        });
       }
     })
     .catch((err) => {

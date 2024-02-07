@@ -13,7 +13,12 @@ const ajv = new Ajv();
 var appPath = app.getAppPath();
 var appDataPath = app.getPath('userData');
 
+const chokidar = require('chokidar');
+
 let projectManager;
+
+const buildNumberPath = path.join(__dirname, '../build-number.txt');
+const buildNumber = fs.readFileSync(buildNumberPath, 'utf8');
 
 const schema = {
   type: "object",
@@ -83,9 +88,6 @@ class Project {
     this.outputs = jsonData.outputs;
   }
 
-  //methods
-  //static methods can be called without having to create a new instance of project
-
   // Example method to get project details
   getProjectDetails() {
     return {
@@ -119,6 +121,32 @@ class Project {
           fileOwner = stdout.trim();
           this.user = fileOwner;
           resolve(fileOwner);
+        }
+      });
+    });
+  }
+
+  checkForNewerFile() {
+    const fileExtension = path.extname(this.file_path);
+    const directory = path.dirname(this.file_path);
+
+    return new Promise((resolve, reject) => {
+      fs.readdir(directory, (err, files) => {
+        if (err) {
+          console.error(`Error reading directory: ${err}`);
+          resolve(false);
+        } else {
+          const newerFiles = files.filter((file) => {
+            const filePath = path.join(directory, file);
+            const stats = fs.statSync(filePath);
+            return (
+              stats.isFile() &&
+              path.extname(file) === fileExtension &&
+              stats.mtime > fs.statSync(this.file_path).mtime
+            );
+          });
+
+          resolve(newerFiles.length > 0);
         }
       });
     });
@@ -407,6 +435,7 @@ async function loadDatabase(){
   console.log("making database...", jsonDataPath);
   let jsonData = {
     timestamp: new Date().toISOString().replace("T", " ").substring(0, 19),
+    build_number: buildNumber,
     data: [],
     uiContent: [],
   };

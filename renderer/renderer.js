@@ -96,3 +96,8 @@ window.onclick = function(event) {
 ipcRenderer.on('close-modal', () => {
   modal.style.display = "none";
 });
+
+ipcRenderer.on('newFile', (event, filePath) => {
+    const fileConsoleList = document.getElementById("fileConsoleList");
+    fileConsoleList.textContent = `${filePath} has been added to directory`;
+});
