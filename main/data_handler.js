@@ -303,6 +303,7 @@ class ProjectManager {
     this.appDataPath = appDataPath;
     this.databasePath = path.join(appDataPath, "data", "database.json");
     this.dataList = jsonDatabase;
+    this.watchers = new Map(); // Map to store the watchers
   }
 
   getCurrentTimestamp() {
@@ -393,7 +394,93 @@ class ProjectManager {
       return this.projects.get(projectId);
   }
 
-  // Additional methods for managing projects, like file watching, can be added here
+  handleNewFile(filePath, folderPath, projectDateModified) {
+    const referenceDate = new Date(projectDateModified);
+    const fullPath = path.join(folderPath, filePath);
+    
+    fs.stat(fullPath, (err, stats) => {
+      if (err) {
+        console.error(`Error getting stats for file: ${filePath}`, err);
+        return;
+      }
+      // Check if the file is newer than the reference file
+      console.log('File stats:', stats.mtime, 'reference time:', referenceDate);
+      if (stats.mtime > referenceDate) {
+        console.log(`Newer file detected: ${filePath}`);
+        // Perform your logic for newer files here
+      }
+    });
+  }
+
+  addWatcher(uuid, folderPath, watchString, projectDateModified){
+    const watcher = chokidar.watch(watchString, {
+      ignored: /(^|[\/\\])\../, // ignore dotfiles
+      persistent: true,
+      cwd: folderPath,
+    });
+
+    watcher
+      .on('add', (filePath) => {
+        this.handleNewFile(filePath, folderPath, projectDateModified);
+        // Perform actions when a file is added
+      })
+      .on('change', (filePath) => {
+        console.log(`File ${filePath} has been changed`);
+        // Perform actions when a file is changed
+      })
+      .on('unlink', (filePath) => {
+        console.log(`File ${filePath} has been removed`);
+        // Perform actions when a file is removed
+      })
+      .on('error', (error) => {
+        console.error(`Watcher error: ${error}`);
+        // Handle watcher error
+      });
+
+    this.watchers.set(uuid, watcher);
+    console.log(`Watcher deployed for folder: ${folderPath}`);
+  }
+
+  closeWatcher(uuid) {
+    const watcher = this.watchers.get(uuid);
+    if (watcher) {
+      watcher.close().then(() => {
+        console.log(`Watcher closed for: ${uuid}`);
+        this.watchers.delete(uuid); // Remove the watcher from the map
+      });
+    } else {
+      console.log(`No watcher found for: ${uuid}`);
+    }
+  }
+
+  setWatchProject(uuid, boolean) {
+
+    if (boolean) {
+
+      let folderPath = "";
+      let watchString = "";
+      let projectDateModified = "";
+
+      const project = this.dataList.data.find(project => project.id === uuid);
+      if (project) {
+        const projectFilePath = project.file_path;
+        const parentDirectory = path.dirname(projectFilePath);
+        const fileExtension = path.extname(projectFilePath);
+        projectDateModified = project.dateModified;
+        watchString = `*${fileExtension}`;
+        folderPath = parentDirectory;
+      } else {
+        console.log("Project not found");
+        return;
+      }
+      console.log(projectDateModified);
+      this.addWatcher(uuid, folderPath, watchString, projectDateModified);
+    } else {
+      // Stop the watcher
+      console.log("Stopping the watcher");
+      this.closeWatcher(uuid);
+    }
+  }
 }
 
 class Node{

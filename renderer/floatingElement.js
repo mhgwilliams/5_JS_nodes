@@ -246,13 +246,18 @@ function clickDel(element) {
 
 function clickWatchProj(element) {
     const watchProjBtn = element;
+    var state = '';
     watchProjBtn.addEventListener("click", function() {
-        console.log("watch proj button clicked");
-        window.ipcRenderer.send("watchProjButton", this.id);
+        if (this.classList.contains("watching")) {
+            state = 'watching';
+        } else {
+            state = 'ignoring';
+        }
         this.classList.toggle("watching");
-        
         const childElement = this.querySelector('.watch-proj-icon');
         childElement.classList.toggle("unwatch");
+
+        window.ipcRenderer.send("watchProjButton", this.id, state);
     });
 }
 

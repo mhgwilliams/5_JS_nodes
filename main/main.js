@@ -559,6 +559,15 @@ ipcMain.on("delButton", (event, uuid) => {
   mainWindow.webContents.send('delButton', uuid);
 });
 
+ipcMain.on("watchProjButton", (event, uuid, state) => {
+  console.log("watchProjButton received in main");
+  if (state === 'ignoring') {
+    projectManager.setWatchProject(uuid, true);
+  } if (state === 'watching') {
+    projectManager.setWatchProject(uuid, false);
+  }
+});
+
 ipcMain.on("loadHouJson", (event) => {
   dialog
     .showOpenDialog(mainWindow, {
